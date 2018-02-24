@@ -87,13 +87,13 @@
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
 <meta property="og:description" content="基于pybrain包分别实现标准BP算法与累积BP算法，针对西瓜数据集进行了实验并比较了结果。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.1.png">
-<meta property="og:updated_time" content="2017-05-12T13:48:49.892Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.1.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5.5 - BP算法实现">
 <meta name="twitter:description" content="基于pybrain包分别实现标准BP算法与累积BP算法，针对西瓜数据集进行了实验并比较了结果。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png">
 
 
 
@@ -311,10 +311,6 @@
           
 
           
-              <div class="post-description">
-                  基于pybrain包分别实现标准BP算法与累积BP算法，针对西瓜数据集进行了实验并比较了结果。
-              </div>
-          
 
         </div>
       </header>
@@ -329,11 +325,13 @@
       
 
       
-        <p>这里的编程基于<strong>Python-PyBrain</strong>。Pybrain是一个以神经网络为核心的机器学习包，相关内容可参考<a href="https://py131.github.io/2017/04/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9B%B6%E6%95%A3/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%20-%20PyBrain%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener">神经网络基础 - PyBrain机器学习包的使用</a>，源代码托管于Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
+        <p>基于pybrain包分别实现标准BP算法与累积BP算法，针对西瓜数据集进行了实验并比较了结果。</p>
+<a id="more"></a>
+<p>这里的编程基于<strong>Python-PyBrain</strong>。Pybrain是一个以神经网络为核心的机器学习包，相关内容可参考<a href="">神经网络基础 - PyBrain机器学习包的使用</a>，源代码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
 <h2 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h2><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png" alt=""><br><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png" alt=""><br><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.1.png" alt=""></p>
 </blockquote>
-<p>编码基于Python实现，整个实验过程如下：（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/Ch5_neural_network/5.5_BP/src/BP_network.py" target="_blank" rel="noopener">这里查看完整代码和数据集</a>）：</p>
+<p>编码基于Python实现，整个实验过程如下：（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/Ch5_neural_network/5.5_BP/src/BP_network.py" target="_blank" rel="noopener">这里查看完整代码和数据集</a>）：</p>
 <p>step 1.基于<strong>PyBrain</strong>分别实现标准BP和累积BP两种算法下的BP网络训练，并进行比较；</p>
 <h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><h3 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h3><p>参考书上推导及<strong>算法图5.8</strong>，首先给出BP算法的两种版本示意如下：</p>
 <pre><code>Algorithms 1. 标准BP算法
@@ -393,16 +391,16 @@ Algorithms 2. 累积BP算法
 <ol>
 <li><p>生成模型，pybrain默认的是Sigmoid激活函数，其非常适用于二分类，另外还有一种激活函数十分适用于多分类（包括二分类），即<a href="https://en.wikipedia.org/wiki/Softmax_function" target="_blank" rel="noopener">Softmax function</a>。这里我们将输出进行了独热编码， 因此考虑采用Softmax作为输出层的激活函数，然后采用<strong>胜者通吃</strong>（winner-takes-all）法则确定分类结果。</p>
 <p> 模型生成样例代码：</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n_h = <span class="number">5</span> <span class="comment"># hidden layer nodes number</span></span><br><span class="line">net = buildNetwork(<span class="number">19</span>, n_h, <span class="number">2</span>, outclass = SoftmaxLayer)</span><br></pre></td></tr></table></figure>
-</code></pre></li>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n_h = <span class="number">5</span> <span class="comment"># hidden layer nodes number</span></span><br><span class="line">net = buildNetwork(<span class="number">19</span>, n_h, <span class="number">2</span>, outclass = SoftmaxLayer)</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>标准BP算法学习神经网络：</p>
 <p> 样例代码：</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trainer = BackpropTrainer(net, trndata)</span><br><span class="line">trainer.trainEpochs(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-</code></pre></li>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trainer = BackpropTrainer(net, trndata)</span><br><span class="line">trainer.trainEpochs(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>累积BP算法学习神经网络样例代码（50次迭代）：</p>
 <p> 样例代码：</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trainer = BackpropTrainer(net, trndata, batchlearning=<span class="keyword">True</span>)</span><br><span class="line">trainer.trainEpochs(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
-</code></pre><p> 此外还可以绘制出累积BP算法参数学习过程的收敛曲线，<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/Ch5_neural_network/5.5_BP/src/BP_network.py" target="_blank" rel="noopener">查看详细代码</a>：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trainer = BackpropTrainer(net, trndata, batchlearning=<span class="keyword">True</span>)</span><br><span class="line">trainer.trainEpochs(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<p> 此外还可以绘制出累积BP算法参数学习过程的收敛曲线，<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/Ch5_neural_network/5.5_BP/src/BP_network.py" target="_blank" rel="noopener">查看详细代码</a>：</p>
 </li>
 <li><p>两种算法比较：</p>
 <p> 上述两种BP算法实现的代码区别可参考<a href="http://pybrain.org/docs/api/supervised/trainers.html?highlight=testonclassdata#pybrain.supervised.trainers.BackpropTrainer.testOnClassData" target="_blank" rel="noopener">PyBrain官网: trainers – - Supervised Training for Networks and other Modules</a></p>
@@ -580,7 +578,7 @@ average error rate: 38.75%
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -641,7 +639,7 @@ average error rate: 38.75%
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题回顾"><span class="nav-number">1.</span> <span class="nav-text">问题回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题过程"><span class="nav-number">2.</span> <span class="nav-text">解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法分析"><span class="nav-number">2.1.</span> <span class="nav-text">算法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-number">2.2.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型训练与测试"><span class="nav-number">2.3.</span> <span class="nav-text">模型训练与测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关参考"><span class="nav-number">3.</span> <span class="nav-text">相关参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题回顾"><span class="nav-text">问题回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题过程"><span class="nav-text">解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法分析"><span class="nav-text">算法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型训练与测试"><span class="nav-text">模型训练与测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关参考"><span class="nav-text">相关参考</span></a></li></ol></div>
             
 
           </div>

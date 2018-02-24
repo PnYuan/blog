@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,对率回归,梯度下降法,python,sklearn," />
+  <meta name="keywords" content="机器学习 - 对率回归 - 梯度下降法 - python - sklearn," />
 
 
 
@@ -79,28 +79,22 @@
 
 
 
-<meta name="description" content="本题是本书的第一个编程练习，分别基于sklearn和独立编程实现了对率回归模型。">
-<meta name="keywords" content="机器学习,对率回归,梯度下降法,python,sklearn">
+<meta name="description" content="本题是本书的第一个编程练习，基于sklearn库函数、独立编程两种方式实现了对率回归（即逻辑斯蒂回归-LR）模型。">
+<meta name="keywords" content="机器学习 - 对率回归 - 梯度下降法 - python - sklearn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归">
 <meta property="og:url" content="http://pnyuan.github.io/blog/2017/03/19/zzh-ml/周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="本题是本书的第一个编程练习，分别基于sklearn和独立编程实现了对率回归模型。">
+<meta property="og:description" content="本题是本书的第一个编程练习，基于sklearn库函数、独立编程两种方式实现了对率回归（即逻辑斯蒂回归-LR）模型。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.png">
-<meta property="og:updated_time" content="2017-05-12T07:30:23.341Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.png">
+<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归">
-<meta name="twitter:description" content="本题是本书的第一个编程练习，分别基于sklearn和独立编程实现了对率回归模型。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png">
+<meta name="twitter:description" content="本题是本书的第一个编程练习，基于sklearn库函数、独立编程两种方式实现了对率回归（即逻辑斯蒂回归-LR）模型。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.2.png">
 
 
 
@@ -318,10 +312,6 @@
           
 
           
-              <div class="post-description">
-                  本题是本书的第一个编程练习，分别基于sklearn和独立编程实现了对率回归模型。
-              </div>
-          
 
         </div>
       </header>
@@ -334,22 +324,56 @@
 
       
       
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.2.png" rel="gallery_cje1gxkz60007tghhfimkf750"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.2.png" itemprop="contentUrl"/>
+              </a>
+            
+          
+            
+              <a class="post-gallery-img fancybox"
+                 href="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.3.png" rel="gallery_cje1gxkz60007tghhfimkf750"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.3.png" itemprop="contentUrl"/>
+              </a>
+            
+          
+            
+              <a class="post-gallery-img fancybox"
+                 href="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.png" rel="gallery_cje1gxkz60007tghhfimkf750"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.png" itemprop="contentUrl"/>
+              </a>
+            </div>
+          
+
+          
+          
+        </div>
+      
 
       
-        <p>这里的程序基于<strong>Python</strong>实现，相关答案和源代码托管于我的Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
+        <p>本题是本书的第一个编程练习，基于sklearn库函数、独立编程两种方式实现了对率回归（即逻辑斯蒂回归-LR）模型。</p>
+<a id="more"></a>
+<p>这里的程序基于<strong>Python</strong>实现，相关答案和源代码托管于我的Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
 <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png" alt=""></p>
 </blockquote>
 <p>所使用的数据集如下：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.1.png" alt="fig1"></p>
 </blockquote>
-<p>本题是本书的第一个编程练习，采用了自己编程实现和调用sklearn库函数两种不同的方式，详细解答和编码过程如下：（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.3_logistic_regression_watermelon" target="_blank" rel="noopener">查看完整代码和数据集</a>）：</p>
+<p>本题是本书的第一个编程练习，采用了自己编程实现和调用sklearn库函数两种不同的方式，详细解答和编码过程如下：（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.3_logistic_regression_watermelon" target="_blank" rel="noopener">查看完整代码和数据集</a>）：</p>
 <h3 id="获取数据、查看数据、预处理"><a href="#获取数据、查看数据、预处理" class="headerlink" title="获取数据、查看数据、预处理"></a>获取数据、查看数据、预处理</h3><p>观察数据可知，X包含（密度、含糖量）两个变量，y为西瓜是否好瓜分类（二分），由此生成.csv数据文件，在Python中用Numpy读取数据并采用matplotlib库可视化数据：</p>
 <p>样例代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">data importion</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  </span><br><span class="line"></span><br><span class="line"><span class="comment"># load the CSV file as a numpy matrix</span></span><br><span class="line">dataset = np.loadtxt(<span class="string">'../data/watermelon_3a.csv'</span>, delimiter=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># separate the data from the target attributes</span></span><br><span class="line">X = dataset[:,<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line">y = dataset[:,<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># draw scatter diagram to show the raw data</span></span><br><span class="line">f1 = plt.figure(<span class="number">1</span>)   </span><br><span class="line">plt.title(<span class="string">'watermelon_3a'</span>)  </span><br><span class="line">plt.xlabel(<span class="string">'density'</span>)  </span><br><span class="line">plt.ylabel(<span class="string">'ratio_sugar'</span>)  </span><br><span class="line">plt.scatter(X[y == <span class="number">0</span>,<span class="number">0</span>], X[y == <span class="number">0</span>,<span class="number">1</span>], marker = <span class="string">'o'</span>, color = <span class="string">'k'</span>, s=<span class="number">100</span>, label = <span class="string">'bad'</span>)</span><br><span class="line">plt.scatter(X[y == <span class="number">1</span>,<span class="number">0</span>], X[y == <span class="number">1</span>,<span class="number">1</span>], marker = <span class="string">'o'</span>, color = <span class="string">'g'</span>, s=<span class="number">100</span>, label = <span class="string">'good'</span>)</span><br><span class="line">plt.legend(loc = <span class="string">'upper right'</span>)  </span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.2.png" alt="fig2"></p>
 </blockquote>
 <h3 id="采用sklearn逻辑回归库函数直接拟合"><a href="#采用sklearn逻辑回归库函数直接拟合" class="headerlink" title="采用sklearn逻辑回归库函数直接拟合"></a>采用sklearn逻辑回归库函数直接拟合</h3><p>虽然样本量很少，这里还是先划分训练集和测试集，采用sklearn.model_selection.train_test_split()实现，然后采用sklearn.linear_model.LogisticRegression，基于训练集直接拟合出逻辑回归模型，然后在测试集上评估模型（查看混淆矩阵和F1值）。</p>
 <p>样例代码：</p>
@@ -366,25 +390,25 @@ avg / total       0.78      0.78      0.78         9
 </code></pre><p>由混淆矩阵可以看到，由于样本本身数量较少，模型拟合效果一般，总体预测精度约为0.78。为提升精度，可以采用<strong>自助法</strong>进行重抽样扩充数据集，或是采用<strong>交叉验证</strong>选择最优模型。</p>
 <p>下图是采用matplotlib.contourf绘制的决策区域和边界，可以看出对率回归分类器还是成功的分出了绝大多数类：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.3.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.3.png" alt="fig3"></p>
 </blockquote>
 <h3 id="自己编程实现逻辑斯蒂回归"><a href="#自己编程实现逻辑斯蒂回归" class="headerlink" title="自己编程实现逻辑斯蒂回归"></a>自己编程实现逻辑斯蒂回归</h3><p>编程实现逻辑回归的主要工作是求取参数w和b（见书p59），最常用的参数估计方法是<strong>极大似然法</strong>，由于题3.1已经证得对数似然函数（见书3.27）是凸函数，存在最优解，这里考虑采用<strong>梯度下降法</strong>来迭代寻优。</p>
 <p>回顾一下Sigmoid函数，即逻辑斯蒂回归分类器的基础模型：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.1.png" alt=""></p>
 </blockquote>
 <p>目的是基于数据集求出最优参数w和b，最常采用的是极大似然法，参数的似然函数为：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.2.png" alt=""></p>
 </blockquote>
 <p>根据书p59，最大化上式等价于最小化下式：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.3.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.3.png" alt=""></p>
 </blockquote>
 <p>题3.2已证上式为凸函数，一定存在最小值，但按照导数为零的解析求解方式较为困难，于是考虑采用梯度下降法来求解上式最小值时对应的参数。</p>
 <p>注：梯度下降法基本知识可参考书中附录p409页，也可直接采用书中p60式3.30偏导数公式。书中关于参数迭代改变式子如下：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.4.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.4.png" alt=""></p>
 </blockquote>
 <p>对于迭代，可每次先根据(B.16)计算出梯度▽f(β)，然后由(B.17)更新得出下一步的Δβ。</p>
 <p>接下来编程实现基本的梯度下降法：</p>
@@ -394,7 +418,7 @@ avg / total       0.78      0.78      0.78         9
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">@param X: X is the variable matrix </span></span><br><span class="line"><span class="string">@param y: y is the label array</span></span><br><span class="line"><span class="string">@return: the best parameter estimate of 3.27</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradDscent_1</span><span class="params">(X, y)</span>:</span>  <span class="comment">#implementation of basic gradDscent algorithms</span></span><br><span class="line"></span><br><span class="line">    h = <span class="number">0.1</span>  <span class="comment"># step length of iteration</span></span><br><span class="line">    max_times= <span class="number">500</span>  <span class="comment"># give the iterative times limit</span></span><br><span class="line">    m, n = np.shape(X)</span><br><span class="line"></span><br><span class="line">    beta = np.zeros(n)  <span class="comment"># parameter and initial to 0</span></span><br><span class="line">    delta_beta = np.ones(n)*h  <span class="comment"># delta parameter and initial to h</span></span><br><span class="line">    llh = <span class="number">0</span></span><br><span class="line">    llh_temp = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(max_times):</span><br><span class="line">        beta_temp = beta</span><br><span class="line">        </span><br><span class="line">		<span class="comment"># for partial derivative </span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n): </span><br><span class="line">            beta[j] += delta_beta[j]</span><br><span class="line">            llh_tmp = likelihood(X, y, beta)</span><br><span class="line">            delta_beta[j] = -h * (llh_tmp - llh) / delta_beta[j]	            </span><br><span class="line">            beta[j] = beta_temp[j]</span><br><span class="line">            </span><br><span class="line">        beta += delta_beta            </span><br><span class="line">        llh = likelihood(X, y, beta)</span><br><span class="line">         </span><br><span class="line">    <span class="keyword">return</span> beta</span><br></pre></td></tr></table></figure>
 <p>通过追踪参数，查看其收敛曲线，然后来调节相关参数（步长h，迭代次数max_times）。下图是在当前参数取值下的beta曲线，可以看到其收敛良好：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.4.png" alt="fig4"></p>
 </blockquote>
 <p>(3)最后建立Sigmoid预测函数，对测试集数据进预测，得到混淆矩阵如下：</p>
 <pre><code>[[ 4.  1.]
@@ -437,15 +461,7 @@ avg / total       0.78      0.78      0.78         9
       
         <div class="post-tags">
           
-            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
-          
-            <a href="/blog/tags/对率回归/" rel="tag"># 对率回归</a>
-          
-            <a href="/blog/tags/梯度下降法/" rel="tag"># 梯度下降法</a>
-          
-            <a href="/blog/tags/python/" rel="tag"># python</a>
-          
-            <a href="/blog/tags/sklearn/" rel="tag"># sklearn</a>
+            <a href="/blog/tags/机器学习-对率回归-梯度下降法-python-sklearn/" rel="tag"># 机器学习 - 对率回归 - 梯度下降法 - python - sklearn</a>
           
         </div>
       
@@ -573,7 +589,7 @@ avg / total       0.78      0.78      0.78         9
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -634,7 +650,7 @@ avg / total       0.78      0.78      0.78         9
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取数据、查看数据、预处理"><span class="nav-number">2.</span> <span class="nav-text">获取数据、查看数据、预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#采用sklearn逻辑回归库函数直接拟合"><span class="nav-number">3.</span> <span class="nav-text">采用sklearn逻辑回归库函数直接拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自己编程实现逻辑斯蒂回归"><span class="nav-number">4.</span> <span class="nav-text">自己编程实现逻辑斯蒂回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取数据、查看数据、预处理"><span class="nav-text">获取数据、查看数据、预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#采用sklearn逻辑回归库函数直接拟合"><span class="nav-text">采用sklearn逻辑回归库函数直接拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自己编程实现逻辑斯蒂回归"><span class="nav-text">自己编程实现逻辑斯蒂回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>

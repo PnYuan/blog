@@ -79,30 +79,31 @@
 
 
 
-<meta name="description" content="本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。">
+<meta name="description" content="本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。并包含编程实验。">
 <meta name="keywords" content="机器学习,线性回归,对率回归,线性判别分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="周志华《机器学习》习题解答：Ch3 - 线性模型">
 <meta property="og:url" content="http://pnyuan.github.io/blog/2017/03/22/zzh-ml/周志华《机器学习》习题解答：Ch3 - 线性模型/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。">
+<meta property="og:description" content="本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。并包含编程实验。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.9.png">
-<meta property="og:updated_time" content="2017-05-12T07:17:45.018Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/
+/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.9.png">
+<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch3 - 线性模型">
-<meta name="twitter:description" content="本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.1.png">
+<meta name="twitter:description" content="本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。并包含编程实验。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.1.png">
 
 
 
@@ -320,10 +321,6 @@
           
 
           
-              <div class="post-description">
-                  本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。
-              </div>
-          
 
         </div>
       </header>
@@ -338,7 +335,9 @@
       
 
       
-        <h2 id="本章概要"><a href="#本章概要" class="headerlink" title="本章概要"></a>本章概要</h2><p>本章开始涉及编程练习，相关答案和源代码托管在我的Github上：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+        <p>本章讲述线性模型，涉及线性回归、对率回归、线性判别分析、多分类、类别不平衡等内容。并包含编程实验。</p>
+<a id="more"></a>
+<h2 id="本章概要"><a href="#本章概要" class="headerlink" title="本章概要"></a>本章概要</h2><p>本章开始涉及编程练习，相关答案和源代码托管在我的Github上：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>.</p>
 <p>本章讲述<strong>线性模型</strong>（linear model），相关内容包括：</p>
 <ul>
 <li>线性回归（linear regression）</li>
@@ -370,44 +369,45 @@
 <blockquote>
 <p>再缩放（rescaling）、欠采样（undersampling）、过采样（oversampling）、阈值移动（threshold-moving）；</p>
 </blockquote>
-<h2 id="习题解答"><a href="#习题解答" class="headerlink" title="习题解答"></a>习题解答</h2><h3 id="线性回归模型偏置项"><a href="#线性回归模型偏置项" class="headerlink" title="线性回归模型偏置项"></a>线性回归模型偏置项</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.1.png" alt=""></p>
+<h2 id="习题解答"><a href="#习题解答" class="headerlink" title="习题解答"></a>习题解答</h2><h3 id="3-1-线性回归模型偏置项"><a href="#3-1-线性回归模型偏置项" class="headerlink" title="3.1.线性回归模型偏置项"></a>3.1.线性回归模型偏置项</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.1.png" alt=""></p>
 </blockquote>
 <p>偏置项b在数值上代表了自变量取0时，因变量的取值；</p>
 <p>1.当讨论变量x对结果y的影响，不用考虑b；<br>2.可以用变量归一化（max-min或z-score）来消除偏置。</p>
 <hr>
-<h3 id="证明对数似然函数是凸函数（参数存在最优解）"><a href="#证明对数似然函数是凸函数（参数存在最优解）" class="headerlink" title="证明对数似然函数是凸函数（参数存在最优解）"></a>证明对数似然函数是凸函数（参数存在最优解）</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.png" alt=""></p>
+<h3 id="3-2-证明对数似然函数是凸函数（参数存在最优解）"><a href="#3-2-证明对数似然函数是凸函数（参数存在最优解）" class="headerlink" title="3.2.证明对数似然函数是凸函数（参数存在最优解）"></a>3.2.证明对数似然函数是凸函数（参数存在最优解）</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.png" alt=""></p>
 </blockquote>
 <p>直接给出证明结果如下图：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.2.1.png" alt=""></p>
 </blockquote>
 <hr>
-<h3 id="编程实现对率回归"><a href="#编程实现对率回归" class="headerlink" title="编程实现对率回归"></a>编程实现对率回归</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png" alt=""></p>
+<h3 id="3-3-编程实现对率回归"><a href="#3-3-编程实现对率回归" class="headerlink" title="3.3.编程实现对率回归"></a>3.3.编程实现对率回归</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.png" alt=""></p>
 </blockquote>
 <p>所使用的数据集如下：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.3.1.png" alt=""></p>
 </blockquote>
-<p>本题是本书的第一个编程练习，采用了自己编程实现和调用sklearn库函数两种不同的方式（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.3_logistic_regression_watermelon/" target="_blank" rel="noopener">查看完整代码</a>）：</p>
-<p>具体的实现过程见：<a href="https://py131.github.io/2017/03/19/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh3.3%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E5%AF%B9%E7%8E%87%E5%9B%9E%E5%BD%92/" target="_blank" rel="noopener">周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归</a></p>
+<p>本题是本书的第一个编程练习，采用了自己编程实现和调用sklearn库函数两种不同的方式（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.3_logistic_regression_watermelon/" target="_blank" rel="noopener">查看完整代码</a>）：</p>
+<p>具体的实现过程见：<a href="">周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归</a></p>
 <hr>
-<h3 id="比较k折交叉验证法与留一法"><a href="#比较k折交叉验证法与留一法" class="headerlink" title="比较k折交叉验证法与留一法"></a>比较k折交叉验证法与留一法</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png" alt=""></p>
+<h3 id="3-4-比较k折交叉验证法与留一法"><a href="#3-4-比较k折交叉验证法与留一法" class="headerlink" title="3.4.比较k折交叉验证法与留一法"></a>3.4.比较k折交叉验证法与留一法</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png" alt=""></p>
 </blockquote>
-<p>本题采用UCI中的<a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">iris data set</a> 和 <a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set</a> 数据集，借助sklearn实现（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation" target="_blank" rel="noopener">查看完整代码</a>）。</p>
-<p>具体的实现过程见：<a href="https://py131.github.io/2017/03/20/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh3.4%20-%20%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E6%B3%95%E7%BB%83%E4%B9%A0/" target="_blank" rel="noopener">周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习</a></p>
+<p>本题采用UCI中的<a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">iris data set</a> 和 <a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set</a> 数据集，借助sklearn实现（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation" target="_blank" rel="noopener">查看完整代码</a>）。</p>
+<p>具体的实现过程见：<a href="">周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习</a></p>
 <hr>
-<h3 id="编程实现线性判别分析"><a href="#编程实现线性判别分析" class="headerlink" title="编程实现线性判别分析"></a>编程实现线性判别分析</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.5.png" alt=""></p>
+<h3 id="3-5-编程实现线性判别分析"><a href="#3-5-编程实现线性判别分析" class="headerlink" title="3.5.编程实现线性判别分析"></a>3.5.编程实现线性判别分析</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/
+/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.5.png" alt=""></p>
 </blockquote>
-<p>本题采用题3.3的西瓜数据集，采用基于sklearn实现和自己独立编程实现两种方式（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.5_LDA" target="_blank" rel="noopener">查看完整代码</a>）。</p>
-<p>具体的实现过程见：<a href="https://py131.github.io/2017/03/21/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh3.5%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析</a></p>
+<p>本题采用题3.3的西瓜数据集，采用基于sklearn实现和自己独立编程实现两种方式（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.5_LDA" target="_blank" rel="noopener">查看完整代码</a>）。</p>
+<p>具体的实现过程见：<a href="">周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析</a></p>
 <hr>
-<h3 id="线性判别分析的非线性拓展思考"><a href="#线性判别分析的非线性拓展思考" class="headerlink" title="线性判别分析的非线性拓展思考"></a>线性判别分析的非线性拓展思考</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.6.png" alt=""></p>
+<h3 id="3-6-线性判别分析的非线性拓展思考"><a href="#3-6-线性判别分析的非线性拓展思考" class="headerlink" title="3.6.线性判别分析的非线性拓展思考"></a>3.6.线性判别分析的非线性拓展思考</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.6.png" alt=""></p>
 </blockquote>
 <p>给出两种思路：</p>
 <ul>
@@ -415,17 +415,17 @@
 <li>参考书p137，采用<strong>核方法</strong>将非线性特征空间隐式映射到线性空间，得到<strong>KLDA</strong>（核线性判别分析）。</li>
 </ul>
 <hr>
-<h3 id="最优ECOC编码方式"><a href="#最优ECOC编码方式" class="headerlink" title="最优ECOC编码方式"></a>最优ECOC编码方式</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.png" alt=""></p>
+<h3 id="3-7-最优ECOC编码方式"><a href="#3-7-最优ECOC编码方式" class="headerlink" title="3.7.最优ECOC编码方式"></a>3.7.最优ECOC编码方式</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.png" alt=""></p>
 </blockquote>
 <p>参考书p65，<em>对于同等长度的编码，理论上来说，任意两个类别间的编码距离越远，纠错能力越强</em>。那么如何实现呢，可参考文献<a href="http://www.ccs.neu.edu/home/vip/teach/MLcourse/4_boosting/lecture_notes/ecoc/ecoc.pdf" target="_blank" rel="noopener">Error-Correcting Output Codes</a>。下图是截取文中的关于在较少类时采用<strong>exhaustive codes</strong>来生成最优ECOC二元码的过程：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.7.1.png" alt=""></p>
 </blockquote>
 <p>采用文中方法，每两类的Hamming Distance均达到了码长的一半，这也是最优的编码方式之一。</p>
 <hr>
-<h3 id="多分类到二分类分解、类别不平衡"><a href="#多分类到二分类分解、类别不平衡" class="headerlink" title="多分类到二分类分解、类别不平衡"></a>多分类到二分类分解、类别不平衡</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.9.png" alt=""></p>
+<h3 id="3-9-多分类到二分类分解、类别不平衡"><a href="#3-9-多分类到二分类分解、类别不平衡" class="headerlink" title="3.9.多分类到二分类分解、类别不平衡"></a>3.9.多分类到二分类分解、类别不平衡</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.9.png" alt=""></p>
 </blockquote>
 <p>参考书p66，<em>对OvR、MvM来说，由于对每类进行了相同的处理，其拆解出的二分类任务中类别不平衡的影响会相互抵销，因此通常不需专门处理。</em></p>
 <p>以<strong>OvR</strong>（一对其余）为例，由于其每次以一个类为正其余为反（参考书p63），共训练出N个分类器，在这一过程中，类别不平衡由O的遍历而抵消掉。</p>
@@ -581,7 +581,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -642,7 +642,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-number">1.</span> <span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#习题解答"><span class="nav-number">2.</span> <span class="nav-text">习题解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性回归模型偏置项"><span class="nav-number">2.1.</span> <span class="nav-text">线性回归模型偏置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证明对数似然函数是凸函数（参数存在最优解）"><span class="nav-number">2.2.</span> <span class="nav-text">证明对数似然函数是凸函数（参数存在最优解）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编程实现对率回归"><span class="nav-number">2.3.</span> <span class="nav-text">编程实现对率回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较k折交叉验证法与留一法"><span class="nav-number">2.4.</span> <span class="nav-text">比较k折交叉验证法与留一法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编程实现线性判别分析"><span class="nav-number">2.5.</span> <span class="nav-text">编程实现线性判别分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性判别分析的非线性拓展思考"><span class="nav-number">2.6.</span> <span class="nav-text">线性判别分析的非线性拓展思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最优ECOC编码方式"><span class="nav-number">2.7.</span> <span class="nav-text">最优ECOC编码方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多分类到二分类分解、类别不平衡"><span class="nav-number">2.8.</span> <span class="nav-text">多分类到二分类分解、类别不平衡</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#习题解答"><span class="nav-text">习题解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-线性回归模型偏置项"><span class="nav-text">3.1.线性回归模型偏置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-证明对数似然函数是凸函数（参数存在最优解）"><span class="nav-text">3.2.证明对数似然函数是凸函数（参数存在最优解）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-编程实现对率回归"><span class="nav-text">3.3.编程实现对率回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-比较k折交叉验证法与留一法"><span class="nav-text">3.4.比较k折交叉验证法与留一法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-编程实现线性判别分析"><span class="nav-text">3.5.编程实现线性判别分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-线性判别分析的非线性拓展思考"><span class="nav-text">3.6.线性判别分析的非线性拓展思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-最优ECOC编码方式"><span class="nav-text">3.7.最优ECOC编码方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-多分类到二分类分解、类别不平衡"><span class="nav-text">3.9.多分类到二分类分解、类别不平衡</span></a></li></ol></li></ol></div>
             
 
           </div>

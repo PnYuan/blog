@@ -87,19 +87,19 @@
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
 <meta property="og:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png">
-<meta property="og:updated_time" content="2017-05-12T13:49:51.371Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
 <meta name="twitter:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
 
 
 
@@ -317,10 +317,6 @@
           
 
           
-              <div class="post-description">
-                  编程实现单层RBF神经网络，并在异或数据集上进行了实验。
-              </div>
-          
 
         </div>
       </header>
@@ -335,23 +331,25 @@
       
 
       
-        <p>相关源代码托管于Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
+        <p>编程实现单层RBF神经网络，并在异或数据集上进行了实验。</p>
+<a id="more"></a>
+<p>相关源代码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png" alt=""></p>
 </blockquote>
-<p>注：本题程序基于Python实现（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch5_neural_networks/5.7_RBF_BP" target="_blank" rel="noopener">这里查看完整代码和数据集</a>）。</p>
+<p>注：本题程序基于Python实现（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch5_neural_networks/5.7_RBF_BP" target="_blank" rel="noopener">这里查看完整代码和数据集</a>）。</p>
 <h2 id="RBF网络基础知识回顾"><a href="#RBF网络基础知识回顾" class="headerlink" title="RBF网络基础知识回顾"></a>RBF网络基础知识回顾</h2><p>RBF网络采用RBF（Radial Basis Function函数）作为隐层神经元激活函数，是一种局部逼近神经网络，下面先分析其激活函数RBF，然后分析RBF神经网络的结构。</p>
 <h3 id="径向基函数-RBF"><a href="#径向基函数-RBF" class="headerlink" title="径向基函数(RBF)"></a>径向基函数(RBF)</h3><p>径向基函数是一类取值依赖样本于到中心点距离的函数，本题基于常用的<strong>高斯径向基函数</strong>（gaussian RBF）开展实验。下面是高斯径向基函数形式书p108式(5.19)：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png" alt=""></p>
 <p>这里的 β 为尺度系数， c_i 为中心点（维度由输入决定），函数的取值取决于样本 x 到中心点的距离（2-范数），该函数的参数为 (β, c_i)。</p>
-<p>如下图示为高斯径向基函数示意图（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/draw_RBF.py" target="_blank" rel="noopener">绘图程序</a>）：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png" alt=""></p>
+<p>如下图示为高斯径向基函数示意图（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/draw_RBF.py" target="_blank" rel="noopener">绘图程序</a>）：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png" alt=""></p>
 <h3 id="RBF网络"><a href="#RBF网络" class="headerlink" title="RBF网络"></a>RBF网络</h3><p>RBF神经网络一般指一种单隐层前馈神经网络，它使用径向基函数作为隐层神经元激活函数，而输出是隐层输出的线性组合，网络结构示意如下：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png" alt=""></p>
 <p>参考书p108式(5.18)，该神经网络的输出为：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png" alt=""></p>
 <p>进一步分析，一般函数均可表示成一组基函数的线性组合，而RBF网络相当于用隐层神经元构建了这样一组基函数，由输出层进行线性组合，从而实现函数逼近的功能。</p>
-<h3 id="RBF网络实现"><a href="#RBF网络实现" class="headerlink" title="RBF网络实现"></a>RBF网络实现</h3><p><a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/RBF_BP.py" target="_blank" rel="noopener">查看完整代码</a></p>
+<h3 id="RBF网络实现"><a href="#RBF网络实现" class="headerlink" title="RBF网络实现"></a>RBF网络实现</h3><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/RBF_BP.py" target="_blank" rel="noopener">查看完整代码</a></p>
 <p>这里RBF神经网络建模的过程分一下两步：</p>
 <ol>
 <li>确定神经元对应的高斯径向基函数中心 c ；</li>
@@ -363,14 +361,14 @@
 <li><strong>从输入数据样本中抽取</strong>，这就要求输入样本具有较好的代表性；</li>
 <li><strong>自组织生成</strong>，如<strong>聚类</strong>法生成，采用聚类中心来作为中心参数 c ，同时根据各中心的距离来初始化尺度系数 β ；</li>
 </ul>
-<h3 id="RBF-BP算法推导"><a href="#RBF-BP算法推导" class="headerlink" title="RBF-BP算法推导"></a>RBF-BP算法推导</h3><p>参考<a href="https://py131.github.io/2017/04/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9B%B6%E6%95%A3/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%20-%20Python%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%A0%87%E5%87%86BP%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">神经网络基础 - 编程实现标准BP算法</a>，这里隐层激活函数为RBF，输出层神经元数为 1 ，激活函数为 y=f(x)=x 。</p>
+<h3 id="RBF-BP算法推导"><a href="#RBF-BP算法推导" class="headerlink" title="RBF-BP算法推导"></a>RBF-BP算法推导</h3><p>参考<a href="">神经网络基础 - 编程实现标准BP算法</a>，这里隐层激活函数为RBF，输出层神经元数为 1 ，激活函数为 y=f(x)=x 。</p>
 <p>BP算法采用梯度下降法进行参数迭代更新，参考书p102-103，进行RBF-BP算法中基于梯度下降的参数更新推导如下：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png" alt=""></p>
 <p>在完成基础推导之后，给出<strong>RBF网络的BP算法</strong>如下所示：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png" alt=""></p>
 <h3 id="RBF-BP算法实现"><a href="#RBF-BP算法实现" class="headerlink" title="RBF-BP算法实现"></a>RBF-BP算法实现</h3><p>样例代码如下：</p>
 <pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BackPropagateRBF</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    the implementation of special BP algorithm on one slide of sample for RBF network</span></span><br><span class="line"><span class="string">    @param x, y: array and float, input and output of the data sample</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dependent packages</span></span><br><span class="line">    <span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">    <span class="comment"># get current network output</span></span><br><span class="line">    self.y = self.Pred(x)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># calculate the gradient for hidden layer </span></span><br><span class="line">    g = np.zeros(self.h_n)</span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        g[h] = (self.y - y) * self.b[h]    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># updating the parameter</span></span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        self.beta[h] += self.lr * g[h] * self.w[h] * np.linalg.norm(x-self.c[h],<span class="number">2</span>)</span><br><span class="line">        self.w[h] -= self.lr * g[h]</span><br></pre></td></tr></table></figure>
-</code></pre><h2 id="异或问题实验"><a href="#异或问题实验" class="headerlink" title="异或问题实验"></a>异或问题实验</h2><p><a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/Test_XOR.py" target="_blank" rel="noopener">查看完整代码</a></p>
+</code></pre><h2 id="异或问题实验"><a href="#异或问题实验" class="headerlink" title="异或问题实验"></a>异或问题实验</h2><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/Test_XOR.py" target="_blank" rel="noopener">查看完整代码</a></p>
 <h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>首先基于numpy.array生成异或数据，该数据为2输入，1输出，如下所示：</p>
 <p>样例代码：</p>
 <pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train set</span></span><br><span class="line">X_trn = np.random.randint(<span class="number">0</span>,<span class="number">2</span>,(<span class="number">100</span>,<span class="number">2</span>))</span><br><span class="line">y_trn = np.logical_xor(X_trn[:,<span class="number">0</span>],X_trn[:,<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
@@ -387,7 +385,7 @@ array([False, False, ...
 <h3 id="生成模型并训练"><a href="#生成模型并训练" class="headerlink" title="生成模型并训练"></a>生成模型并训练</h3><p>样例代码如下：</p>
 <pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># construct the network</span></span><br><span class="line">rbf_nn = RBP_network()  <span class="comment"># initial a BP network class</span></span><br><span class="line">rbf_nn.CreateNN(<span class="number">4</span>, centers, learningrate=<span class="number">0.05</span>)  <span class="comment"># build the network structure</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># parameter training（这里迭代10次）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>): </span><br><span class="line">    rbf_nn.TrainRBF(X_trn, y_trn)</span><br></pre></td></tr></table></figure>
 </code></pre><p>绘制出训练过程中的均方误差变化曲线如下图：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png" alt=""></p>
 <p>由上图可以看到，曲线收敛十分迅速，说明这里的RBF网络训练异或数据集十分轻松，这也和我们所生成的数据的完备无误有关。</p>
 <h3 id="测试模型"><a href="#测试模型" class="headerlink" title="测试模型"></a>测试模型</h3><p>按照训练集数据生成方法生成测试集数据，通过模型预测，得出结果如下：</p>
 <pre><code>test error rate: 0.000
@@ -555,7 +553,7 @@ array([False, False, ...
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -616,7 +614,7 @@ array([False, False, ...
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RBF网络基础知识回顾"><span class="nav-number">2.</span> <span class="nav-text">RBF网络基础知识回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#径向基函数-RBF"><span class="nav-number">2.1.</span> <span class="nav-text">径向基函数(RBF)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络"><span class="nav-number">2.2.</span> <span class="nav-text">RBF网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络实现"><span class="nav-number">2.3.</span> <span class="nav-text">RBF网络实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF中心参数获取"><span class="nav-number">2.4.</span> <span class="nav-text">RBF中心参数获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法推导"><span class="nav-number">2.5.</span> <span class="nav-text">RBF-BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法实现"><span class="nav-number">2.6.</span> <span class="nav-text">RBF-BP算法实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异或问题实验"><span class="nav-number">3.</span> <span class="nav-text">异或问题实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备数据"><span class="nav-number">3.1.</span> <span class="nav-text">准备数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数之-RBF中心点"><span class="nav-number">3.2.</span> <span class="nav-text">参数之-RBF中心点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成模型并训练"><span class="nav-number">3.3.</span> <span class="nav-text">生成模型并训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试模型"><span class="nav-number">3.4.</span> <span class="nav-text">测试模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本题小结"><span class="nav-number">4.</span> <span class="nav-text">本题小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关参考"><span class="nav-number">5.</span> <span class="nav-text">相关参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RBF网络基础知识回顾"><span class="nav-text">RBF网络基础知识回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#径向基函数-RBF"><span class="nav-text">径向基函数(RBF)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络"><span class="nav-text">RBF网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络实现"><span class="nav-text">RBF网络实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF中心参数获取"><span class="nav-text">RBF中心参数获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法推导"><span class="nav-text">RBF-BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法实现"><span class="nav-text">RBF-BP算法实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异或问题实验"><span class="nav-text">异或问题实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备数据"><span class="nav-text">准备数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数之-RBF中心点"><span class="nav-text">参数之-RBF中心点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成模型并训练"><span class="nav-text">生成模型并训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试模型"><span class="nav-text">测试模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本题小结"><span class="nav-text">本题小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关参考"><span class="nav-text">相关参考</span></a></li></ol></div>
             
 
           </div>

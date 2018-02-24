@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,python,sklearn,交叉验证法,seaborn," />
+  <meta name="keywords" content="机器学习,交叉验证法,python,sklearn,seaborn," />
 
 
 
@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="本题采用sklearn建立对率回归模型，基于UCI数据进行实验比较了k折交叉验证法和留一法。">
-<meta name="keywords" content="机器学习,python,sklearn,交叉验证法,seaborn">
+<meta name="description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
+<meta name="keywords" content="机器学习,交叉验证法,python,sklearn,seaborn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
 <meta property="og:url" content="http://pnyuan.github.io/blog/2017/03/20/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="本题采用sklearn建立对率回归模型，基于UCI数据进行实验比较了k折交叉验证法和留一法。">
+<meta property="og:description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
-<meta property="og:updated_time" content="2017-05-12T07:37:42.036Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
+<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
-<meta name="twitter:description" content="本题采用sklearn建立对率回归模型，基于UCI数据进行实验比较了k折交叉验证法和留一法。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
+<meta name="twitter:description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
 
 
 
@@ -311,10 +311,6 @@
           
 
           
-              <div class="post-description">
-                  本题采用sklearn建立对率回归模型，基于UCI数据进行实验比较了k折交叉验证法和留一法。
-              </div>
-          
 
         </div>
       </header>
@@ -329,11 +325,13 @@
       
 
       
-        <p>本文编程采用<strong>Python-sklearn</strong>实现，相关源码托管于Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
+        <p>比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。</p>
+<a id="more"></a>
+<p>本文编程采用<strong>Python-sklearn</strong>实现，相关源码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
 <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png" alt=""></p>
 </blockquote>
-<p>本题采用UCI中的 <a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">Iris Data Set</a> 和 <a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set</a>，基于sklearn完成练习（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation" target="_blank" rel="noopener">查看完整代码和数据集</a>）。</p>
+<p>本题采用UCI中的 <a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">Iris Data Set</a> 和 <a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set</a>，基于sklearn完成练习（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation" target="_blank" rel="noopener">查看完整代码和数据集</a>）。</p>
 <p>关于数据集的介绍：</p>
 <p><a href="http://baike.baidu.com/item/IRIS/4061453#viewPageContent" target="_blank" rel="noopener">IRIS数据集简介 - 百度百科</a>；通过花朵的性状数据（花萼大小、花瓣大小…）来推测花卉的类别。变量属性X=4种，类别标签y公有3种，这里我们选取其中两类数据来拟合对率回归(逻辑斯蒂回归)。</p>
 <p><a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set - UCI</a>;通过献血行为（上次献血时间、总献血cc量…）的历史数据，来推测某人是否会在某一时段献血。变量属性X=4种，类别y={0,1}。该数据集相对iris要大一些。</p>
@@ -341,7 +339,7 @@
 <h3 id="数据预分析"><a href="#数据预分析" class="headerlink" title="数据预分析"></a>数据预分析</h3><p>iris数据集十分常用，sklearn的数据包已包含该数据集，我们可以直接载入。对于transfusion数据集，我们从UCI官网上下载导入即可。</p>
 <p>采用<strong>seaborn</strong>库可以实现基于matplotlib的非常漂亮的可视化呈现效果，下图是采用seaborn.pairplot()绘制的iris数据集各变量关系组合图，从图中可以看出，类别区分十分明显，分类器应该比较容易实现：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png" alt=""></p>
 </blockquote>
 <p>相关样例代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">sns.set(style=<span class="string">"white"</span>, color_codes=<span class="keyword">True</span>)</span><br><span class="line">iris = sns.load_dataset(<span class="string">"iris"</span>)</span><br><span class="line"></span><br><span class="line">iris.plot(kind=<span class="string">"scatter"</span>, x=<span class="string">"sepal_length"</span>, y=<span class="string">"sepal_width"</span>)</span><br><span class="line">sns.pairplot(iris,hue=<span class="string">'species'</span>) </span><br><span class="line">sns.plt.show()</span><br></pre></td></tr></table></figure>
@@ -377,11 +375,11 @@
           
             <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
           
+            <a href="/blog/tags/交叉验证法/" rel="tag"># 交叉验证法</a>
+          
             <a href="/blog/tags/python/" rel="tag"># python</a>
           
             <a href="/blog/tags/sklearn/" rel="tag"># sklearn</a>
-          
-            <a href="/blog/tags/交叉验证法/" rel="tag"># 交叉验证法</a>
           
             <a href="/blog/tags/seaborn/" rel="tag"># seaborn</a>
           
@@ -511,7 +509,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -572,7 +570,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预分析"><span class="nav-number">2.</span> <span class="nav-text">数据预分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于sklearn进行拟合与交叉验证"><span class="nav-number">3.</span> <span class="nav-text">基于sklearn进行拟合与交叉验证</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预分析"><span class="nav-text">数据预分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于sklearn进行拟合与交叉验证"><span class="nav-text">基于sklearn进行拟合与交叉验证</span></a></li></ol></div>
             
 
           </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,python,决策树剪枝,CART算法," />
+  <meta name="keywords" content="机器学习,python,决策树剪枝,CART," />
 
 
 
@@ -80,24 +80,21 @@
 
 
 <meta name="description" content="基于训练集构建的完全决策树易陷入过拟合，为提升模型泛化能力，通常需要对树进行剪枝。此处基于基尼系数构建出决策树（CART算法），然后编程实现预剪枝和后剪枝操作，最后分析了他们的作用。">
-<meta name="keywords" content="机器学习,python,决策树剪枝,CART算法">
+<meta name="keywords" content="机器学习,python,决策树剪枝,CART">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作">
+<meta property="og:title" content="周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝">
 <meta property="og:url" content="http://pnyuan.github.io/blog/2017/04/05/zzh-ml/周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
 <meta property="og:description" content="基于训练集构建的完全决策树易陷入过拟合，为提升模型泛化能力，通常需要对树进行剪枝。此处基于基尼系数构建出决策树（CART算法），然后编程实现预剪枝和后剪枝操作，最后分析了他们的作用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_CART.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_full.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_pre.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_post.png">
-<meta property="og:updated_time" content="2017-05-12T07:51:04.718Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_CART.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_full.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_post.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作">
+<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝">
 <meta name="twitter:description" content="基于训练集构建的完全决策树易陷入过拟合，为提升模型泛化能力，通常需要对树进行剪枝。此处基于基尼系数构建出决策树（CART算法），然后编程实现预剪枝和后剪枝操作，最后分析了他们的作用。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_CART.png">
 
 
 
@@ -133,7 +130,7 @@
 
 
 
-  <title>周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作 | PnYuan's Blog</title>
+  <title>周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝 | PnYuan's Blog</title>
   
 
 
@@ -257,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作</h1>
+          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝</h1>
         
 
         <div class="post-meta">
@@ -315,10 +312,6 @@
           
 
           
-              <div class="post-description">
-                  基于训练集构建的完全决策树易陷入过拟合，为提升模型泛化能力，通常需要对树进行剪枝。此处基于基尼系数构建出决策树（CART算法），然后编程实现预剪枝和后剪枝操作，最后分析了他们的作用。
-              </div>
-          
 
         </div>
       </header>
@@ -331,11 +324,45 @@
 
       
       
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_CART.png" rel="gallery_cje1gxkzl000jtghhuxsgw483"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_CART.png" itemprop="contentUrl"/>
+              </a>
+            
+          
+            
+              <a class="post-gallery-img fancybox"
+                 href="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_full.png" rel="gallery_cje1gxkzl000jtghhuxsgw483"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_full.png" itemprop="contentUrl"/>
+              </a>
+            
+          
+            
+              <a class="post-gallery-img fancybox"
+                 href="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_post.png" rel="gallery_cje1gxkzl000jtghhuxsgw483"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_post.png" itemprop="contentUrl"/>
+              </a>
+            </div>
+          
+
+          
+          
+        </div>
+      
 
       
-        <p>本文编程采用<strong>Python</strong>实现，相关源码托管于Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
+        <p>基于训练集构建的完全决策树易陷入过拟合，为提升模型泛化能力，通常需要对树进行剪枝。此处基于基尼系数构建出决策树（CART算法），然后编程实现预剪枝和后剪枝操作，最后分析了他们的作用。</p>
+<a id="more"></a>
+<p>本文编程采用<strong>Python</strong>实现，相关源码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
 <h2 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h2><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.png" alt=""><br><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.png" alt=""><br><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.1.png" alt=""></p>
 </blockquote>
 <ul>
 <li><p>决策树基于训练集完全构建易陷入<strong>过拟合</strong>。为提升泛化能力。通常需要对决策树进行<strong>剪枝</strong>。</p>
@@ -343,13 +370,13 @@
 <li><p>原始的CART算法采用<strong>基尼指数</strong>作为最优属性划分选择标准。</p>
 </li>
 </ul>
-<p>编码基于Python实现，详细解答和编码过程如下：（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch4_decision_tree/4.4_CART" target="_blank" rel="noopener">查看完整代码和数据集</a>）：</p>
+<p>编码基于Python实现，详细解答和编码过程如下：（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch4_decision_tree/4.4_CART" target="_blank" rel="noopener">查看完整代码和数据集</a>）：</p>
 <h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><h3 id="最优划分属性选择-基尼指数"><a href="#最优划分属性选择-基尼指数" class="headerlink" title="最优划分属性选择 - 基尼指数"></a>最优划分属性选择 - 基尼指数</h3><p>同信息熵类似，<strong>基尼指数（Gini index）</strong>也常用以度量<strong>数据纯度</strong>，一般基尼值越小，数据纯度越高，相关内容可参考书p79，最典型的相关决策树生成算法是<strong>CART算法</strong>。</p>
 <p>下面是某属性下数据的基尼指数计算代码样例（连续和离散的不同操作）：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GiniIndex</span><span class="params">(df, attr_id)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    calculating the gini index of an attribution</span></span><br><span class="line"><span class="string">     </span></span><br><span class="line"><span class="string">    @param df:      dataframe, the pandas dataframe of the data_set</span></span><br><span class="line"><span class="string">    @param attr_id: the target attribution in df</span></span><br><span class="line"><span class="string">    @return gini_index: the gini index of current attribution</span></span><br><span class="line"><span class="string">    @return div_value: for discrete variable, value = 0</span></span><br><span class="line"><span class="string">                   for continuous variable, value = t (the division value)</span></span><br><span class="line"><span class="string">    '''</span>  </span><br><span class="line">    gini_index = <span class="number">0</span>  <span class="comment"># info_gain for the whole label</span></span><br><span class="line">    div_value = <span class="number">0</span>  <span class="comment"># div_value for continuous attribute</span></span><br><span class="line">    </span><br><span class="line">    n = len(df[attr_id])  <span class="comment"># the number of sample</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 1.for continuous variable using method of bisection</span></span><br><span class="line">    <span class="keyword">if</span> df[attr_id].dtype == (float, int):</span><br><span class="line">        sub_gini = &#123;&#125;  <span class="comment"># store the div_value (div) and it's subset gini value</span></span><br><span class="line">        </span><br><span class="line">        df = df.sort([attr_id], ascending=<span class="number">1</span>)  <span class="comment"># sorting via column</span></span><br><span class="line">        df = df.reset_index(drop=<span class="keyword">True</span>)</span><br><span class="line">        </span><br><span class="line">        data_arr = df[attr_id]</span><br><span class="line">        label_arr = df[df.columns[<span class="number">-1</span>]]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>):</span><br><span class="line">            div = (data_arr[i] + data_arr[i+<span class="number">1</span>]) / <span class="number">2</span></span><br><span class="line">            sub_gini[div] = ( (i+<span class="number">1</span>) * Gini(label_arr[<span class="number">0</span>:i+<span class="number">1</span>]) / n ) \</span><br><span class="line">                              + ( (n-i<span class="number">-1</span>) * Gini(label_arr[i+<span class="number">1</span>:<span class="number">-1</span>]) / n )</span><br><span class="line">        <span class="comment"># our goal is to get the min subset entropy sum and it's divide value</span></span><br><span class="line">        div_value, gini_index = min(sub_gini.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 2.for discrete variable (categoric variable)</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        data_arr = df[attr_id]</span><br><span class="line">        label_arr = df[df.columns[<span class="number">-1</span>]]</span><br><span class="line">        value_count = ValueCount(data_arr)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> value_count:</span><br><span class="line">            key_label_arr = label_arr[data_arr == key]</span><br><span class="line">            gini_index += value_count[key] * Gini(key_label_arr) / n</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> gini_index, div_value</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="完全决策树生成"><a href="#完全决策树生成" class="headerlink" title="完全决策树生成"></a>完全决策树生成</h3><p>下图是基于基尼指数进行最优划分属性选择，然后在数据集watermelon-2.0全集上递归生成的完全决策树。(基础算法和流程可参考<a href="https://py131.github.io/2017/04/03/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh4.3%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0ID3%E7%AE%97%E6%B3%95/" target="_blank" rel="noopener">题4.3</a>，或<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch4_decision_tree/4.4_CART/src/decision_tree.py" target="_blank" rel="noopener">查看完整代码</a>）</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_CART.png" alt=""></p>
+<h3 id="完全决策树生成"><a href="#完全决策树生成" class="headerlink" title="完全决策树生成"></a>完全决策树生成</h3><p>下图是基于基尼指数进行最优划分属性选择，然后在数据集watermelon-2.0全集上递归生成的完全决策树。(基础算法和流程可参考<a href="">题4.3</a>，或<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch4_decision_tree/4.4_CART/src/decision_tree.py" target="_blank" rel="noopener">查看完整代码</a>）</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_CART.png" alt=""></p>
 <hr>
 <h3 id="剪枝操作"><a href="#剪枝操作" class="headerlink" title="剪枝操作"></a>剪枝操作</h3><p>参考书4.3节（p79-83），<strong>剪枝</strong>是提高决策树模型泛化能力的重要手段，一般将剪枝操作分为<strong>预剪枝、后剪枝</strong>两种方式，简要说明如下：</p>
 <table>
@@ -384,11 +411,11 @@
 </table>
 <p>基于训练集与测试集的划分，编程实现预剪枝与后剪枝操作：</p>
 <h4 id="完全决策树"><a href="#完全决策树" class="headerlink" title="完全决策树"></a>完全决策树</h4><p>下图是基于训练集生成的完全决策树模型，可以看到，在有限的数据集下，树的结构过于复杂，模型的泛化能力应该很差：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_full.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_full.png" alt=""></p>
 <p>此时在测试集（验证集）上进行预测，精度结果如下：</p>
 <pre><code>accuracy of full tree: 0.571
-</code></pre><h4 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h4><p>参考书p81，采用预剪枝生成决策树，<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch4_decision_tree/4.4_CART/src/decision_tree.py" target="_blank" rel="noopener">查看相关代码</a>， 结果树如下：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_pre.png" alt=""></p>
+</code></pre><h4 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h4><p>参考书p81，采用预剪枝生成决策树，<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch4_decision_tree/4.4_CART/src/decision_tree.py" target="_blank" rel="noopener">查看相关代码</a>， 结果树如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_pre.png" alt=""></p>
 <p>现在的决策树退化成了单个节点，（比决策树桩还要简单），其测试精度为：</p>
 <pre><code>accuracy of pre-pruning tree: 0.571
 </code></pre><p>此精度与完全决策树相同。进一步分析如下：</p>
@@ -397,8 +424,8 @@
 <li>由于数据集小，所以预剪枝优越性不明显，实际预剪枝操作是有较好的模型提升效果的。</li>
 <li>此处结果模型太简单，有严重的<strong>欠拟合风险</strong>。</li>
 </ul>
-<h4 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h4><p>参考书p83-84 ，采用后剪枝生成决策树，<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch4_decision_tree/4.4_CART/src/decision_tree.py" target="_blank" rel="noopener">查看相关代码</a>，结果树如下：</p>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_post.png" alt=""></p>
+<h4 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h4><p>参考书p83-84 ，采用后剪枝生成决策树，<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch4_decision_tree/4.4_CART/src/decision_tree.py" target="_blank" rel="noopener">查看相关代码</a>，结果树如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4_decision_tree_post.png" alt=""></p>
 <p>决策树相较完全决策树有了很大的简化，其测试精度为：</p>
 <pre><code>accuracy of post-pruning tree: 0.714
 </code></pre><p>此精度相较于前者有了很大的提升，说明经过后剪枝，模型<strong>泛化能力</strong>变强，同时保留了一定树规模，<strong>拟合</strong>较好。</p>
@@ -431,7 +458,7 @@
           
             <a href="/blog/tags/决策树剪枝/" rel="tag"># 决策树剪枝</a>
           
-            <a href="/blog/tags/CART算法/" rel="tag"># CART算法</a>
+            <a href="/blog/tags/CART/" rel="tag"># CART</a>
           
         </div>
       
@@ -559,7 +586,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -620,7 +647,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题回顾"><span class="nav-number">1.</span> <span class="nav-text">问题回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题过程"><span class="nav-number">2.</span> <span class="nav-text">解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最优划分属性选择-基尼指数"><span class="nav-number">2.1.</span> <span class="nav-text">最优划分属性选择 - 基尼指数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完全决策树生成"><span class="nav-number">2.2.</span> <span class="nav-text">完全决策树生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝操作"><span class="nav-number">2.3.</span> <span class="nav-text">剪枝操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#完全决策树"><span class="nav-number">2.3.1.</span> <span class="nav-text">完全决策树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预剪枝"><span class="nav-number">2.3.2.</span> <span class="nav-text">预剪枝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后剪枝"><span class="nav-number">2.3.3.</span> <span class="nav-text">后剪枝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本题小结"><span class="nav-number">3.</span> <span class="nav-text">本题小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题回顾"><span class="nav-text">问题回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题过程"><span class="nav-text">解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最优划分属性选择-基尼指数"><span class="nav-text">最优划分属性选择 - 基尼指数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完全决策树生成"><span class="nav-text">完全决策树生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝操作"><span class="nav-text">剪枝操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#完全决策树"><span class="nav-text">完全决策树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预剪枝"><span class="nav-text">预剪枝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后剪枝"><span class="nav-text">后剪枝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本题小结"><span class="nav-text">本题小结</span></a></li></ol></div>
             
 
           </div>

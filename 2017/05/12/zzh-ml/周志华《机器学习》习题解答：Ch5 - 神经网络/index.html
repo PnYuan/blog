@@ -79,34 +79,34 @@
 
 
 
-<meta name="description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN、深度学习等拓展模型。">
+<meta name="description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。">
 <meta name="keywords" content="机器学习,神经网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="周志华《机器学习》习题解答：Ch5 - 神经网络">
 <meta property="og:url" content="http://pnyuan.github.io/blog/2017/05/12/zzh-ml/周志华《机器学习》习题解答：Ch5 - 神经网络/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN、深度学习等拓展模型。">
+<meta property="og:description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.10.png">
-<meta property="og:updated_time" content="2017-05-12T13:48:21.319Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.10.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5 - 神经网络">
-<meta name="twitter:description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN、深度学习等拓展模型。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png">
+<meta name="twitter:description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png">
 
 
 
@@ -324,10 +324,6 @@
           
 
           
-              <div class="post-description">
-                  本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN、深度学习等拓展模型。
-              </div>
-          
 
         </div>
       </header>
@@ -342,7 +338,9 @@
       
 
       
-        <p>本章编程练习题的源码托管于Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
+        <p>本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。</p>
+<a id="more"></a>
+<p>本章编程练习题的源码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
 <h2 id="本章概要"><a href="#本章概要" class="headerlink" title="本章概要"></a>本章概要</h2><p>本章讲述<strong>人工神经网络</strong>（Artificial Neural Network，ANN），相关内容包括：</p>
 <ul>
 <li>神经元模型（neuron）</li>
@@ -395,7 +393,7 @@
 <blockquote>
 <p>多隐层，无监督逐层训练（unsupervised layer-wise training），预训练-微调，深度信念网络（DBN），权共享（weight sharing），卷积神经网络（CNN），特征学习（feature learning），特征工程（feature engineering）；</p>
 </blockquote>
-<h2 id="神经网络的优劣总结"><a href="#神经网络的优劣总结" class="headerlink" title="神经网络的优劣总结"></a>神经网络的优劣总结</h2><p>人工神经网络的好处很多，这里不做赘述，下面列出一些在使用神经网络方法时，需要注意的问题：</p>
+<h2 id="神经网络的优劣小结"><a href="#神经网络的优劣小结" class="headerlink" title="神经网络的优劣小结"></a>神经网络的优劣小结</h2><p>人工神经网络的好处很多，这里不做赘述，下面列出一些在使用神经网络方法时，需要注意的问题：</p>
 <ul>
 <li>算法收敛速度问题</li>
 <li>过拟合风险</li>
@@ -405,8 +403,8 @@
 <li>黑盒模型缺陷</li>
 <li>…</li>
 </ul>
-<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><h3 id="神经元激活函数选择考虑"><a href="#神经元激活函数选择考虑" class="headerlink" title="神经元激活函数选择考虑"></a>神经元激活函数选择考虑</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png" alt=""></p>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><h3 id="5-1-神经元激活函数选择考虑"><a href="#5-1-神经元激活函数选择考虑" class="headerlink" title="5.1.神经元激活函数选择考虑"></a>5.1.神经元激活函数选择考虑</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png" alt=""></p>
 </blockquote>
 <p>激活函数的选取是很灵活的，不同层可选择不同的激活函数，但一般都会要求满足非线性。若为线性（即形如题中 f(x)=wx ），根据多项式组合法则，<strong>多层网络退化成等价的单层网络</strong>，此时模型成为线性模型，无法解决非线性问题，如线性不可分的分类问题。</p>
 <p>进一步，激活函数一般会追求以下性质：</p>
@@ -420,76 +418,76 @@
 </ul>
 <p>最常用的激活函数有：Sigmoid（对数几率函数），Tanh（双曲正切函数），ReLUs（修正线性函数），RBF（径向基函数），softmax（归一化指数函数）…</p>
 <hr>
-<h3 id="Sigmoid激活函数与对率回归的联系"><a href="#Sigmoid激活函数与对率回归的联系" class="headerlink" title="Sigmoid激活函数与对率回归的联系"></a>Sigmoid激活函数与对率回归的联系</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.2.png" alt=""></p>
+<h3 id="5-2-Sigmoid激活函数与对率回归的联系"><a href="#5-2-Sigmoid激活函数与对率回归的联系" class="headerlink" title="5.2.Sigmoid激活函数与对率回归的联系"></a>5.2.Sigmoid激活函数与对率回归的联系</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.2.png" alt=""></p>
 </blockquote>
 <p>图5.2(b)采用Sigmoid函数作为激活函数，相当于将每个节点视为<strong>对率回归分类器</strong>，其系数为输入连接的权值ω（包括阈值对应的哑变量-1系数θ）；</p>
 <hr>
-<h3 id="BP算法推导"><a href="#BP算法推导" class="headerlink" title="BP算法推导"></a>BP算法推导</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.png" alt=""></p>
+<h3 id="5-3-BP算法推导"><a href="#5-3-BP算法推导" class="headerlink" title="5.3.BP算法推导"></a>5.3.BP算法推导</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.png" alt=""></p>
 </blockquote>
 <p>图如下所示：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.1.png" alt=""></p>
 </blockquote>
 <p>参数 v_ih 的更新公式为（书公式5.5）：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.2.png" alt=""></p>
 </blockquote>
 <p>其中 Δv_ih 如下（书上公式5.13）：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.3.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.3.png" alt=""></p>
 </blockquote>
 <p>给出具体的推导过程如下：</p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.4.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.4.png" alt=""></p>
 </blockquote>
 <hr>
-<h3 id="学习率取值分析"><a href="#学习率取值分析" class="headerlink" title="学习率取值分析"></a>学习率取值分析</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.png" alt=""><br><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.1.png" alt=""></p>
+<h3 id="5-4-学习率取值分析"><a href="#5-4-学习率取值分析" class="headerlink" title="5.4.学习率取值分析"></a>5.4.学习率取值分析</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.png" alt=""><br><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.1.png" alt=""></p>
 </blockquote>
 <p>学习率 η 控制着梯度下降法的搜索步长（相关内容可参考书p408-附录B.4的梯度下降法的内容）：</p>
 <p>对于固定的 η，参考书p109页： η 过大，收敛过程易振荡， η 过小，收敛速度过慢。</p>
 <p>常把学习率 η 设置为随迭代次数变化的量，使其随着训练的要求变化而变化（一般是减小）。如刚开始 η 大以快速到达到目标值附近， 后期 η 小以保证收敛稳定。</p>
 <hr>
-<h3 id="BP算法实验"><a href="#BP算法实验" class="headerlink" title="BP算法实验"></a>BP算法实验</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png" alt=""></p>
+<h3 id="5-5-BP算法实验"><a href="#5-5-BP算法实验" class="headerlink" title="5.5.BP算法实验"></a>5.5.BP算法实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png" alt=""></p>
 </blockquote>
 <p>参考书p105，标准BP算法和累积BP算法的最大区别在于<strong>梯度下降法的实现</strong>，前者采用<strong>随机梯度下降法</strong>原理，后者采用<strong>标准梯度下降法</strong>，相关可参考题3.3对率回归中的两种梯度下降法的实现。</p>
 <p>编程采用python-pybrain实现。本题的详细过程见：</p>
-<p><a href="https://py131.github.io/2017/04/18/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.5%20-%20BP%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">周志华《机器学习》课后习题解答系列（六）：Ch5.5 - BP算法实现</a></p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.5 - BP算法实现</a></p>
 <hr>
-<h3 id="BP算法改进"><a href="#BP算法改进" class="headerlink" title="BP算法改进"></a>BP算法改进</h3><blockquote>
+<h3 id="5-6-BP算法改进"><a href="#5-6-BP算法改进" class="headerlink" title="5.6.BP算法改进"></a>5.6.BP算法改进</h3><blockquote>
 <p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.png" alt=""></p>
 </blockquote>
 <p>这里采用“<strong>添加动量项+自适应学习率</strong>”机制来加快BP算法收敛。详细过程见：</p>
-<p><a href="https://py131.github.io/2017/04/27/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.6%20-%20BP%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B/" target="_blank" rel="noopener">周志华《机器学习》课后习题解答系列（六）：Ch5.6 - BP算法改进</a></p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.6 - BP算法改进</a></p>
 <hr>
-<h3 id="RBF神经网络实验"><a href="#RBF神经网络实验" class="headerlink" title="RBF神经网络实验"></a>RBF神经网络实验</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png" alt=""></p>
+<h3 id="5-7-RBF神经网络实验"><a href="#5-7-RBF神经网络实验" class="headerlink" title="5.7.RBF神经网络实验"></a>5.7.RBF神经网络实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png" alt=""></p>
 </blockquote>
 <p>详细过程见：</p>
-<p><a href="https://py131.github.io/2017/04/30/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.7%20-%20RBF%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C/" target="_blank" rel="noopener">周志华《机器学习》课后习题解答系列（六）：Ch5.7 - RBF网络实验</a></p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.7 - RBF网络实验</a></p>
 <hr>
-<h3 id="SOM神经网络实验"><a href="#SOM神经网络实验" class="headerlink" title="SOM神经网络实验"></a>SOM神经网络实验</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.8.png" alt=""></p>
+<h3 id="5-8-SOM神经网络实验"><a href="#5-8-SOM神经网络实验" class="headerlink" title="5.8.SOM神经网络实验"></a>5.8.SOM神经网络实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.8.png" alt=""></p>
 </blockquote>
 <p>详细过程见：</p>
-<p><a href="https://py131.github.io/2017/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.8%20-%20SOM%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C/" target="_blank" rel="noopener">周志华《机器学习》课后习题解答系列（六）：Ch5.8 - SOM网络实验</a></p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.8 - SOM网络实验</a></p>
 <hr>
-<h3 id="Elman网络的BP算法推导"><a href="#Elman网络的BP算法推导" class="headerlink" title="Elman网络的BP算法推导"></a>Elman网络的BP算法推导</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.9.png" alt=""></p>
+<h3 id="5-9-Elman网络的BP算法推导"><a href="#5-9-Elman网络的BP算法推导" class="headerlink" title="5.9.Elman网络的BP算法推导"></a>5.9.Elman网络的BP算法推导</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.9.png" alt=""></p>
 </blockquote>
 <p>这里简单说说思路：</p>
 <p>Elman神经网络是一种<strong>递归神经网络</strong>（RNN），它将上一次隐层输出和当前输入一起作为隐层输入（<strong>反馈</strong>feedback），从而实现网络的“<strong>记忆</strong>”功能。</p>
 <p>Elman训练算法以MLP-BP算法为基础，但是在计算隐层梯度时，要考虑由于反馈而产生的时序项，所以在训练算法中存在累加项。更多内容可以参考<a href="http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/" target="_blank" rel="noopener">RECURRENT NEURAL NETWORKS TUTORIAL</a>。</p>
 <p>递归神经网络正广泛应用于自然语言处理（NLP）等新兴领域。</p>
 <hr>
-<h3 id="卷积神经网络实验"><a href="#卷积神经网络实验" class="headerlink" title="卷积神经网络实验"></a>卷积神经网络实验</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.10.png" alt=""></p>
+<h3 id="5-10-卷积神经网络实验"><a href="#5-10-卷积神经网络实验" class="headerlink" title="5.10.卷积神经网络实验"></a>5.10.卷积神经网络实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.10.png" alt=""></p>
 </blockquote>
 <p>本章最后一题，详细过程见：</p>
-<p><a href="https://py131.github.io/2017/05/12/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.10%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C/" target="_blank" rel="noopener">周志华《机器学习》课后习题解答系列（六）：Ch5.10 - 卷积神经网络实验</a></p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.10 - 卷积神经网络实验</a></p>
 <hr>
 
       
@@ -533,8 +531,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2017/05/13/zzh-ml/周志华《机器学习》习题解答：目录/" rel="prev" title="周志华《机器学习》习题系列解答：目录">
-                周志华《机器学习》习题系列解答：目录 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/2017/07/05/zzh-ml/周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验/" rel="prev" title="周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验">
+                周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -638,7 +636,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -699,7 +697,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-number">1.</span> <span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络的优劣总结"><span class="nav-number">2.</span> <span class="nav-text">神经网络的优劣总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#课后练习"><span class="nav-number">3.</span> <span class="nav-text">课后练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#神经元激活函数选择考虑"><span class="nav-number">3.1.</span> <span class="nav-text">神经元激活函数选择考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sigmoid激活函数与对率回归的联系"><span class="nav-number">3.2.</span> <span class="nav-text">Sigmoid激活函数与对率回归的联系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BP算法推导"><span class="nav-number">3.3.</span> <span class="nav-text">BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习率取值分析"><span class="nav-number">3.4.</span> <span class="nav-text">学习率取值分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BP算法实验"><span class="nav-number">3.5.</span> <span class="nav-text">BP算法实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BP算法改进"><span class="nav-number">3.6.</span> <span class="nav-text">BP算法改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF神经网络实验"><span class="nav-number">3.7.</span> <span class="nav-text">RBF神经网络实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SOM神经网络实验"><span class="nav-number">3.8.</span> <span class="nav-text">SOM神经网络实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elman网络的BP算法推导"><span class="nav-number">3.9.</span> <span class="nav-text">Elman网络的BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卷积神经网络实验"><span class="nav-number">3.10.</span> <span class="nav-text">卷积神经网络实验</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络的优劣小结"><span class="nav-text">神经网络的优劣小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#课后练习"><span class="nav-text">课后练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-神经元激活函数选择考虑"><span class="nav-text">5.1.神经元激活函数选择考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Sigmoid激活函数与对率回归的联系"><span class="nav-text">5.2.Sigmoid激活函数与对率回归的联系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-BP算法推导"><span class="nav-text">5.3.BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-学习率取值分析"><span class="nav-text">5.4.学习率取值分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-BP算法实验"><span class="nav-text">5.5.BP算法实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-BP算法改进"><span class="nav-text">5.6.BP算法改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-RBF神经网络实验"><span class="nav-text">5.7.RBF神经网络实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-SOM神经网络实验"><span class="nav-text">5.8.SOM神经网络实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-9-Elman网络的BP算法推导"><span class="nav-text">5.9.Elman网络的BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-10-卷积神经网络实验"><span class="nav-text">5.10.卷积神经网络实验</span></a></li></ol></li></ol></div>
             
 
           </div>
