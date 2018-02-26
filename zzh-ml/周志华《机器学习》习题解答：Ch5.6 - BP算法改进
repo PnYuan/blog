@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,神经网络,BP算法,Momentum," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="引入“动量项+自适应学习率”来进行BP算法改进，采用iris数据集进行了改进前后对比实验。">
+<meta name="keywords" content="机器学习,神经网络,BP算法,Momentum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="周志华《机器学习》习题解答：Ch5.6 - BP算法改进">
+<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.6 - BP算法改进">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="引入“动量项+自适应学习率”来进行BP算法改进，采用iris数据集进行了改进前后对比实验。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.pairplot.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.lr_curve_1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.err_curve.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5.6 - BP算法改进">
+<meta name="twitter:description" content="引入“动量项+自适应学习率”来进行BP算法改进，采用iris数据集进行了改进前后对比实验。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.6 - BP算法改进"/>
+
+
+
+
+
+  <title>周志华《机器学习》习题解答：Ch5.6 - BP算法改进 | PnYuan's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.6 - BP算法改进">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch5.6 - BP算法改进</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-27T11:42:02+08:00">
+                2017-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
+                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>引入“动量项+自适应学习率”来进行BP算法改进，采用iris数据集进行了改进前后对比实验。</p>
+<a id="more"></a>
+<p>相关答案和源代码托管在我的Github上：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>.</p>
+<h2 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h2><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.png" alt=""></p>
+</blockquote>
+<h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><p>注：本题程序基于Python实现（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch5_neural_networks/5.6_BP_improve" target="_blank" rel="noopener">这里查看完整代码和数据集</a>）。</p>
+<h3 id="方法设计"><a href="#方法设计" class="headerlink" title="方法设计"></a>方法设计</h3><p>传统的BP算法改进主要有两类：</p>
+<ul>
+<li>启发式算法：如附加动量法，自适应算法。</li>
+<li>数值优化算法：如共轭梯度法、牛顿迭代法、Levenberg-Marquardt法。</li>
+</ul>
+<p>这里我们首先采用<strong>附加动量</strong>实现基本的方法改进。然后分析算法的不足，设计面向学习率的自适应机制来改进，实现基于<strong>动态自适应学习速率</strong>的BP算法改进。</p>
+<h4 id="附加动量项"><a href="#附加动量项" class="headerlink" title="附加动量项"></a>附加动量项</h4><p>这是一种广泛用于加速梯度下降法收敛的优化方法，其<strong>核心思想</strong>是：在梯度下降搜索时，若当前梯度下降与之前梯度下降方向相同，则加速搜索，反之则减速搜索。</p>
+<p>参考书p103（式5.11），标准BP算法的参数更新项为：</p>
+<pre><code>∆ω(t) = ηg(t)
+</code></pre><p>式中，∆ω(t)为第t次迭代的参数调整量，η为学习率，g(t)为第t次迭代所计算出的梯度。</p>
+<p>在添加动量项之后，基于梯度下降的参数更新项为：</p>
+<pre><code>∆ω(t) = η[(1-μ)g(t)+μg(t-1)]
+</code></pre><p>始终，μ为<strong>动量因子</strong>（取值0~1）。上式也等效于：</p>
+<pre><code>∆ω(t) = α∆ω(t-1)+ηg(t)
+</code></pre><p>式中α被称为<strong>遗忘因子</strong>，α∆ω(t-1)代表之前梯度下降的方向和大小信息对当前梯度下降的调整作用。</p>
+<h4 id="自适应学习率"><a href="#自适应学习率" class="headerlink" title="自适应学习率"></a>自适应学习率</h4><p>附加动量法面临学习率的选取的困难，进而产生收敛速度与收敛性之间的矛盾。于是另考虑引入学习速率自适应设计，这里给出一种自适应方案：</p>
+<pre><code>η(t) = σ(t)η(t-1)
+</code></pre><p>上式中，σ(t)为第t次迭代时的<strong>自适应学习速率因子</strong>，下面是其一种计算实例：</p>
+<pre><code>σ(t) = 2^λ
+其中λ为梯度方向：λ = sign(g(t)(t-1))
+</code></pre><p>这样，学习率的变化可反映前面附加动量项中所说的“<strong>核心思想</strong>”。</p>
+<h4 id="算法总结"><a href="#算法总结" class="headerlink" title="算法总结"></a>算法总结</h4><p>将上述两种方法结合起来，形成<strong>动态自适应学习率的BP改进算法</strong>：</p>
+<p>学习算法原型可参照书p104算法图5.8，如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.1.png" alt=""></p>
+<p>从上图及书中内容可知，输出层与隐层的梯度项不同，故而对应<strong>不同的学习率</strong> η_1 和 η_2，算法的修改主要是第7行关于参数更新的内容：</p>
+<p>将附加动量项与学习率自适应计算代入，得出公式(5.11-5.14)的调整如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.2.png" alt=""></p>
+<h3 id="对比实验"><a href="#对比实验" class="headerlink" title="对比实验"></a>对比实验</h3><p>（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.6_BP_improve/BP_improve.py" target="_blank" rel="noopener">点击查看完整程序</a>）</p>
+<p>这里我们采用<a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">IRIS data set</a>，实验基于python-pybrain实现，步骤如下：</p>
+<pre><code>1. 搭建网络：搭建单隐层网络；
+2. 训练网络：分别采用学习率固定方案和动态调整方案来实现基于BP算法的模型训练；
+3. 结果比较：比较训练过程中的参数或误差收敛情况以及最终的模型预测结果；
+</code></pre><p>BP算法实现代码可参考<a href="">神经网络基础 - 编程实现标准BP算法</a></p>
+<h4 id="数据预分析"><a href="#数据预分析" class="headerlink" title="数据预分析"></a>数据预分析</h4><p><a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">iris（鸢尾花）数据集</a>的一些基本信息如下（参考<a href="http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.names" target="_blank" rel="noopener">iris.names</a>）：</p>
+<pre><code>属性信息，4-输入（连续值），1-输出（标称值，3类）：
+    Attribute Information:
+       1. sepal length in cm
+       2. sepal width in cm
+       3. petal length in cm
+       4. petal width in cm
+       5. class: 
+          -- Iris Setosa
+          -- Iris Versicolour
+          -- Iris Virginica
+
+样本规模（150条，均匀分3类）：
+    Number of Instances: 150 (50 in each of three classes)
+
+有无缺失值（无）：
+    Missing Attribute Values: None
+...
+</code></pre><p>经过相关预检，可以看出该数据集规整度很高。</p>
+<p>对其中的一些变量进行可视化如下图，可以看出其类别分散特性：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.pairplot.png" alt=""></p>
+<p>为了方便进行数值计算，采用<strong>独热编码（onehot encoding）</strong>对输出的标称数据进行数值化，这样输出由1维变为3维（每一个输出对应一类）。在最终结果处理时，可采用<strong>胜者通吃（winner-take-all）</strong>的准则选择数值最大的输出对应的类作为分类结果。</p>
+<h4 id="BP网络搭建"><a href="#BP网络搭建" class="headerlink" title="BP网络搭建"></a>BP网络搭建</h4><p>这里搭建单隐层前馈模型，三层节点数从输入到输出依次为 &lt;4, n_h, 3&gt;，其中隐层节点数 n_h 根据实验具体进展灵活取值。</p>
+<p>下面是BP网络搭建样例代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> BP_network <span class="keyword">import</span> *</span><br><span class="line">bpn1 = BP_network()  <span class="comment"># initial a BP network class</span></span><br><span class="line">bpn1.CreateNN(<span class="number">4</span>, <span class="number">5</span>, <span class="number">3</span>, actfun = <span class="string">'Sigmoid'</span>, learningrate = <span class="number">0.02</span>)  <span class="comment"># build the network</span></span><br></pre></td></tr></table></figure>
+<h4 id="固定学习率下的模型训练"><a href="#固定学习率下的模型训练" class="headerlink" title="固定学习率下的模型训练"></a>固定学习率下的模型训练</h4><p>为了研究学习率对模型训练的影响，这里分别设置三个学习率：很大、很小和合适，分别得出对应训练误差曲线如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.lr_curve_1.png" alt=""></p>
+<p>分析上面的图，可以看出，当学习率过大时，收敛过程出现了严重的振荡，当学习率过小时，收敛过慢，当采用合适的学习率时，收敛过程稳定。</p>
+<h4 id="自适应学习率下的模型训练"><a href="#自适应学习率下的模型训练" class="headerlink" title="自适应学习率下的模型训练"></a>自适应学习率下的模型训练</h4><p>根据上面关于学习率过大过小的对比实验，这里先为学习率的调整设置上下限。然后实现动态学习率下的标准BP算法。</p>
+<p>最后得出固定学习率与动态学习率下训练误差收敛曲线对比如下图：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.err_curve.png" alt=""></p>
+<p>可以看出，动态学习率的收敛速度较快，两种机制在足够多的迭代步骤后均实现了良好的精度。（另外我们看到，动态调整学习率下的收敛曲线最后阶段发生了轻微振荡，这和学习率的调整幅度（底数及遗忘系数有关系。这两个参数需要人工调试）有关）。</p>
+<p>下面是最终的测试集预测误差结果：</p>
+<pre><code>固定学习率：test error rate: 0.013
+动态学习率：test error rate: 0.027
+</code></pre><h2 id="本题小结"><a href="#本题小结" class="headerlink" title="本题小结"></a>本题小结</h2><p>采用动态调整学习率的确能够大幅提升BP算法的收敛速度，在数据量很大时愈发明显。但同时也要注意学习率的取值区间和相关加速参数的设置，以期实现最优性能。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/blog/tags/神经网络/" rel="tag"># 神经网络</a>
+          
+            <a href="/blog/tags/BP算法/" rel="tag"># BP算法</a>
+          
+            <a href="/blog/tags/Momentum/" rel="tag"># Momentum</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.5 - BP算法实现" rel="next" title="周志华《机器学习》习题解答：Ch5.5 - BP算法实现">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch5.5 - BP算法实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验" rel="prev" title="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
+                周志华《机器学习》习题解答：Ch5.7 - RBF网络实验 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题回顾"><span class="nav-text">问题回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题过程"><span class="nav-text">解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法设计"><span class="nav-text">方法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#附加动量项"><span class="nav-text">附加动量项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自适应学习率"><span class="nav-text">自适应学习率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法总结"><span class="nav-text">算法总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对比实验"><span class="nav-text">对比实验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据预分析"><span class="nav-text">数据预分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BP网络搭建"><span class="nav-text">BP网络搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#固定学习率下的模型训练"><span class="nav-text">固定学习率下的模型训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自适应学习率下的模型训练"><span class="nav-text">自适应学习率下的模型训练</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本题小结"><span class="nav-text">本题小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

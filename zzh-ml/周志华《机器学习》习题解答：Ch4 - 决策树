@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,决策树," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本章讲述决策树的相关内容，包括决策树的生成、剪枝、连续值、缺失值的处理、多变量决策树等内容。">
+<meta name="keywords" content="机器学习,决策树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="周志华《机器学习》习题解答：Ch4 - 决策树">
+<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch4 - 决策树">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="本章讲述决策树的相关内容，包括决策树的生成、剪枝、连续值、缺失值的处理、多变量决策树等内容。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.8.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch4 - 决策树">
+<meta name="twitter:description" content="本章讲述决策树的相关内容，包括决策树的生成、剪枝、连续值、缺失值的处理、多变量决策树等内容。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch4 - 决策树"/>
+
+
+
+
+
+  <title>周志华《机器学习》习题解答：Ch4 - 决策树 | PnYuan's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch4 - 决策树">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch4 - 决策树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-06T11:42:02+08:00">
+                2017-04-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
+                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本章讲述决策树的相关内容，包括决策树的生成、剪枝、连续值、缺失值的处理、多变量决策树等内容。</p>
+<a id="more"></a>
+<p>所涉及的编程练习答案和源代码托管在Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
+<h2 id="本章概要"><a href="#本章概要" class="headerlink" title="本章概要"></a>本章概要</h2><p>本章讲述<strong>决策树</strong>（decision tree），相关内容包括：</p>
+<ul>
+<li>决策树生成（construction）</li>
+</ul>
+<blockquote>
+<p>子决策（sub-decision）、递归生成算法（basic algorithm）、最优划分属性、纯度（purity）、信息熵（information entropy）、信息增益（information gain）、<strong>ID3</strong> 、增益率（gain ratio）、<strong>C4.5</strong> 、基尼指数（gini index）、<strong>CART</strong>；</p>
+</blockquote>
+<ul>
+<li>剪枝（pruning）</li>
+</ul>
+<blockquote>
+<p>过拟合、泛化能力、<strong>预剪枝</strong>（prepruning）（自上而下）、决策树桩（decision stump）、欠拟合、<strong>后剪枝</strong>（postpruning）（自下而上）、完全树。</p>
+</blockquote>
+<ul>
+<li>连续属性、缺失值（continuous variables, missing values）</li>
+</ul>
+<blockquote>
+<p>连续属性离散化、二分法（bi-partition）、值缺失时属性划分、缺值样本划分、权重、加权信息增益；</p>
+</blockquote>
+<ul>
+<li>多变量决策树（multivariate decision tree）</li>
+</ul>
+<blockquote>
+<p>斜划分、斜决策树（oblique decision tree）、非叶节点-线性分类器；</p>
+</blockquote>
+<p>此外还提及了C4.5Rule、OC1、感知机树等拓展方法，以及<strong>增量学习</strong>算法ID4、ID5R、ITI等；</p>
+<h2 id="决策树的优劣总结"><a href="#决策树的优劣总结" class="headerlink" title="决策树的优劣总结"></a>决策树的优劣总结</h2><p>参考<a href="http://scikit-learn.org/stable/modules/tree.html" target="_blank" rel="noopener">sklearn官网 - 1.10.Decision Trees</a>总结如下：</p>
+<ol>
+<li><p>优势（Advantages）：</p>
+<ul>
+<li>易理解，解释性好，易可视化；</li>
+<li>数据预处理少；</li>
+<li>复杂度O(logN)；</li>
+<li>支持标称变量+连续变量；</li>
+<li>支持多输出；</li>
+<li>白盒模型，布尔逻辑；</li>
+<li>模型好坏易验证；</li>
+<li>容忍先验知识错；</li>
+</ul>
+</li>
+<li><p>劣势（Disadvantages）：</p>
+<ul>
+<li>决策树生成易太大、<strong>过拟合</strong>；（需要<strong>剪枝</strong>、设置树<strong>最大深度</strong>等后续操作。）</li>
+<li>模型生成<strong>不稳定</strong>，易受小错误样本影响；</li>
+<li>学习最优模型是<strong>N-P难题</strong>，贪心搜索易陷入<strong>局部最优</strong>；（可采用随机初始化生成多个模型。）</li>
+<li>不支持非线性逻辑，如<strong>XOR</strong>；</li>
+<li><strong>数据不平衡</strong>时生成的树形差；</li>
+</ul>
+</li>
+</ol>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><h3 id="4-1-冲突数据影响决策树"><a href="#4-1-冲突数据影响决策树" class="headerlink" title="4.1.冲突数据影响决策树"></a>4.1.冲突数据影响决策树</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.1.png" alt=""></p>
+</blockquote>
+<p>考虑决策树的生成（书p74图4.2），算法生成叶节点，并<strong>递归返回条件</strong>有：</p>
+<ul>
+<li>当前节点的所有样本属于同一类，叶节点类标签 -&gt; 当前类；</li>
+<li>当前节点的所有样本在属性上取值相同，叶节点类标签 -&gt; 样本中最多类；</li>
+</ul>
+<p>由此可见，若两训练数据样本特征向量相同，那么它们会到达决策树的同一叶节点（只代表某一类），若二者数据标签不同（冲突数据），则会出现训练误差，决策树与训练集不一致。</p>
+<p>如果没有冲突数据，到达某节点的样本会出现以下两种情况：</p>
+<ul>
+<li>样本间特征向量相同且属于同一类，满足递归结束条件，该节点为叶节点，类标签正确（无训练误差）；</li>
+<li>样本间特征向量不同时，递归结束条件不满足，数据会根据属性继续划分，直到上一条情况出现。</li>
+</ul>
+<p>综上得证，当数据集不含冲突数据时，必存在与训练集一致（训练误差为0）的决策树。</p>
+<hr>
+<h3 id="4-2-决策树划分选择准则"><a href="#4-2-决策树划分选择准则" class="headerlink" title="4.2.决策树划分选择准则"></a>4.2.决策树划分选择准则</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.2.png" alt=""></p>
+</blockquote>
+<p>由于训练集和真实集往往存在差异，若采用训练误差作为度量，模型常会出现<strong>过拟合</strong>，导致<strong>泛化能力</strong>差。</p>
+<hr>
+<h3 id="4-3-编程实现ID3算法"><a href="#4-3-编程实现ID3算法" class="headerlink" title="4.3.编程实现ID3算法"></a>4.3.编程实现ID3算法</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.3.png" alt=""></p>
+</blockquote>
+<p>即ID3算法，这里我们基于Python独立编程实现。详细过程见：</p>
+<p><a href="">周志华《机器学习》习题解答：Ch4.3 - 编程实现ID3算法</a></p>
+<hr>
+<h3 id="4-4-编程实现CART算法与剪枝操作"><a href="#4-4-编程实现CART算法与剪枝操作" class="headerlink" title="4.4.编程实现CART算法与剪枝操作"></a>4.4.编程实现CART算法与剪枝操作</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.4.png" alt=""></p>
+</blockquote>
+<p>即CART算法，这里我们基于Python独立编程实现。详细过程见：</p>
+<p><a href="">周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝</a></p>
+<hr>
+<h3 id="4-5-基于对率回归进行划分选择"><a href="#4-5-基于对率回归进行划分选择" class="headerlink" title="4.5.基于对率回归进行划分选择"></a>4.5.基于对率回归进行划分选择</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.5.png" alt=""></p>
+</blockquote>
+<p>这里提一下我的思路：<br>参考书p90-91的<strong>多变量决策树</strong>模型，这里我们将每个非叶节点作为一个对率回归分类器，输出为”是”、”否”两类，形成形如二叉树的决策树。</p>
+<hr>
+<h3 id="4-6-各种决策树算法的比较"><a href="#4-6-各种决策树算法的比较" class="headerlink" title="4.6.各种决策树算法的比较"></a>4.6.各种决策树算法的比较</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.6.png" alt=""></p>
+</blockquote>
+<p>简要的分析一下：</p>
+<ul>
+<li><strong>ID3</strong>算法基于信息熵增益，<strong>CART</strong>算法则采用了基尼系数。两种划分属性选择均是基于<strong>数据纯度</strong>的角度，方法差距应该不大（CART可能要好一点）。而<strong>对率回归</strong>进行划分选择，以<strong>斜划分</strong>的方式，实现了多变量参与划分，其模型决策边界更光滑。</li>
+<li>相比于决策树的生成算法，<strong>剪枝操作</strong>更影响模型性能。</li>
+</ul>
+<hr>
+<h3 id="4-7-非递归决策树生成算法-DFS"><a href="#4-7-非递归决策树生成算法-DFS" class="headerlink" title="4.7.非递归决策树生成算法 - DFS"></a>4.7.非递归决策树生成算法 - DFS</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.7.png" alt=""></p>
+</blockquote>
+<p>下面主要是本题的一种视角：</p>
+<p>首先做一些分析：</p>
+<ul>
+<li>从数据结构算法的角度来看，生成一棵树常用<strong>递归</strong>和<strong>迭代</strong>两种模式。</li>
+<li>采用递归时，由于在递归时要存储程序入口出口指针和大量临时变量等，会涉及到不断的压栈与出栈，当递归层次加深，压栈多于出栈，内存消耗扩大。</li>
+<li>这里要采用<strong>队列</strong>数据结构来生成决策树，虽然避免了递归操作产生的内存消耗，但需要更大的额外存储空间。</li>
+<li>用MaxDepth来控制树的深度，即<strong>深度优先</strong>（Depth Fisrt）的形式，一般来说，使用递归实现相对容易，当然也可以用非递归来实现。</li>
+</ul>
+<p>下面设计出基于<strong>队列+深度控制</strong>的决策树非递归生成算法：</p>
+<pre><code>----
+输入: 训练集 D = {(x1,y1),(x2,y2),...,(xm,ym)}.
+      属性集 A = {a1, a2,...,ad}.
+
+过程: 函数 TreeGenerate(D,A):
+1. 生成根节点 root;
+2. 初始化深度 depth = 0;
+3. 生成栈 stack （为保存顶节点root及其对应的数据D和深度depth）;
+4. 
+5. while D != Φ OR stack不为空:
+6.     if D != Φ, then
+7.         if D中样本全属于同一类别C, then
+8.             root标记为C类叶节点, D = Φ, continue;
+9.         end if
+10.        if depth == MaxDepth OR D中样本在属性A上取值相同, then
+11.             root标记为D取值中最多类的叶节点, D = Φ, continue;
+12.        end if
+13.        从A中选择最优划分属性a*, 令Dv表示D中在a*上取值为a*v的样本子集;
+14.        生成子节点 child, 为root建立分支指向child;
+15.        将[root, D\{Dv}, A, depth]压入栈stack;
+16.        令 root = child, D = Dv, A = A\{a*}, depth = depth+1;
+17.    else
+18.        从stack中弹出[root, D, A, depth];
+19.    end if
+
+输出: 树的根节点root.(即以root为根节点的树) 
+----
+</code></pre><p>实际上，这里的算法实用的是栈而非完全意义上的队列。</p>
+<p>个人认为，从数据结构的角度来看，栈和队列的最大区别在于FILO和FIFO，即<strong>存取元素时索引的区别</strong>，并不存在太大的存储实现区别。进一步说明，对于很多程序环境，如C++,Java等，均可以基于队列（Queue）构造栈（Stack）结构，由此构建的栈数据结构和队列底数据结构层实现相同。</p>
+<p>题干中所说的栈“溢出”，主要应该是指递归时程序信息压栈所导致，相比于非递归的算法，其压栈数据量大得多。</p>
+<p>故而此处的算法实现直接采用栈实现。</p>
+<p>关于本题的另一种视角是：</p>
+<p>对于深度优先搜索，采用队列存储每层当前节点的兄弟节点与父节点，这样队列的消耗相较于上面的一种方法要大一些（如当前节点的兄弟节点，父节点及其兄弟节点，祖父节点及其兄弟节点…）。</p>
+<hr>
+<h3 id="4-8-非递归决策树生成算法-BFS"><a href="#4-8-非递归决策树生成算法-BFS" class="headerlink" title="4.8.非递归决策树生成算法 - BFS"></a>4.8.非递归决策树生成算法 - BFS</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch4_decision_tree/Ch4/4.8.png" alt=""></p>
+</blockquote>
+<p>本题实际上是BFS与DFS的比较：</p>
+<ul>
+<li>对于深度优先搜索，每深入一层需要存储上一层节点的信息以方便回溯遍历（其存储的是<strong>一条路径</strong>）；</li>
+<li>对于广度优先搜索，每深入一层需要存储当前层兄弟节点信息以实现遍历（其存储的是<strong>每层信息</strong>，存储量会大一些但）；</li>
+</ul>
+<p>两种方法各自有防止队列过大化的<strong>阈值</strong>（即MaxDepth和MaxNode），所以两种方法均可将内存消耗控制在一定范围之内。</p>
+<p>当数据属性相对较多，属性不同取值相对较少时，树会比较宽，此时深度优先所需内存较小，反之宽度优先较小。</p>
+<hr>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/blog/tags/决策树/" rel="tag"># 决策树</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作" rel="next" title="周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.5 - BP算法实现" rel="prev" title="周志华《机器学习》习题解答：Ch5.5 - BP算法实现">
+                周志华《机器学习》习题解答：Ch5.5 - BP算法实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树的优劣总结"><span class="nav-text">决策树的优劣总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#课后练习"><span class="nav-text">课后练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-冲突数据影响决策树"><span class="nav-text">4.1.冲突数据影响决策树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-决策树划分选择准则"><span class="nav-text">4.2.决策树划分选择准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-编程实现ID3算法"><span class="nav-text">4.3.编程实现ID3算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-编程实现CART算法与剪枝操作"><span class="nav-text">4.4.编程实现CART算法与剪枝操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-基于对率回归进行划分选择"><span class="nav-text">4.5.基于对率回归进行划分选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-各种决策树算法的比较"><span class="nav-text">4.6.各种决策树算法的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-非递归决策树生成算法-DFS"><span class="nav-text">4.7.非递归决策树生成算法 - DFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-8-非递归决策树生成算法-BFS"><span class="nav-text">4.8.非递归决策树生成算法 - BFS</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

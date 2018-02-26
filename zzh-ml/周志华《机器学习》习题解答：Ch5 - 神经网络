@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,神经网络," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。">
+<meta name="keywords" content="机器学习,神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="周志华《机器学习》习题解答：Ch5 - 神经网络">
+<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5 - 神经网络">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.10.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5 - 神经网络">
+<meta name="twitter:description" content="本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5 - 神经网络"/>
+
+
+
+
+
+  <title>周志华《机器学习》习题解答：Ch5 - 神经网络 | PnYuan's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch5 - 神经网络">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch5 - 神经网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-12T11:42:02+08:00">
+                2017-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
+                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本章讲述神经网络，内容包括感知机、BP算法等基础知识以及SOM、RNN等拓展模型，并简述了深度学习相关内容。</p>
+<a id="more"></a>
+<p>本章编程练习题的源码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
+<h2 id="本章概要"><a href="#本章概要" class="headerlink" title="本章概要"></a>本章概要</h2><p>本章讲述<strong>人工神经网络</strong>（Artificial Neural Network，ANN），相关内容包括：</p>
+<ul>
+<li>神经元模型（neuron）</li>
+</ul>
+<blockquote>
+<p>M-P神经元模型，带权的连接，阈值（threshold），激活函数（activation function），Sigmoid函数；</p>
+</blockquote>
+<ul>
+<li>感知机（Perceptron）与多层网络（multi-layer networks）</li>
+</ul>
+<blockquote>
+<p>感知机网络，线性可分，隐含层（hidden layer），单隐层网络，多层前馈神经网络（multi-layer feedforward neural networks）；</p>
+</blockquote>
+<ul>
+<li>误差逆传播算法（BP algorithms）</li>
+</ul>
+<blockquote>
+<p>BP算法，BP网络，梯度下降法，学习率，标准BP算法，累积BP算法，隐层神经元个数调整-试错法（trial-by-error），过拟合问题，早停（early-stopping），正则化（regularization）；</p>
+</blockquote>
+<ul>
+<li>全局最小与局部最小</li>
+</ul>
+<blockquote>
+<p>全局最小（global minimum），局部最小（local minimum），多初始化，模拟退火（simulated annealing），随机梯度下降；</p>
+</blockquote>
+<ul>
+<li>其他常见神经网络模型</li>
+</ul>
+<blockquote>
+<p>RBF网络，径向基函数（RBF），高斯径向基函数；</p>
+</blockquote>
+<blockquote>
+<p>ART网络，竞争性学习（competitive learning），比较层，识别层，模式类，识别阈值，可塑性-稳定性窘境，增量学习；</p>
+</blockquote>
+<blockquote>
+<p>SOM网络，高维到低维映射，最佳匹配单元，距离；</p>
+</blockquote>
+<blockquote>
+<p>级联相关网络（cascade-correlation），结构自适应，相关性；</p>
+</blockquote>
+<blockquote>
+<p>Elman网络，递归神经网络，状态反馈，推广BP算法；</p>
+</blockquote>
+<blockquote>
+<p>Boltzmann机，基于能量（energy）的模型，能量最小化，布尔型神经元，受限Boltzmann机（RBM），对比散度（contrastive divergence）；</p>
+</blockquote>
+<ul>
+<li>深度学习简介</li>
+</ul>
+<blockquote>
+<p>多隐层，无监督逐层训练（unsupervised layer-wise training），预训练-微调，深度信念网络（DBN），权共享（weight sharing），卷积神经网络（CNN），特征学习（feature learning），特征工程（feature engineering）；</p>
+</blockquote>
+<h2 id="神经网络的优劣小结"><a href="#神经网络的优劣小结" class="headerlink" title="神经网络的优劣小结"></a>神经网络的优劣小结</h2><p>人工神经网络的好处很多，这里不做赘述，下面列出一些在使用神经网络方法时，需要注意的问题：</p>
+<ul>
+<li>算法收敛速度问题</li>
+<li>过拟合风险</li>
+<li>局部最优风险</li>
+<li>网络结构选择问题</li>
+<li>样本依赖问题</li>
+<li>黑盒模型缺陷</li>
+<li>…</li>
+</ul>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><h3 id="5-1-神经元激活函数选择考虑"><a href="#5-1-神经元激活函数选择考虑" class="headerlink" title="5.1.神经元激活函数选择考虑"></a>5.1.神经元激活函数选择考虑</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.1.png" alt=""></p>
+</blockquote>
+<p>激活函数的选取是很灵活的，不同层可选择不同的激活函数，但一般都会要求满足非线性。若为线性（即形如题中 f(x)=wx ），根据多项式组合法则，<strong>多层网络退化成等价的单层网络</strong>，此时模型成为线性模型，无法解决非线性问题，如线性不可分的分类问题。</p>
+<p>进一步，激活函数一般会追求以下性质：</p>
+<ul>
+<li>非线性，内在反映的是模型的非线性；</li>
+<li>可微性，以支持梯度下降法等基于微分的优化方法；</li>
+<li>单调性，以保证单层网络是凸约束，从而存在最优；</li>
+<li>输出值范围受限，当输出有限时，寻优算法（如梯度下降）变得更加稳定；</li>
+<li>导数可由原函数计算出，以便重复利用；</li>
+<li>…</li>
+</ul>
+<p>最常用的激活函数有：Sigmoid（对数几率函数），Tanh（双曲正切函数），ReLUs（修正线性函数），RBF（径向基函数），softmax（归一化指数函数）…</p>
+<hr>
+<h3 id="5-2-Sigmoid激活函数与对率回归的联系"><a href="#5-2-Sigmoid激活函数与对率回归的联系" class="headerlink" title="5.2.Sigmoid激活函数与对率回归的联系"></a>5.2.Sigmoid激活函数与对率回归的联系</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.2.png" alt=""></p>
+</blockquote>
+<p>图5.2(b)采用Sigmoid函数作为激活函数，相当于将每个节点视为<strong>对率回归分类器</strong>，其系数为输入连接的权值ω（包括阈值对应的哑变量-1系数θ）；</p>
+<hr>
+<h3 id="5-3-BP算法推导"><a href="#5-3-BP算法推导" class="headerlink" title="5.3.BP算法推导"></a>5.3.BP算法推导</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.png" alt=""></p>
+</blockquote>
+<p>图如下所示：</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.1.png" alt=""></p>
+</blockquote>
+<p>参数 v_ih 的更新公式为（书公式5.5）：</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.2.png" alt=""></p>
+</blockquote>
+<p>其中 Δv_ih 如下（书上公式5.13）：</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.3.png" alt=""></p>
+</blockquote>
+<p>给出具体的推导过程如下：</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.3.4.png" alt=""></p>
+</blockquote>
+<hr>
+<h3 id="5-4-学习率取值分析"><a href="#5-4-学习率取值分析" class="headerlink" title="5.4.学习率取值分析"></a>5.4.学习率取值分析</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.png" alt=""><br><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.4.1.png" alt=""></p>
+</blockquote>
+<p>学习率 η 控制着梯度下降法的搜索步长（相关内容可参考书p408-附录B.4的梯度下降法的内容）：</p>
+<p>对于固定的 η，参考书p109页： η 过大，收敛过程易振荡， η 过小，收敛速度过慢。</p>
+<p>常把学习率 η 设置为随迭代次数变化的量，使其随着训练的要求变化而变化（一般是减小）。如刚开始 η 大以快速到达到目标值附近， 后期 η 小以保证收敛稳定。</p>
+<hr>
+<h3 id="5-5-BP算法实验"><a href="#5-5-BP算法实验" class="headerlink" title="5.5.BP算法实验"></a>5.5.BP算法实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.5.png" alt=""></p>
+</blockquote>
+<p>参考书p105，标准BP算法和累积BP算法的最大区别在于<strong>梯度下降法的实现</strong>，前者采用<strong>随机梯度下降法</strong>原理，后者采用<strong>标准梯度下降法</strong>，相关可参考题3.3对率回归中的两种梯度下降法的实现。</p>
+<p>编程采用python-pybrain实现。本题的详细过程见：</p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.5 - BP算法实现</a></p>
+<hr>
+<h3 id="5-6-BP算法改进"><a href="#5-6-BP算法改进" class="headerlink" title="5.6.BP算法改进"></a>5.6.BP算法改进</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PY131/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.6.png" alt=""></p>
+</blockquote>
+<p>这里采用“<strong>添加动量项+自适应学习率</strong>”机制来加快BP算法收敛。详细过程见：</p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.6 - BP算法改进</a></p>
+<hr>
+<h3 id="5-7-RBF神经网络实验"><a href="#5-7-RBF神经网络实验" class="headerlink" title="5.7.RBF神经网络实验"></a>5.7.RBF神经网络实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png" alt=""></p>
+</blockquote>
+<p>详细过程见：</p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.7 - RBF网络实验</a></p>
+<hr>
+<h3 id="5-8-SOM神经网络实验"><a href="#5-8-SOM神经网络实验" class="headerlink" title="5.8.SOM神经网络实验"></a>5.8.SOM神经网络实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.8.png" alt=""></p>
+</blockquote>
+<p>详细过程见：</p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.8 - SOM网络实验</a></p>
+<hr>
+<h3 id="5-9-Elman网络的BP算法推导"><a href="#5-9-Elman网络的BP算法推导" class="headerlink" title="5.9.Elman网络的BP算法推导"></a>5.9.Elman网络的BP算法推导</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.9.png" alt=""></p>
+</blockquote>
+<p>这里简单说说思路：</p>
+<p>Elman神经网络是一种<strong>递归神经网络</strong>（RNN），它将上一次隐层输出和当前输入一起作为隐层输入（<strong>反馈</strong>feedback），从而实现网络的“<strong>记忆</strong>”功能。</p>
+<p>Elman训练算法以MLP-BP算法为基础，但是在计算隐层梯度时，要考虑由于反馈而产生的时序项，所以在训练算法中存在累加项。更多内容可以参考<a href="http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/" target="_blank" rel="noopener">RECURRENT NEURAL NETWORKS TUTORIAL</a>。</p>
+<p>递归神经网络正广泛应用于自然语言处理（NLP）等新兴领域。</p>
+<hr>
+<h3 id="5-10-卷积神经网络实验"><a href="#5-10-卷积神经网络实验" class="headerlink" title="5.10.卷积神经网络实验"></a>5.10.卷积神经网络实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.10.png" alt=""></p>
+</blockquote>
+<p>本章最后一题，详细过程见：</p>
+<p><a href="">周志华《机器学习》课后习题解答系列（六）：Ch5.10 - 卷积神经网络实验</a></p>
+<hr>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/blog/tags/神经网络/" rel="tag"># 神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.10 - 卷积神经网络实验" rel="next" title="周志华《机器学习》习题解答：Ch5.10 - 卷积神经网络实验">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch5.10 - 卷积神经网络实验
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验" rel="prev" title="周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验">
+                周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络的优劣小结"><span class="nav-text">神经网络的优劣小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#课后练习"><span class="nav-text">课后练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-神经元激活函数选择考虑"><span class="nav-text">5.1.神经元激活函数选择考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Sigmoid激活函数与对率回归的联系"><span class="nav-text">5.2.Sigmoid激活函数与对率回归的联系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-BP算法推导"><span class="nav-text">5.3.BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-学习率取值分析"><span class="nav-text">5.4.学习率取值分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-BP算法实验"><span class="nav-text">5.5.BP算法实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-BP算法改进"><span class="nav-text">5.6.BP算法改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-RBF神经网络实验"><span class="nav-text">5.7.RBF神经网络实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-SOM神经网络实验"><span class="nav-text">5.8.SOM神经网络实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-9-Elman网络的BP算法推导"><span class="nav-text">5.9.Elman网络的BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-10-卷积神经网络实验"><span class="nav-text">5.10.卷积神经网络实验</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

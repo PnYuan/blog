@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,支持向量机," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本章学习了支持向量机。基础知识部分包括SVC、软间隔、核技巧、SVR等，实践部分涉及了SVM、SVR的实现。">
+<meta name="keywords" content="机器学习,支持向量机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="周志华《机器学习》习题解答：Ch6 - 支持向量机">
+<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch6 - 支持向量机">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="本章学习了支持向量机。基础知识部分包括SVC、软间隔、核技巧、SVR等，实践部分涉及了SVM、SVR的实现。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.1.1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.4.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.4.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.8.svr.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.9.ans.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.10.png">
+<meta property="og:updated_time" content="2018-02-26T03:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch6 - 支持向量机">
+<meta name="twitter:description" content="本章学习了支持向量机。基础知识部分包括SVC、软间隔、核技巧、SVR等，实践部分涉及了SVM、SVR的实现。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch6 - 支持向量机"/>
+
+
+
+
+
+  <title>周志华《机器学习》习题解答：Ch6 - 支持向量机 | PnYuan's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch6 - 支持向量机">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch6 - 支持向量机</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-11T10:40:00+08:00">
+                2017-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
+                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本章学习了支持向量机。基础知识部分包括SVC、软间隔、核技巧、SVR等，实践部分涉及了SVM、SVR的实现。</p>
+<a id="more"></a>
+<p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>.</p>
+<h2 id="本章概要"><a href="#本章概要" class="headerlink" title="本章概要"></a>本章概要</h2><p>本章讲述<strong>支持向量机</strong>（Support Vector Machine，<strong>SVM</strong>），相关内容包括：</p>
+<ul>
+<li>支持向量分类器（SVM classifier）</li>
+</ul>
+<blockquote>
+<p><strong>支持向量</strong>（support vector）、间隔（margin）、最大间隔（maximum margin）、<strong>支持向量机（SVM）</strong>、<strong>对偶问题</strong>（dual problem）、拉格朗日乘子法；</p>
+</blockquote>
+<ul>
+<li>核技巧（kernel trick）</li>
+</ul>
+<blockquote>
+<p>特征空间映射、高维可分、内积（inner product）、<strong>核函数</strong>（kernel function）、核矩阵（kernel matrix）半正定性、再生希尔伯特空间（RHKS）、核函数选择、多项式核、高斯核、Sigmoid核；</p>
+</blockquote>
+<ul>
+<li>软间隔（soft margin）</li>
+</ul>
+<blockquote>
+<p>硬间隔、软间隔、松弛变量（slack variables）、替代损失函数（surrogate loss function）、</p>
+</blockquote>
+<ul>
+<li>支持向量回归（SVR）</li>
+</ul>
+<h2 id="支持向量机的优劣总结"><a href="#支持向量机的优劣总结" class="headerlink" title="支持向量机的优劣总结"></a>支持向量机的优劣总结</h2><p>支持向量机模型的好处很多，这里不做赘述，下面列出些在使用支持向量机方法时，需要注意的问题：</p>
+<ol>
+<li>SVM涉及到求解二次规划，在大规模数据的训练时会产生很大的开销，为此常会引入一些高效算法来应对，如采用<strong>SOM</strong>（sequential minimal optimization）来加速二次优化问题求解；    </li>
+</ol>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><h3 id="6-1-公式推导"><a href="#6-1-公式推导" class="headerlink" title="6.1 公式推导"></a>6.1 公式推导</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.1.png" alt=""></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.1.1.jpg" alt=""></p>
+<h3 id="6-2-不同核函数对应的支持向量差别分析"><a href="#6-2-不同核函数对应的支持向量差别分析" class="headerlink" title="6.2 不同核函数对应的支持向量差别分析"></a>6.2 不同核函数对应的支持向量差别分析</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.png" alt=""></p>
+</blockquote>
+<p>本题的详细内容见：<br><a href="">周志华《机器学习》课后习题解答系列（七）：Ch6.2 - 支持向量分析实验</a></p>
+<h3 id="6-3-SVM与BP网络、C4-5决策树等的对比实验"><a href="#6-3-SVM与BP网络、C4-5决策树等的对比实验" class="headerlink" title="6.3 SVM与BP网络、C4.5决策树等的对比实验"></a>6.3 SVM与BP网络、C4.5决策树等的对比实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png" alt=""></p>
+</blockquote>
+<p>本题的详细内容见：<br><a href="">周志华《机器学习》课后习题解答系列（七）：Ch6.3 - SVM对比实验</a></p>
+<h3 id="6-4-线性核SVM与LDA的关联"><a href="#6-4-线性核SVM与LDA的关联" class="headerlink" title="6.4 线性核SVM与LDA的关联"></a>6.4 线性核SVM与LDA的关联</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.4.png" alt=""></p>
+</blockquote>
+<p>SVM与LDA均可用于样本最优划分超平面的求解，即法向向量 ω ，参考文献<a href="http://download.springer.com/static/pdf/220/bok%253A978-3-540-36077-3.pdf?originUrl=https%3A%2F%2Flink.springer.com%2Fbook%2F10.1007%2F3-540-36077-8&amp;token2=exp=1499156737~acl=%2Fstatic%2Fpdf%2F220%2Fbok%25253A978-3-540-36077-3.pdf%3ForiginUrl%3Dhttps%253A%252F%252Flink.springer.com%252Fbook%252F10.1007%252F3-540-36077-8*~hmac=7ab56d6335ba31c0ad0976c5f392ad4e41276365968e3f55595b189ce3c2d6c1#page=116" target="_blank" rel="noopener">Comparing Linear Discriminant Analysis and Support Vector Machines</a>中对LDA与SVM的本质描述，一般有：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.4.1.png" alt=""></p>
+<p>考虑到线性核SVM的输入空间与特征空间相同，那么取等的条件是：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.4.2.png" alt=""></p>
+<p>这说明两者生成的超平面相同，此时等效。</p>
+<h3 id="6-5-高斯核SVM与RBF网络的关联"><a href="#6-5-高斯核SVM与RBF网络的关联" class="headerlink" title="6.5 高斯核SVM与RBF网络的关联"></a>6.5 高斯核SVM与RBF网络的关联</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.png" alt=""></p>
+</blockquote>
+<p>两种方法均采用径向基函数（RBF）如下：</p>
+<ul>
+<li>SVM的超平面表示为：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.1.png" alt=""></p>
+<ul>
+<li>RBF网络表示为：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.2.png" alt=""></p>
+<p>可以看出两者的表达式颇为相似，进一步分析，假设采用RBF网络作为一个二分类器，参考文献<a href="http://www.svms.org/comparison/Scholkopfetal1996.pdf" target="_blank" rel="noopener">Comparing Support Vector Machines with Gaussian Kernels to Radial Function Classiers</a>，两者分类函数对比如下：</p>
+<ul>
+<li>SVM的分类器表示为：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.3.png" alt=""></p>
+<ul>
+<li>RBF网络分类器表示为：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.5.4.png" alt=""></p>
+<p>对于两个分类器，SVM的表达式多出了偏置项，同时其系数项 ω 只与支持向量有关；RBF网络的系数项 ω 与由输入样本训练得到，但是对于非支持向量对应的样本，其 ω数值相对非常小。</p>
+<h3 id="6-6-SVM对噪声的敏感分析"><a href="#6-6-SVM对噪声的敏感分析" class="headerlink" title="6.6 SVM对噪声的敏感分析"></a>6.6 SVM对噪声的敏感分析</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.6.png" alt=""></p>
+</blockquote>
+<p>SVM的决策边界（超平面）是由支持向量所确定的，即是利用相对较少的数据特征来学得整个数据的特性。由于支持向量相对较少，其上的噪声会对超平面的确定产生相对较大的影响。</p>
+<h3 id="6-7-KKT条件推导"><a href="#6-7-KKT条件推导" class="headerlink" title="6.7 KKT条件推导"></a>6.7 KKT条件推导</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.7.png" alt=""></p>
+</blockquote>
+<p>参考书中附录公式B.3，KKT条件即拉格朗日函数在对参数进行偏导取0计算后，为求得最优解，乘子和约束必须满足其中之一为0的条件。</p>
+<p>要获取式（6.52）的完整KKT条件，只需将式（6.47~6.50）代入该式即可。</p>
+<h3 id="6-8-SVR实验"><a href="#6-8-SVR实验" class="headerlink" title="6.8 SVR实验"></a>6.8 SVR实验</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.8.png" alt=""></p>
+</blockquote>
+<p>基于python-sklearn工具包，在线性核和高斯核下的SVR拟合如下图示：</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.8.svr.png" alt=""></p>
+</blockquote>
+<p>可以看出，由于数据自变量与因变量间关系随机性较强，采用SVR拟合效果不佳；</p>
+<h3 id="6-9-核对率回归模型设计"><a href="#6-9-核对率回归模型设计" class="headerlink" title="6.9 核对率回归模型设计"></a>6.9 核对率回归模型设计</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.9.png" alt=""></p>
+</blockquote>
+<p>关于核对率回归（KLR），可参考书p132中关于 log 损失函数下SVM与LR的比较，也可参考台大林轩田-机器学习技法中关于KLR的slide。</p>
+<p>简要说明如下：</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.9.ans.jpg" alt=""></p>
+</blockquote>
+<h3 id="6-10-SVM改进设计"><a href="#6-10-SVM改进设计" class="headerlink" title="6.10 SVM改进设计"></a>6.10 SVM改进设计</h3><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.10.png" alt=""></p>
+</blockquote>
+<p>支持向量的规模与SVM计算速度息息相关，在不影响模型性能的情况下减少支持向量数目，能有效提高SVM效率。为此，一些稀松算法如 1-norm SVM, Lp-SVM, 自适应Lp-SVM 被提出，给出两篇参考文献如下：</p>
+<ul>
+<li><a href="http://kns.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFQ&amp;dbname=CJFD2012&amp;filename=JYXH201202003&amp;uid=WEEvREcwSlJHSldRa1FhdXNXYXJwMHZqcDBjcTY4OENDZUZoU3RINlVXRT0=$9A4hF_YAuvQ5obgVAqNKPCYcEjKensW4ggI8Fm4gTkoUKaID8j8gFw!!&amp;v=MDYxNzVoVTd6QUx6VFRackc0SDlQTXJZOUZaNFI4ZVgxTHV4WVM3RGgxVDNxVHJXTTFGckNVUkwyZllPUnFGeXo=" target="_blank" rel="noopener">支持向量机的缺陷及改进算法</a></li>
+<li><a href="http://ieeexplore.ieee.org/document/6623200/" target="_blank" rel="noopener">Support Vector Number Reduction: Survey and Experimental Evaluations</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/blog/tags/支持向量机/" rel="tag"># 支持向量机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch6.3 - SVM对比实验" rel="next" title="周志华《机器学习》习题解答：Ch6.3 - SVM对比实验">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch6.3 - SVM对比实验
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持向量机的优劣总结"><span class="nav-text">支持向量机的优劣总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#课后练习"><span class="nav-text">课后练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-公式推导"><span class="nav-text">6.1 公式推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-不同核函数对应的支持向量差别分析"><span class="nav-text">6.2 不同核函数对应的支持向量差别分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-SVM与BP网络、C4-5决策树等的对比实验"><span class="nav-text">6.3 SVM与BP网络、C4.5决策树等的对比实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-线性核SVM与LDA的关联"><span class="nav-text">6.4 线性核SVM与LDA的关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-高斯核SVM与RBF网络的关联"><span class="nav-text">6.5 高斯核SVM与RBF网络的关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-6-SVM对噪声的敏感分析"><span class="nav-text">6.6 SVM对噪声的敏感分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-7-KKT条件推导"><span class="nav-text">6.7 KKT条件推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-8-SVR实验"><span class="nav-text">6.8 SVR实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-9-核对率回归模型设计"><span class="nav-text">6.9 核对率回归模型设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-10-SVM改进设计"><span class="nav-text">6.10 SVM改进设计</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

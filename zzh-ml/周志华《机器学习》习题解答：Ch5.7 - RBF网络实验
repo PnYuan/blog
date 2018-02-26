@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,python,神经网络,RBF网络," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
+<meta name="keywords" content="机器学习,python,神经网络,RBF网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
+<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
+">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png">
+<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
+<meta name="twitter:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
+<meta name="twitter:image" content="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
+">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验"/>
+
+
+
+
+
+  <title>周志华《机器学习》习题解答：Ch5.7 - RBF网络实验 | PnYuan's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch5.7 - RBF网络实验</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-30T16:58:00+08:00">
+                2017-04-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
+                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div align="center"><br><img width="328" height="150" src="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
+"><br></div>
+
+<p>编程实现单层RBF神经网络，并在异或数据集上进行了实验。</p>
+<a id="more"></a>
+<p>相关源代码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png" alt=""></p>
+</blockquote>
+<p>注：本题程序基于Python实现（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch5_neural_networks/5.7_RBF_BP" target="_blank" rel="noopener">这里查看完整代码和数据集</a>）。</p>
+<h2 id="RBF网络基础知识回顾"><a href="#RBF网络基础知识回顾" class="headerlink" title="RBF网络基础知识回顾"></a>RBF网络基础知识回顾</h2><p>RBF网络采用RBF（Radial Basis Function函数）作为隐层神经元激活函数，是一种局部逼近神经网络，下面先分析其激活函数RBF，然后分析RBF神经网络的结构。</p>
+<h3 id="径向基函数-RBF"><a href="#径向基函数-RBF" class="headerlink" title="径向基函数(RBF)"></a>径向基函数(RBF)</h3><p>径向基函数是一类取值依赖样本于到中心点距离的函数，本题基于常用的<strong>高斯径向基函数</strong>（gaussian RBF）开展实验。下面是高斯径向基函数形式书p108式(5.19)：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png" alt=""></p>
+<p>这里的 β 为尺度系数， c_i 为中心点（维度由输入决定），函数的取值取决于样本 x 到中心点的距离（2-范数），该函数的参数为 (β, c_i)。</p>
+<p>如下图示为高斯径向基函数示意图（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/draw_RBF.py" target="_blank" rel="noopener">绘图程序</a>）：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png" alt=""></p>
+<h3 id="RBF网络"><a href="#RBF网络" class="headerlink" title="RBF网络"></a>RBF网络</h3><p>RBF神经网络一般指一种单隐层前馈神经网络，它使用径向基函数作为隐层神经元激活函数，而输出是隐层输出的线性组合，网络结构示意如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png" alt=""></p>
+<p>参考书p108式(5.18)，该神经网络的输出为：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png" alt=""></p>
+<p>进一步分析，一般函数均可表示成一组基函数的线性组合，而RBF网络相当于用隐层神经元构建了这样一组基函数，由输出层进行线性组合，从而实现函数逼近的功能。</p>
+<h3 id="RBF网络实现"><a href="#RBF网络实现" class="headerlink" title="RBF网络实现"></a>RBF网络实现</h3><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/RBF_BP.py" target="_blank" rel="noopener">查看完整代码</a></p>
+<p>这里RBF神经网络建模的过程分一下两步：</p>
+<ol>
+<li>确定神经元对应的高斯径向基函数中心 c ；</li>
+<li>利用BP算法来训练剩余参数 w, β ；</li>
+</ol>
+<p>下面依次讨论其实现：</p>
+<h3 id="RBF中心参数获取"><a href="#RBF中心参数获取" class="headerlink" title="RBF中心参数获取"></a>RBF中心参数获取</h3><p>RBF的中心参数 c 的获取方法有以下一些：</p>
+<ul>
+<li><strong>从输入数据样本中抽取</strong>，这就要求输入样本具有较好的代表性；</li>
+<li><strong>自组织生成</strong>，如<strong>聚类</strong>法生成，采用聚类中心来作为中心参数 c ，同时根据各中心的距离来初始化尺度系数 β ；</li>
+</ul>
+<h3 id="RBF-BP算法推导"><a href="#RBF-BP算法推导" class="headerlink" title="RBF-BP算法推导"></a>RBF-BP算法推导</h3><p>参考<a href="">神经网络基础 - 编程实现标准BP算法</a>，这里隐层激活函数为RBF，输出层神经元数为 1 ，激活函数为 y=f(x)=x 。</p>
+<p>BP算法采用梯度下降法进行参数迭代更新，参考书p102-103，进行RBF-BP算法中基于梯度下降的参数更新推导如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png" alt=""></p>
+<p>在完成基础推导之后，给出<strong>RBF网络的BP算法</strong>如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png" alt=""></p>
+<h3 id="RBF-BP算法实现"><a href="#RBF-BP算法实现" class="headerlink" title="RBF-BP算法实现"></a>RBF-BP算法实现</h3><p>样例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BackPropagateRBF</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    the implementation of special BP algorithm on one slide of sample for RBF network</span></span><br><span class="line"><span class="string">    @param x, y: array and float, input and output of the data sample</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dependent packages</span></span><br><span class="line">    <span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">    <span class="comment"># get current network output</span></span><br><span class="line">    self.y = self.Pred(x)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># calculate the gradient for hidden layer </span></span><br><span class="line">    g = np.zeros(self.h_n)</span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        g[h] = (self.y - y) * self.b[h]    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># updating the parameter</span></span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        self.beta[h] += self.lr * g[h] * self.w[h] * np.linalg.norm(x-self.c[h],<span class="number">2</span>)</span><br><span class="line">        self.w[h] -= self.lr * g[h]</span><br></pre></td></tr></table></figure>
+<h2 id="异或问题实验"><a href="#异或问题实验" class="headerlink" title="异或问题实验"></a>异或问题实验</h2><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/Test_XOR.py" target="_blank" rel="noopener">查看完整代码</a></p>
+<h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>首先基于numpy.array生成异或数据，该数据为2输入，1输出，如下所示：</p>
+<p>样例代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train set</span></span><br><span class="line">X_trn = np.random.randint(<span class="number">0</span>,<span class="number">2</span>,(<span class="number">100</span>,<span class="number">2</span>))</span><br><span class="line">y_trn = np.logical_xor(X_trn[:,<span class="number">0</span>],X_trn[:,<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<p>样例数据：</p>
+<pre><code>&gt;&gt;&gt; X_trn
+array([[0, 0],
+       [1, 1],
+       ...
+&gt;&gt;&gt; y_trn
+array([False, False, ...
+</code></pre><h3 id="参数之-RBF中心点"><a href="#参数之-RBF中心点" class="headerlink" title="参数之-RBF中心点"></a>参数之-RBF中心点</h3><p>这里由于采用异或数据，其中心点可以简单设置如下：</p>
+<pre><code>centers = np.array([[0,0],[0,1],[1,0],[1,1]])
+</code></pre><p>同时取隐节点数目为4。</p>
+<h3 id="生成模型并训练"><a href="#生成模型并训练" class="headerlink" title="生成模型并训练"></a>生成模型并训练</h3><p>样例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># construct the network</span></span><br><span class="line">rbf_nn = RBP_network()  <span class="comment"># initial a BP network class</span></span><br><span class="line">rbf_nn.CreateNN(<span class="number">4</span>, centers, learningrate=<span class="number">0.05</span>)  <span class="comment"># build the network structure</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># parameter training（这里迭代10次）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>): </span><br><span class="line">    rbf_nn.TrainRBF(X_trn, y_trn)</span><br></pre></td></tr></table></figure>
+<p>绘制出训练过程中的均方误差变化曲线如下图：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png" alt=""></p>
+<p>由上图可以看到，曲线收敛十分迅速，说明这里的RBF网络训练异或数据集十分轻松，这也和我们所生成的数据的完备无误有关。</p>
+<h3 id="测试模型"><a href="#测试模型" class="headerlink" title="测试模型"></a>测试模型</h3><p>按照训练集数据生成方法生成测试集数据，通过模型预测，得出结果如下：</p>
+<pre><code>test error rate: 0.000
+</code></pre><p>即测试错误率为0，可知我们的模型预测十分准确的，泛化性能优秀（主要得益于XOR预测模型对RBF网络来说太过简单）。</p>
+<h2 id="本题小结"><a href="#本题小结" class="headerlink" title="本题小结"></a>本题小结</h2><p>回顾RBF网络工作原理，如参考书p108式(5.18)-(5.19)。RBF网络建模类似于非线性模型中的基函数建模，进一步，我们可将其与广义可加模型联系起来。RBF网络采用径向基函数作为单隐层激活函数（即核函数），又可将其与SVM with RBF kernel联系起来。</p>
+<p>回顾RBF网络实现过程，我们或可将该方法视为一种半监督的学习方法，具体有：</p>
+<ul>
+<li>step 1：无监督的学习，从数据中获取中心参数，常用聚类方法；</li>
+<li>step 2：有监督的学习，基于数据训练参数，过程一般基于BP算法实现；</li>
+</ul>
+<h2 id="相关参考"><a href="#相关参考" class="headerlink" title="相关参考"></a>相关参考</h2><p>下面列出一些参考内容：</p>
+<ul>
+<li>基础知识：<a href="https://wenku.baidu.com/view/c61384dda58da0116c174946.html" target="_blank" rel="noopener">绝对经典RBF神经网络 - 百度文库</a></li>
+<li>进阶知识：<a href="https://www.zhihu.com/question/44328472" target="_blank" rel="noopener">RBF神经网络和BP神经网络有什么区别 - 知乎</a></li>
+<li>可视化：<a href="http://matplotlib.org/1.4.3/mpl_toolkits/mplot3d/index.html#toolkit-mplot3d-index" target="_blank" rel="noopener">matplotlib绘制3D图 - matplotlib官网</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/blog/tags/python/" rel="tag"># python</a>
+          
+            <a href="/blog/tags/神经网络/" rel="tag"># 神经网络</a>
+          
+            <a href="/blog/tags/RBF网络/" rel="tag"># RBF网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.6 - BP算法改进" rel="next" title="周志华《机器学习》习题解答：Ch5.6 - BP算法改进">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch5.6 - BP算法改进
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.8 - SOM网络实验" rel="prev" title="周志华《机器学习》习题解答：Ch5.8 - SOM网络实验">
+                周志华《机器学习》习题解答：Ch5.8 - SOM网络实验 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RBF网络基础知识回顾"><span class="nav-text">RBF网络基础知识回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#径向基函数-RBF"><span class="nav-text">径向基函数(RBF)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络"><span class="nav-text">RBF网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络实现"><span class="nav-text">RBF网络实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF中心参数获取"><span class="nav-text">RBF中心参数获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法推导"><span class="nav-text">RBF-BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法实现"><span class="nav-text">RBF-BP算法实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异或问题实验"><span class="nav-text">异或问题实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备数据"><span class="nav-text">准备数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数之-RBF中心点"><span class="nav-text">参数之-RBF中心点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成模型并训练"><span class="nav-text">生成模型并训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试模型"><span class="nav-text">测试模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本题小结"><span class="nav-text">本题小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关参考"><span class="nav-text">相关参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
