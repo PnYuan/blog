@@ -87,15 +87,21 @@
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
 <meta property="og:description" content="支持向量机拟合实验，比较不同核函数下支持向量的差别，实验基于sklearn完成。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pnyuan.github.io/blog/2017/07/05/zzh-ml/周志华《机器学习》习题解答：Ch6.2%20-%20支持向量分析实验/Ch6/6.2.png">
-<meta property="og:image" content="http://pnyuan.github.io/blog/2017/07/05/zzh-ml/周志华《机器学习》习题解答：Ch6.2%20-%20支持向量分析实验/Ch6/6.2.data.png">
-<meta property="og:image" content="http://pnyuan.github.io/blog/2017/07/05/zzh-ml/周志华《机器学习》习题解答：Ch6.2%20-%20支持向量分析实验/Ch6/6.2.linear.png">
-<meta property="og:image" content="http://pnyuan.github.io/blog/2017/07/05/zzh-ml/周志华《机器学习》习题解答：Ch6.2%20-%20支持向量分析实验/Ch6/6.2.rbf.png">
-<meta property="og:updated_time" content="2018-02-24T11:53:35.401Z">
+<meta property="og:image" content="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.rbf.png
+">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.data.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.scatter.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.linear.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.rbf.png">
+<meta property="og:updated_time" content="2018-02-26T03:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验">
 <meta name="twitter:description" content="支持向量机拟合实验，比较不同核函数下支持向量的差别，实验基于sklearn完成。">
-<meta name="twitter:image" content="http://pnyuan.github.io/blog/2017/07/05/zzh-ml/周志华《机器学习》习题解答：Ch6.2%20-%20支持向量分析实验/Ch6/6.2.png">
+<meta name="twitter:image" content="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.rbf.png
+">
 
 
 
@@ -313,10 +319,6 @@
           
 
           
-              <div class="post-description">
-                  支持向量机拟合实验，比较不同核函数下支持向量的差别，实验基于sklearn完成。
-              </div>
-          
 
         </div>
       </header>
@@ -331,23 +333,32 @@
       
 
       
-        <p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+        <div align="center"><br><img width="280" height="200" src="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.rbf.png
+"><br></div>
+
+<p>支持向量机拟合实验，比较不同核函数下支持向量的差别，实验基于sklearn完成。</p>
+<a id="more"></a>
+<p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>.</p>
 <h2 id="6-2-支持向量分析实验"><a href="#6-2-支持向量分析实验" class="headerlink" title="6.2 支持向量分析实验"></a>6.2 支持向量分析实验</h2><blockquote>
-<p><img src="Ch6/6.2.png" alt=""></p>
-<p><img src="Ch6/6.2.data.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.data.png" alt=""></p>
 </blockquote>
 <p>(注：本题实验基于python，另外，sklearn库已集成了libsvm库，并在其基础上扩展形成了自带svm工具库，这里我们采用该sklearn-svm工具库开展实验）</p>
-<p><a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch6_support_vector_machine/6.2_SVM_test/sv_compare.py" target="_blank" rel="noopener">查看本实验完整代码</a></p>
-<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>生成数据<figure class="highlight plain"><figcaption><span>0（否），1（是），基于pandas读取数据，做出可视化界面如下：</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![](Ch6/6.2.scatter.png)</span><br><span class="line"></span><br><span class="line">### 训练与分析 ###</span><br><span class="line"></span><br><span class="line">采用```sklearn.svm.svc```训练并得出支持向量，实验段程序示意如下：</span><br><span class="line">	</span><br><span class="line">	```python</span><br><span class="line">	from sklearn import svm </span><br><span class="line">    # initial</span><br><span class="line">    svc = svm.SVC(C=1000, kernel=kernel)  # classifier 1 based on linear kernel</span><br><span class="line">    # train</span><br><span class="line">    svc.fit(X, y)</span><br><span class="line">    # get support vectors</span><br><span class="line">    sv = svc.support_vectors_</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch6_support_vector_machine/6.2_SVM_test/sv_compare.py" target="_blank" rel="noopener">查看本实验完整代码</a></p>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>生成数据<code>watermelon_3a.csv</code>，将类别编码为 0（否），1（是），基于pandas读取数据，做出可视化界面如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.scatter.png" alt=""></p>
+<h3 id="训练与分析"><a href="#训练与分析" class="headerlink" title="训练与分析"></a>训练与分析</h3><p>采用<code>sklearn.svm.svc</code>训练并得出支持向量，实验段程序示意如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm </span><br><span class="line"><span class="comment"># initial</span></span><br><span class="line">svc = svm.SVC(C=<span class="number">1000</span>, kernel=kernel)  <span class="comment"># classifier 1 based on linear kernel</span></span><br><span class="line"><span class="comment"># train</span></span><br><span class="line">svc.fit(X, y)</span><br><span class="line"><span class="comment"># get support vectors</span></span><br><span class="line">sv = svc.support_vectors_</span><br></pre></td></tr></table></figure>
 <p>绘制出决策边界，同时标记出支持向量如下图：</p>
 <ol>
 <li>线性核函数：</li>
 </ol>
-<p><img src="Ch6/6.2.linear.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.linear.png" alt=""></p>
 <ol>
 <li>高斯核函数：</li>
 </ol>
-<p><img src="Ch6/6.2.rbf.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.2.rbf.png" alt=""></p>
 <p>可以估计出，面向该题数据集，高斯核函数的拟合更好（间隔更小），且用到的支持向量更少（当前参数设置下有9个支持向量）。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>本文涉及的一些参考资料如下：</p>
 <ul>
@@ -562,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-支持向量分析实验"><span class="nav-text">6.2 支持向量分析实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-支持向量分析实验"><span class="nav-text">6.2 支持向量分析实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练与分析"><span class="nav-text">训练与分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
             
 
           </div>

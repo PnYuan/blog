@@ -87,12 +87,13 @@
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
 <meta property="og:description" content="采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pnyuan.github.io/blog/2017/07/06/zzh-ml/周志华《机器学习》习题解答：Ch6.3%20-%20SVM对比实验/Ch6/6.3.png">
-<meta property="og:updated_time" content="2018-02-24T11:54:47.457Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.scatter.png">
+<meta property="og:updated_time" content="2018-02-26T03:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch6.3 - SVM对比实验">
 <meta name="twitter:description" content="采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。">
-<meta name="twitter:image" content="http://pnyuan.github.io/blog/2017/07/06/zzh-ml/周志华《机器学习》习题解答：Ch6.3%20-%20SVM对比实验/Ch6/6.3.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png">
 
 
 
@@ -310,10 +311,6 @@
           
 
           
-              <div class="post-description">
-                  采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。
-              </div>
-          
 
         </div>
       </header>
@@ -328,9 +325,11 @@
       
 
       
-        <p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+        <p>采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。</p>
+<a id="more"></a>
+<p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>.</p>
 <h2 id="6-3-SVM对比实验"><a href="#6-3-SVM对比实验" class="headerlink" title="6.3 SVM对比实验"></a>6.3 SVM对比实验</h2><blockquote>
-<p><img src="Ch6/6.3.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png" alt=""></p>
 </blockquote>
 <p>本题实验基于python，各种算法的实现基于的开源工具包和源码对应如下：</p>
 <ul>
@@ -338,25 +337,37 @@
 <li>BP -&gt; pybrain</li>
 <li>C4.5 -&gt; 来自<a href="https://github.com/ryanmadden/decision-tree" target="_blank" rel="noopener">GitHub/ryanmadden/decision-tree</a></li>
 </ul>
-<p><a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch6_support_vector_machine/6.3_SVM_compare" target="_blank" rel="noopener">这里查看本实验完整代码</a></p>
-<p>这里我们选择UCI数据集 <a href="http://archive.ics.uci.edu/ml/datasets/Breast+Cancer" target="_blank" rel="noopener">Breast Cancer Data Set </a> 进行分类实验，该数据集已经集成在sklearn中，可以直接采用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 数据预处理分析 ###</span><br><span class="line"></span><br><span class="line">关于该数据集的相关信息参考sklearn官网[sklearn.datasets.load_breast_cancer](http://scikit-learn.org/dev/modules/generated/sklearn.datasets.load_breast_cancer.html#sklearn.datasets.load_breast_cancer)，关键信息如下：</span><br><span class="line"></span><br><span class="line">	类别：&apos;malignant(恶性)&apos; &apos;benign(良性)&apos;，共两类；</span><br><span class="line">	样本规模：[n_sample,n_feature] = [569, 30],；</span><br><span class="line">			 正负样本数为 212(M),357(B)；</span><br><span class="line">			 特征数值特性：实数，正值；</span><br><span class="line"></span><br><span class="line">加载数据，选择前两个特征可视化出散点图如下所示：</span><br><span class="line"></span><br><span class="line">![](Ch6/6.3.scatter.png)</span><br><span class="line"></span><br><span class="line">上图中，绿色为良性(肿瘤)，红色对应恶性，于是可直观看出，体积越大恶性概率越高。</span><br><span class="line"></span><br><span class="line">经过预分析，我认为该数据集可以直接用于SVM，BPnet，C4.5的模型学习。</span><br><span class="line"></span><br><span class="line">### 模型训练与测试 ###</span><br><span class="line"></span><br><span class="line">首先将数据集随机划分为相等了两部分，一部分作训练，一部分作测试。然后采用三种模型来拟合训练集，并在测试集上进行分类预测。在训练SVM和BP网络时，需对数据进行归一化处理，这里采用```sklearn.preprocessing.normalize```实现。</span><br><span class="line"></span><br><span class="line">划分数据集与归一化程序如下示：</span><br><span class="line">	</span><br><span class="line">	```python</span><br><span class="line">	from sklearn import preprocessing</span><br><span class="line">	from sklearn.cross_validation import train_test_split</span><br><span class="line">	</span><br><span class="line">	normalized_X = preprocessing.normalize(X)</span><br><span class="line">	X_train, X_test, y_train, y_test = train_test_split(normalized_X, y, test_size=0.5, random_state=0)</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch6_support_vector_machine/6.3_SVM_compare" target="_blank" rel="noopener">这里查看本实验完整代码</a></p>
+<p>这里我们选择UCI数据集 <a href="http://archive.ics.uci.edu/ml/datasets/Breast+Cancer" target="_blank" rel="noopener">Breast Cancer Data Set </a> 进行分类实验，该数据集已经集成在sklearn中，可以直接采sklearn.datasets.load_breast_cancer获取。</p>
+<h3 id="数据预处理分析"><a href="#数据预处理分析" class="headerlink" title="数据预处理分析"></a>数据预处理分析</h3><p>关于该数据集的相关信息参考sklearn官网<a href="http://scikit-learn.org/dev/modules/generated/sklearn.datasets.load_breast_cancer.html#sklearn.datasets.load_breast_cancer" target="_blank" rel="noopener">sklearn.datasets.load_breast_cancer</a>，关键信息如下：</p>
+<pre><code>类别：&apos;malignant(恶性)&apos; &apos;benign(良性)&apos;，共两类；
+样本规模：[n_sample,n_feature] = [569, 30],；
+         正负样本数为 212(M),357(B)；
+         特征数值特性：实数，正值；
+</code></pre><p>加载数据，选择前两个特征可视化出散点图如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.scatter.png" alt=""></p>
+<p>上图中，绿色为良性(肿瘤)，红色对应恶性，于是可直观看出，体积越大恶性概率越高。</p>
+<p>经过预分析，我认为该数据集可以直接用于SVM，BPnet，C4.5的模型学习。</p>
+<h3 id="模型训练与测试"><a href="#模型训练与测试" class="headerlink" title="模型训练与测试"></a>模型训练与测试</h3><p>首先将数据集随机划分为相等了两部分，一部分作训练，一部分作测试。然后采用三种模型来拟合训练集，并在测试集上进行分类预测。在训练SVM和BP网络时，需对数据进行归一化处理，这里采用sklearn.preprocessing.normalize实现。</p>
+<p>划分数据集与归一化程序如下示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">normalized_X = preprocessing.normalize(X)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(normalized_X, y, test_size=<span class="number">0.5</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
 <p>下面是三种模型的训练和测试的程序和结果示意：</p>
 <ol>
 <li><p>SVM - 基于sklearn，分别采用线性核和高斯核进行实验。</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">clf = svm.SVC(C=C, kernel=kernel) kernel</span><br><span class="line"><span class="comment"># train</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># testing </span></span><br><span class="line">y_pred = clf.predict(X_test)</span><br></pre></td></tr></table></figure>
-</code></pre><p> 得出分类精确度如下：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">clf = svm.SVC(C=C, kernel=kernel) kernel</span><br><span class="line"><span class="comment"># train</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># testing </span></span><br><span class="line">y_pred = clf.predict(X_test)</span><br></pre></td></tr></table></figure>
+<p> 得出分类精确度如下：</p>
 <pre><code>max accuracy of linear kernel SVM: 0.937
 max accuracy of rbf kernel SVM: 0.933
 </code></pre></li>
 <li><p>BP net - 基于pybrain，采用“标准BP算法+Softmax输出层激活函数”构建二分类器。</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pybrain.tools.shortcuts     <span class="keyword">import</span> buildNetwork</span><br><span class="line"><span class="keyword">from</span> pybrain.structure.modules   <span class="keyword">import</span> SoftmaxLayer</span><br><span class="line"><span class="keyword">from</span> pybrain.supervised.trainers <span class="keyword">import</span> BackpropTrainer</span><br><span class="line"></span><br><span class="line">n_hidden = <span class="number">600</span></span><br><span class="line">bp_nn = buildNetwork(trndata.indim, n_hidden, trndata.outdim, outclass=SoftmaxLayer)</span><br><span class="line">trainer = BackpropTrainer(bp_nn, </span><br><span class="line">                          dataset=trndata,</span><br><span class="line">                          verbose=<span class="keyword">True</span>,</span><br><span class="line">                          momentum=<span class="number">0.2</span>,</span><br><span class="line">                          learningrate=<span class="number">0.0002</span>)</span><br><span class="line">err_train, err_valid = trainer.trainUntilConvergence(maxEpochs=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
-</code></pre><p> 得出测试集分类精确度如下：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pybrain.tools.shortcuts     <span class="keyword">import</span> buildNetwork</span><br><span class="line"><span class="keyword">from</span> pybrain.structure.modules   <span class="keyword">import</span> SoftmaxLayer</span><br><span class="line"><span class="keyword">from</span> pybrain.supervised.trainers <span class="keyword">import</span> BackpropTrainer</span><br><span class="line"></span><br><span class="line">n_hidden = <span class="number">600</span></span><br><span class="line">bp_nn = buildNetwork(trndata.indim, n_hidden, trndata.outdim, outclass=SoftmaxLayer)</span><br><span class="line">trainer = BackpropTrainer(bp_nn, </span><br><span class="line">                          dataset=trndata,</span><br><span class="line">                          verbose=<span class="keyword">True</span>,</span><br><span class="line">                          momentum=<span class="number">0.2</span>,</span><br><span class="line">                          learningrate=<span class="number">0.0002</span>)</span><br><span class="line">err_train, err_valid = trainer.trainUntilConvergence(maxEpochs=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<p> 得出测试集分类精确度如下：</p>
 <pre><code>epoch: 1001  test error:  6.69%
 </code></pre></li>
 </ol>
 <ol>
 <li><p>C4.5，参考<a href="https://github.com/ryanmadden/decision-tree" target="_blank" rel="noopener">ryanmadden/decision-tree - GitHub</a>。</p>
-<p> <a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/blob/master/ch6_support_vector_machine/6.3_SVM_compare/c45_clf.py" target="_blank" rel="noopener">点击查看C4.5实验源码</a></p>
+<p> <a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch6_support_vector_machine/6.3_SVM_compare/c45_clf.py" target="_blank" rel="noopener">点击查看C4.5实验源码</a></p>
 <p> 得出测试集分类精确度如下：</p>
 <pre><code>accuracy of C4.5 tree: 0.909
 </code></pre></li>
@@ -582,7 +593,7 @@ max accuracy of rbf kernel SVM: 0.933
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-SVM对比实验"><span class="nav-text">6.3 SVM对比实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型对比"><span class="nav-text">模型对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-SVM对比实验"><span class="nav-text">6.3 SVM对比实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理分析"><span class="nav-text">数据预处理分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型训练与测试"><span class="nav-text">模型训练与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型对比"><span class="nav-text">模型对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
             
 
           </div>

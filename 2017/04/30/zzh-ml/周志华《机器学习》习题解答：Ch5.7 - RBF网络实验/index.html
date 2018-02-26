@@ -87,6 +87,9 @@
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
 <meta property="og:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
+">
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png">
@@ -99,7 +102,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
 <meta name="twitter:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
+<meta name="twitter:image" content="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
+">
 
 
 
@@ -331,7 +336,11 @@
       
 
       
-        <p>编程实现单层RBF神经网络，并在异或数据集上进行了实验。</p>
+        <div align="center"><br><img width="328" height="150" src="
+https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
+"><br></div>
+
+<p>编程实现单层RBF神经网络，并在异或数据集上进行了实验。</p>
 <a id="more"></a>
 <p>相关源代码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><blockquote>
@@ -367,12 +376,12 @@
 <p>在完成基础推导之后，给出<strong>RBF网络的BP算法</strong>如下所示：</p>
 <p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png" alt=""></p>
 <h3 id="RBF-BP算法实现"><a href="#RBF-BP算法实现" class="headerlink" title="RBF-BP算法实现"></a>RBF-BP算法实现</h3><p>样例代码如下：</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BackPropagateRBF</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    the implementation of special BP algorithm on one slide of sample for RBF network</span></span><br><span class="line"><span class="string">    @param x, y: array and float, input and output of the data sample</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dependent packages</span></span><br><span class="line">    <span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">    <span class="comment"># get current network output</span></span><br><span class="line">    self.y = self.Pred(x)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># calculate the gradient for hidden layer </span></span><br><span class="line">    g = np.zeros(self.h_n)</span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        g[h] = (self.y - y) * self.b[h]    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># updating the parameter</span></span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        self.beta[h] += self.lr * g[h] * self.w[h] * np.linalg.norm(x-self.c[h],<span class="number">2</span>)</span><br><span class="line">        self.w[h] -= self.lr * g[h]</span><br></pre></td></tr></table></figure>
-</code></pre><h2 id="异或问题实验"><a href="#异或问题实验" class="headerlink" title="异或问题实验"></a>异或问题实验</h2><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/Test_XOR.py" target="_blank" rel="noopener">查看完整代码</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BackPropagateRBF</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    the implementation of special BP algorithm on one slide of sample for RBF network</span></span><br><span class="line"><span class="string">    @param x, y: array and float, input and output of the data sample</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dependent packages</span></span><br><span class="line">    <span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">    <span class="comment"># get current network output</span></span><br><span class="line">    self.y = self.Pred(x)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># calculate the gradient for hidden layer </span></span><br><span class="line">    g = np.zeros(self.h_n)</span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        g[h] = (self.y - y) * self.b[h]    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># updating the parameter</span></span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        self.beta[h] += self.lr * g[h] * self.w[h] * np.linalg.norm(x-self.c[h],<span class="number">2</span>)</span><br><span class="line">        self.w[h] -= self.lr * g[h]</span><br></pre></td></tr></table></figure>
+<h2 id="异或问题实验"><a href="#异或问题实验" class="headerlink" title="异或问题实验"></a>异或问题实验</h2><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/Test_XOR.py" target="_blank" rel="noopener">查看完整代码</a></p>
 <h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>首先基于numpy.array生成异或数据，该数据为2输入，1输出，如下所示：</p>
 <p>样例代码：</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train set</span></span><br><span class="line">X_trn = np.random.randint(<span class="number">0</span>,<span class="number">2</span>,(<span class="number">100</span>,<span class="number">2</span>))</span><br><span class="line">y_trn = np.logical_xor(X_trn[:,<span class="number">0</span>],X_trn[:,<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
-</code></pre><p>样例数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train set</span></span><br><span class="line">X_trn = np.random.randint(<span class="number">0</span>,<span class="number">2</span>,(<span class="number">100</span>,<span class="number">2</span>))</span><br><span class="line">y_trn = np.logical_xor(X_trn[:,<span class="number">0</span>],X_trn[:,<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<p>样例数据：</p>
 <pre><code>&gt;&gt;&gt; X_trn
 array([[0, 0],
        [1, 1],
@@ -383,8 +392,8 @@ array([False, False, ...
 <pre><code>centers = np.array([[0,0],[0,1],[1,0],[1,1]])
 </code></pre><p>同时取隐节点数目为4。</p>
 <h3 id="生成模型并训练"><a href="#生成模型并训练" class="headerlink" title="生成模型并训练"></a>生成模型并训练</h3><p>样例代码如下：</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># construct the network</span></span><br><span class="line">rbf_nn = RBP_network()  <span class="comment"># initial a BP network class</span></span><br><span class="line">rbf_nn.CreateNN(<span class="number">4</span>, centers, learningrate=<span class="number">0.05</span>)  <span class="comment"># build the network structure</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># parameter training（这里迭代10次）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>): </span><br><span class="line">    rbf_nn.TrainRBF(X_trn, y_trn)</span><br></pre></td></tr></table></figure>
-</code></pre><p>绘制出训练过程中的均方误差变化曲线如下图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># construct the network</span></span><br><span class="line">rbf_nn = RBP_network()  <span class="comment"># initial a BP network class</span></span><br><span class="line">rbf_nn.CreateNN(<span class="number">4</span>, centers, learningrate=<span class="number">0.05</span>)  <span class="comment"># build the network structure</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># parameter training（这里迭代10次）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>): </span><br><span class="line">    rbf_nn.TrainRBF(X_trn, y_trn)</span><br></pre></td></tr></table></figure>
+<p>绘制出训练过程中的均方误差变化曲线如下图：</p>
 <p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png" alt=""></p>
 <p>由上图可以看到，曲线收敛十分迅速，说明这里的RBF网络训练异或数据集十分轻松，这也和我们所生成的数据的完备无误有关。</p>
 <h3 id="测试模型"><a href="#测试模型" class="headerlink" title="测试模型"></a>测试模型</h3><p>按照训练集数据生成方法生成测试集数据，通过模型预测，得出结果如下：</p>
