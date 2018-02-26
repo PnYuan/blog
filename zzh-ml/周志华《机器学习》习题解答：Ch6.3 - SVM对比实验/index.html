@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,周志华《机器学习》," />
+  <meta name="keywords" content="机器学习,支持向量机," />
 
 
 
@@ -79,20 +79,21 @@
 
 
 
-<meta name="description" content="课后练习解答目录，希望和大家分享交流，共同学习进步。">
-<meta name="keywords" content="机器学习,周志华《机器学习》">
+<meta name="description" content="采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。">
+<meta name="keywords" content="机器学习,支持向量机">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周志华《机器学习》习题解答：目录">
-<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：目录">
+<meta property="og:title" content="周志华《机器学习》习题解答：Ch6.3 - SVM对比实验">
+<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch6.3 - SVM对比实验/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="课后练习解答目录，希望和大家分享交流，共同学习进步。">
+<meta property="og:description" content="采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/cover-ml2016.jpg">
-<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.scatter.png">
+<meta property="og:updated_time" content="2018-02-26T03:00:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周志华《机器学习》习题解答：目录">
-<meta name="twitter:description" content="课后练习解答目录，希望和大家分享交流，共同学习进步。">
-<meta name="twitter:image" content="https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/cover-ml2016.jpg">
+<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch6.3 - SVM对比实验">
+<meta name="twitter:description" content="采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png">
 
 
 
@@ -122,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：目录"/>
+  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch6.3 - SVM对比实验/"/>
 
 
 
 
 
-  <title>周志华《机器学习》习题解答：目录 | PnYuan's Blog</title>
+  <title>周志华《机器学习》习题解答：Ch6.3 - SVM对比实验 | PnYuan's Blog</title>
   
 
 
@@ -235,7 +236,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：目录">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch6.3 - SVM对比实验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pn.Yuan">
@@ -252,7 +253,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：目录</h1>
+          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch6.3 - SVM对比实验</h1>
         
 
         <div class="post-meta">
@@ -264,8 +265,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-14T16:41:09+08:00">
-                2017-03-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-06T11:11:57+08:00">
+                2017-07-06
               </time>
             
 
@@ -324,28 +325,65 @@
       
 
       
-        <div align="center"><img width="100" height="100" src="https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/cover-ml2016.jpg"></div>
-
-<p>课后练习解答目录，希望和大家分享交流，共同学习进步。</p>
+        <p>采用UCI-Breast Cancer数据集进行分类实验，对比分析了SVM/BP网络/C4.5决策树。</p>
 <a id="more"></a>
-<h4 id="小序："><a href="#小序：" class="headerlink" title="小序："></a>小序：</h4><p>对机器学习一直很感兴趣，也曾阅读过李航老师的《统计学习导论》和Springer的《统计学习导论-基于R应用》等相关书籍，但总感觉缺乏深入的理解和系统的实践。最近从实验室角落翻得南京大学周志华老师《机器学习》一书，随意翻看之间便被本书内容文笔深深吸引，如获至宝。遂决定要认真学习本书并将学习过程记录下来。</p>
-<p>又觉得若将知识笔记写成Posts未免枯燥（网上已有大量相关内容）。故而暂定将课后练习的思路和答案写成系列博客，希望得到朋友们的交流指导。</p>
-<h4 id="目录："><a href="#目录：" class="headerlink" title="目录："></a>目录：</h4><ul>
-<li><a href="">周志华《机器学习》习题解答：Ch1 - 绪论</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch2 - 模型评估与选择</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch3 - 线性模型</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch4 - 决策树</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch4.3 - 编程实现ID3算法</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch5 - 神经网络</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch5.5 - BP算法实现</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch5.6 - BP算法改进</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch5.7 - RBF网络实验</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch5.8 - SOM网络实验</a></li>
-<li><a href="">周志华《机器学习》习题解答：Ch5.10 - 卷积神经网络实验</a></li>
+<p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>.</p>
+<h2 id="6-3-SVM对比实验"><a href="#6-3-SVM对比实验" class="headerlink" title="6.3 SVM对比实验"></a>6.3 SVM对比实验</h2><blockquote>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.png" alt=""></p>
+</blockquote>
+<p>本题实验基于python，各种算法的实现基于的开源工具包和源码对应如下：</p>
+<ul>
+<li>SVM -&gt; sklearn</li>
+<li>BP -&gt; pybrain</li>
+<li>C4.5 -&gt; 来自<a href="https://github.com/ryanmadden/decision-tree" target="_blank" rel="noopener">GitHub/ryanmadden/decision-tree</a></li>
+</ul>
+<p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch6_support_vector_machine/6.3_SVM_compare" target="_blank" rel="noopener">这里查看本实验完整代码</a></p>
+<p>这里我们选择UCI数据集 <a href="http://archive.ics.uci.edu/ml/datasets/Breast+Cancer" target="_blank" rel="noopener">Breast Cancer Data Set </a> 进行分类实验，该数据集已经集成在sklearn中，可以直接采sklearn.datasets.load_breast_cancer获取。</p>
+<h3 id="数据预处理分析"><a href="#数据预处理分析" class="headerlink" title="数据预处理分析"></a>数据预处理分析</h3><p>关于该数据集的相关信息参考sklearn官网<a href="http://scikit-learn.org/dev/modules/generated/sklearn.datasets.load_breast_cancer.html#sklearn.datasets.load_breast_cancer" target="_blank" rel="noopener">sklearn.datasets.load_breast_cancer</a>，关键信息如下：</p>
+<pre><code>类别：&apos;malignant(恶性)&apos; &apos;benign(良性)&apos;，共两类；
+样本规模：[n_sample,n_feature] = [569, 30],；
+         正负样本数为 212(M),357(B)；
+         特征数值特性：实数，正值；
+</code></pre><p>加载数据，选择前两个特征可视化出散点图如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch6_support_vector_machine/Ch6/6.3.scatter.png" alt=""></p>
+<p>上图中，绿色为良性(肿瘤)，红色对应恶性，于是可直观看出，体积越大恶性概率越高。</p>
+<p>经过预分析，我认为该数据集可以直接用于SVM，BPnet，C4.5的模型学习。</p>
+<h3 id="模型训练与测试"><a href="#模型训练与测试" class="headerlink" title="模型训练与测试"></a>模型训练与测试</h3><p>首先将数据集随机划分为相等了两部分，一部分作训练，一部分作测试。然后采用三种模型来拟合训练集，并在测试集上进行分类预测。在训练SVM和BP网络时，需对数据进行归一化处理，这里采用sklearn.preprocessing.normalize实现。</p>
+<p>划分数据集与归一化程序如下示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">normalized_X = preprocessing.normalize(X)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(normalized_X, y, test_size=<span class="number">0.5</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>下面是三种模型的训练和测试的程序和结果示意：</p>
+<ol>
+<li><p>SVM - 基于sklearn，分别采用线性核和高斯核进行实验。</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">clf = svm.SVC(C=C, kernel=kernel) kernel</span><br><span class="line"><span class="comment"># train</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># testing </span></span><br><span class="line">y_pred = clf.predict(X_test)</span><br></pre></td></tr></table></figure>
+<p> 得出分类精确度如下：</p>
+<pre><code>max accuracy of linear kernel SVM: 0.937
+max accuracy of rbf kernel SVM: 0.933
+</code></pre></li>
+<li><p>BP net - 基于pybrain，采用“标准BP算法+Softmax输出层激活函数”构建二分类器。</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pybrain.tools.shortcuts     <span class="keyword">import</span> buildNetwork</span><br><span class="line"><span class="keyword">from</span> pybrain.structure.modules   <span class="keyword">import</span> SoftmaxLayer</span><br><span class="line"><span class="keyword">from</span> pybrain.supervised.trainers <span class="keyword">import</span> BackpropTrainer</span><br><span class="line"></span><br><span class="line">n_hidden = <span class="number">600</span></span><br><span class="line">bp_nn = buildNetwork(trndata.indim, n_hidden, trndata.outdim, outclass=SoftmaxLayer)</span><br><span class="line">trainer = BackpropTrainer(bp_nn, </span><br><span class="line">                          dataset=trndata,</span><br><span class="line">                          verbose=<span class="keyword">True</span>,</span><br><span class="line">                          momentum=<span class="number">0.2</span>,</span><br><span class="line">                          learningrate=<span class="number">0.0002</span>)</span><br><span class="line">err_train, err_valid = trainer.trainUntilConvergence(maxEpochs=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<p> 得出测试集分类精确度如下：</p>
+<pre><code>epoch: 1001  test error:  6.69%
+</code></pre></li>
+</ol>
+<ol>
+<li><p>C4.5，参考<a href="https://github.com/ryanmadden/decision-tree" target="_blank" rel="noopener">ryanmadden/decision-tree - GitHub</a>。</p>
+<p> <a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch6_support_vector_machine/6.3_SVM_compare/c45_clf.py" target="_blank" rel="noopener">点击查看C4.5实验源码</a></p>
+<p> 得出测试集分类精确度如下：</p>
+<pre><code>accuracy of C4.5 tree: 0.909
+</code></pre></li>
+</ol>
+<h3 id="模型对比"><a href="#模型对比" class="headerlink" title="模型对比"></a>模型对比</h3><ul>
+<li><p>资源消耗：BP神经网络训练消耗计算机资源最大，SVM也比较耗资源，C4.5决策树消耗资源最小，训练速度极快。</p>
+</li>
+<li><p>参数调节：BP网络的精度受模型结构和参数的设定影响较大，需要耐心的调参。不同核函数下的SVM精度与数据对象特性息息相关，实践中也是结合参数（如惩罚系数）要不断调试的，决策树-C4.5算法则相对固定一些。</p>
+</li>
+<li><p>模型精度：只要模型与参数设置得当，经过足够的训练甚至交叉验证等，三种模型均可表现出不错的精度。</p>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>下面列出本实验涉及到的一些重要的参考资料：</p>
+<ul>
+<li><a href="http://pybrain.org/docs/tutorial/fnn.html" target="_blank" rel="noopener">Pybrain官网样例 - Classification with Feed-Forward Neural Networks</a>；</li>
+<li><a href="https://github.com/ryanmadden/decision-tree" target="_blank" rel="noopener">ryanmadden/decision-tree</a>：来自于GitHub的C4.5算法决策树分类器源码；</li>
 </ul>
 
       
@@ -366,7 +404,7 @@
           
             <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
           
-            <a href="/blog/tags/周志华《机器学习》/" rel="tag"># 周志华《机器学习》</a>
+            <a href="/blog/tags/支持向量机/" rel="tag"># 支持向量机</a>
           
         </div>
       
@@ -379,8 +417,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/写在前面" rel="next" title="写在前面">
-                <i class="fa fa-chevron-left"></i> 写在前面
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验/" rel="next" title="周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验
               </a>
             
           </div>
@@ -389,8 +427,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论" rel="prev" title="周志华《机器学习》习题解答：Ch1 - 绪论">
-                周志华《机器学习》习题解答：Ch1 - 绪论 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch6 - 支持向量机/" rel="prev" title="周志华《机器学习》习题解答：Ch6 - 支持向量机">
+                周志华《机器学习》习题解答：Ch6 - 支持向量机 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -555,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#小序："><span class="nav-text">小序：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录："><span class="nav-text">目录：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-SVM对比实验"><span class="nav-text">6.3 SVM对比实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理分析"><span class="nav-text">数据预处理分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型训练与测试"><span class="nav-text">模型训练与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型对比"><span class="nav-text">模型对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
             
 
           </div>
