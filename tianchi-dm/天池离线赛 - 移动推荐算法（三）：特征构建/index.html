@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,人工特征," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文讨论如何进行特征构建，为之后基于模型的方法提供有效的数据支持。">
+<meta name="keywords" content="数据挖掘,人工特征">
+<meta property="og:type" content="article">
+<meta property="og:title" content="天池离线赛 - 移动推荐算法（三）：特征构建">
+<meta property="og:url" content="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（三）：特征构建/index.html">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="本文讨论如何进行特征构建，为之后基于模型的方法提供有效的数据支持。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-28T02:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="天池离线赛 - 移动推荐算法（三）：特征构建">
+<meta name="twitter:description" content="本文讨论如何进行特征构建，为之后基于模型的方法提供有效的数据支持。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'Q3TXVRGIPE',
+      apiKey: '3caec9a755e01d18eb5e952fbba501eb',
+      indexName: 'for-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（三）：特征构建/"/>
+
+
+
+
+
+  <title>天池离线赛 - 移动推荐算法（三）：特征构建 | PnYuan's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f5a11b34d0ea26498185957b7517c6cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/tianchi-dm/天池离线赛 - 移动推荐算法（三）：特征构建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">天池离线赛 - 移动推荐算法（三）：特征构建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T13:43:25+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/天池大数据竞赛/" itemprop="url" rel="index">
+                    <span itemprop="name">天池大数据竞赛</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（三）：特征构建/" class="leancloud_visitors" data-flag-title="天池离线赛 - 移动推荐算法（三）：特征构建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  本文讨论如何进行特征构建，为之后基于模型的方法提供有效的数据支持。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于题目回顾与数据初探，可参考：<a href="">天池离线赛 - 移动推荐算法（一）：题目与数据解析</a>，本文讨论如何进行<strong>特征构建</strong>，为之后基于模型的方法实现提供支持。</p>
+<h2 id="特征工程回顾"><a href="#特征工程回顾" class="headerlink" title="特征工程回顾"></a>特征工程回顾</h2><p>特征工程是机器学习方法在工业界得到有效应用的基础。业界普遍的认为：数据和特征决定了学习的上限，而模型和算法只是在逼近这个上限。所以，做好特征工程，是高效实现机器学习和数据挖掘任务的基础。关于特征工程的详细内容，可参考：<a href="https://www.zhihu.com/question/29316149" target="_blank" rel="noopener">特征工程到底是什么？ - 知乎</a>。</p>
+<p><strong>特这构建与选取</strong>是特征工程的重要内容，包括：</p>
+<ul>
+<li>结合业务对象和数据可用性确定所需特征（包括特征的定义、数值特性、特征组合衍生…）；</li>
+<li>基于原始数据构建特征数据并作基本预处理（SQL、数据清洗…）；</li>
+<li>针对不同模型进行特征预处理，包括采样、单个特征预处理（归一化、离散化、缺值处理…）、多个特征的处理（PCA、LDA、Clustering、卡方检验、相关系数、正则化…）；</li>
+<li>在模型训练中分析选取特征（有效性、重要性）；</li>
+<li>。。。</li>
+</ul>
+<h2 id="特征构建"><a href="#特征构建" class="headerlink" title="特征构建"></a>特征构建</h2><h3 id="预研思路"><a href="#预研思路" class="headerlink" title="预研思路"></a>预研思路</h3><p>首先给出特征构建时的一些思路：</p>
+<ol>
+<li><p>由于用户行为对购买的影响随时间减弱，根据分析，用户在一周之前的行为对考察日是否购买的影响已经很小，故而只考虑距考察日一周以内的特征数据。</p>
+</li>
+<li><p>由于数据来源于垂直电商，其特点是线上购买线下消费，猜测其购买行为具有一定的周期性，进一步猜测行为周期为一个星期。待预测目标考察日为 12.19 ，是星期五，所以分割出11.18~12.18数据中的四段以星期五为考察日，一周为考察期的数据，一共有4组，其中一组涉及双十二异常期，故而省区，还剩下三组数据如下：</p>
+<pre><code>part 1 - train: 11.22~11.27 -&gt; 11.28;
+part 2 - train: 11.29~12.04 -&gt; 12.05;
+part 3 - pred:  12.13~12.18 (-&gt; 12.19);
+</code></pre><p> 其中 part 1 和 part 2 可作为模型训练和验证数据集，part 3 为测试数据集；</p>
+</li>
+<li><p>针对当前业务背景，考虑从user、item、item_category三大基本维度及其组合入手进行特征构建，简称U、I、C。</p>
+</li>
+<li><p>由于问题已被明确为 U-I 是否发生购买行为（标记label取｛0，1]）的分类问题，最终的特征数据均要合并到生成以 U-I 为index（key）的样本集上来。进一步地，如要考虑所有可能的 U-I ，必将面临组合爆炸的问题，所以这里只关注在距考察日一周以内出现过的 U-I 。</p>
+</li>
+</ol>
+<h3 id="特征构建-1"><a href="#特征构建-1" class="headerlink" title="特征构建"></a>特征构建</h3><p>这里将所需构建的特征分为六大类：U、I、C、UI、UC、IC，对每类分别结合行为次数、时间、排序等视角设计特征。考虑到样本规模，特征数量不宜太少，这里我们设计了约100个特征来进行第一季的数据任务，具体的特征选择及定义见下表：</p>
+<table>
+<thead>
+<tr>
+<th>特征名称</th>
+<th>所属类别</th>
+<th>特征含义</th>
+<th>特征作用</th>
+<th>特征数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u_b_count_in_n（n=1/3/6）</td>
+<td>U</td>
+<td>用户在考察日前n天的行为总数计数</td>
+<td>反映了user_id的活跃度（不同时间粒度：最近1天/3天/6天）</td>
+<td>3</td>
+</tr>
+<tr>
+<td>u_bi_count_in_n（i=1/2/3/4,n=1/3/6）</td>
+<td>U</td>
+<td>用户在考察日前n天的各项行为计数</td>
+<td>反映了user_id的活跃度（不同时间粒度），反映了user_id的各项操作的活跃度，折射出user_id的购买习惯</td>
+<td>12</td>
+</tr>
+<tr>
+<td>u_b4_rate</td>
+<td>U</td>
+<td>用户的点击购买转化率</td>
+<td>反映了用户的购买决策操作习惯</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u_b4_diff_hours</td>
+<td>U</td>
+<td>用户的点击购买平均时差</td>
+<td>反映了用户的购买决策时间习惯</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i_u_count_in_n</td>
+<td>I</td>
+<td>商品在考察日前n天的用户总数计数</td>
+<td>反映了item_id的热度（用户覆盖性）</td>
+<td>3</td>
+</tr>
+<tr>
+<td>i_b_count_in_n</td>
+<td>I</td>
+<td>商品在考察日前n天的行为总数计数</td>
+<td>反映了item_id的热度（用户停留性）</td>
+<td>3</td>
+</tr>
+<tr>
+<td>i_bi_count_in_n</td>
+<td>I</td>
+<td>商品在考察日前n天的各项行为计数</td>
+<td>反映了item_id的热度（用户操作吸引），折射出item_id产生的购买习惯特点</td>
+<td>12</td>
+</tr>
+<tr>
+<td>i_b4_rate</td>
+<td>I</td>
+<td>商品的点击购买转化率</td>
+<td>反映了商品的购买决策操作特点</td>
+<td>1</td>
+</tr>
+<tr>
+<td>i_b4_diff_hours</td>
+<td>I</td>
+<td>商品的点击购买平均时差</td>
+<td>反映了商品的购买决策时间特点</td>
+<td>1</td>
+</tr>
+<tr>
+<td>c_u_count_in_n</td>
+<td>C</td>
+<td>类别在考察日前n天的用户总数计数</td>
+<td>反映了item_category的热度（用户覆盖性）</td>
+<td>3</td>
+</tr>
+<tr>
+<td>c_b_count_in_n</td>
+<td>C</td>
+<td>类别在考察日前n天的行为总数计数</td>
+<td>反映了item_category的热度（用户停留性）</td>
+<td>3</td>
+</tr>
+<tr>
+<td>c_bi_count_in_n</td>
+<td>C</td>
+<td>类别在考察日前n天的各项行为计数</td>
+<td>反映了item_category的热度（用户操作吸引），包含着item_category产生的购买习惯特点</td>
+<td>12</td>
+</tr>
+<tr>
+<td>c_b4_rate</td>
+<td>C</td>
+<td>类别的点击购买转化率</td>
+<td>反映了item_category的购买决策操作特点</td>
+<td>1</td>
+</tr>
+<tr>
+<td>c_b4_diff_hours</td>
+<td>C</td>
+<td>类别的点击购买平均时差</td>
+<td>反映了item_category的购买决策时间特点</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ic_u_rank_in_c</td>
+<td>IC</td>
+<td>商品在所属类别中的用户人数排序</td>
+<td>反映了item_id在item_category中的热度排名（用户覆盖性）</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ic_b_rank_in_c</td>
+<td>IC</td>
+<td>商品在所属类别中的行为总数排序</td>
+<td>反映了item_id在item_category中的热度排名（用户停留性）</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ic_b4_rank_in_c</td>
+<td>IC</td>
+<td>商品在所属类别中的销量排序</td>
+<td>反映了item_id在item_category中的热度排名（销量）</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ui_b_count_in_n</td>
+<td>UI</td>
+<td>用户-商品对在考察日前n天的行为总数计数</td>
+<td>反映了user_id - item_id的活跃度</td>
+<td>3</td>
+</tr>
+<tr>
+<td>ui_bi_count_in_n</td>
+<td>UI</td>
+<td>用户-商品对在考察日前n天的各项行为计数</td>
+<td>反映了user_id - item_id的活跃度，反映了user_id - item_id的各项操作的活跃度，对应着user_id - item_id的购买习惯</td>
+<td>12</td>
+</tr>
+<tr>
+<td>ui_bi_last_hours</td>
+<td>UI</td>
+<td>用户-商品对各项行为上一次发生距考察日的时差</td>
+<td>反映了user_id - item_id的活跃时间特征</td>
+<td>4</td>
+</tr>
+<tr>
+<td>ui_b_count_rank_in_n_in_u</td>
+<td>UI</td>
+<td>用户商品对的行为在用户所有商品中的排序</td>
+<td>反映了user_id对item_id的行为偏好</td>
+<td>3</td>
+</tr>
+<tr>
+<td>ui_b_count_rank_in_n_in_uc</td>
+<td>UI-UC</td>
+<td>用户-商品对的行为在用户-类别对中的排序</td>
+<td>反映了user_id对item_category中的各个item_id的行为偏好</td>
+<td>3</td>
+</tr>
+<tr>
+<td>uc_b_count_in_n</td>
+<td>UC</td>
+<td>用户-类别对在考察日前n天的行为总数计数</td>
+<td>反映了user_id - item_category的活跃度</td>
+<td>3</td>
+</tr>
+<tr>
+<td>uc_bi_count_in_n</td>
+<td>UC</td>
+<td>用户-类别对在考察日前n天的各项行为计数</td>
+<td>反映了user_id -item_category的活跃度，反映了user_id -item_category的各项操作的活跃度，对应着user_id -item_category的购买习惯</td>
+<td>12</td>
+</tr>
+<tr>
+<td>uc_bi_last_hours</td>
+<td>UC</td>
+<td>用户-类别对各项行为上一次发生距考察日的时差</td>
+<td>反映了user_id -item_category的活跃时间特征</td>
+<td>4</td>
+</tr>
+<tr>
+<td>uc_b_count_rank_in_n_in_u</td>
+<td>UC</td>
+<td>用户-类别对的行为在用户所有商品中的排序</td>
+<td>反映了user_id对item_category的行为偏好</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>通过sql或python-pandas可以简洁的完成这些特征的提取，参考程序：<a href="https://github.com/PnYuan/Tianchi-BigData/tree/master/Mobile_Recommendation/feature_construct" target="_blank" rel="noopener">python-pandas特征提取</a></p>
+<p>这些特征数值尺度不一，所以在使用尺度敏感模型前需要进行归一化处理；有些特征是离散型（如排序特征），有的特征存在缺值（如时间差特征），这些都要根据具体的模型来进行预处理。</p>
+<h3 id="样本格式"><a href="#样本格式" class="headerlink" title="样本格式"></a>样本格式</h3><p>在进行了特征构建之后，我们通过合并各大类特征数据（U、I、C、UI、UC、IC）得出训练和预测所需的数据，数据样本格式如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>索引</th>
+<th>特征</th>
+<th>标签</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一行样本数据</td>
+<td>user_id, item_id</td>
+<td>约100个特征数据</td>
+<td>分类结果（0-未购买，1-购买）</td>
+</tr>
+</tbody>
+</table>
+<p>在得出样本集之后，就可以进行模型的训练和预测了。（p.s.生成的数据量规模达到10G级别，考虑到单机计算存储资源受限，在示例程序大量使用了分块操作，另外也可考虑基于HDFS+MR来实现）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/blog/tags/人工特征/" rel="tag"># 人工特征</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch6 - 支持向量机/" rel="next" title="周志华《机器学习》习题解答：Ch6 - 支持向量机">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch6 - 支持向量机
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（四）：采用集成模型/" rel="prev" title="天池离线赛 - 移动推荐算法（四）：采用集成模型">
+                天池离线赛 - 移动推荐算法（四）：采用集成模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征工程回顾"><span class="nav-text">特征工程回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征构建"><span class="nav-text">特征构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预研思路"><span class="nav-text">预研思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征构建-1"><span class="nav-text">特征构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样本格式"><span class="nav-text">样本格式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/blog/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/blog/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/blog/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Y4X73J6x55bq6ze8RXFmT9Hc-gzGzoHsz", "mbo4tldbCoNWLb7oL4yKyCIk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

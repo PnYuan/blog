@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,集成学习,LR,随机森林,GBDT," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文讨论如何基于模型来进行预测，使用的模型包括逻辑回归（LR）、随机森林（RF）、梯度迭代提升树（GBDT）。">
+<meta name="keywords" content="数据挖掘,集成学习,LR,随机森林,GBDT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="天池离线赛 - 移动推荐算法（四）：采用集成模型">
+<meta property="og:url" content="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（四）：采用集成模型/index.html">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="本文讨论如何基于模型来进行预测，使用的模型包括逻辑回归（LR）、随机森林（RF）、梯度迭代提升树（GBDT）。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/lr/f1_npratio.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/lr/f1_cutoff.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/lr/res.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/n_estimators.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/max_depth.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/cut_off.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/res.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/lr_nt.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/md.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/msl.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/cut_off.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/res.png">
+<meta property="og:updated_time" content="2018-02-28T02:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="天池离线赛 - 移动推荐算法（四）：采用集成模型">
+<meta name="twitter:description" content="本文讨论如何基于模型来进行预测，使用的模型包括逻辑回归（LR）、随机森林（RF）、梯度迭代提升树（GBDT）。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/lr/f1_npratio.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'Q3TXVRGIPE',
+      apiKey: '3caec9a755e01d18eb5e952fbba501eb',
+      indexName: 'for-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（四）：采用集成模型/"/>
+
+
+
+
+
+  <title>天池离线赛 - 移动推荐算法（四）：采用集成模型 | PnYuan's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f5a11b34d0ea26498185957b7517c6cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/tianchi-dm/天池离线赛 - 移动推荐算法（四）：采用集成模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">天池离线赛 - 移动推荐算法（四）：采用集成模型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-22T22:47:03+08:00">
+                2017-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/天池大数据竞赛/" itemprop="url" rel="index">
+                    <span itemprop="name">天池大数据竞赛</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（四）：采用集成模型/" class="leancloud_visitors" data-flag-title="天池离线赛 - 移动推荐算法（四）：采用集成模型">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  本文讨论如何基于模型来进行预测，使用的模型包括逻辑回归（LR）、随机森林（RF）、梯度迭代提升树（GBDT）。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://tianchi.aliyun.com/getStart/introduction.htm?spm=5176.100068.5678.1.oTKroo&amp;raceId=231522" target="_blank" rel="noopener">移动推荐算法</a>是阿里天池赛2015年赛题之一，题目以移动电商平台的真实<strong>用户-商品行为数据</strong>为基础来构建商品推荐模型。该题现已成为新人入门的经典演练对象，博主也希望基于该题场景，加深对机器学习相关知识的理解，积累实践经验。关于题目回顾与数据初探，可参考：<a href="">天池离线赛 - 移动推荐算法（一）：题目与数据解析</a>，本文讨论如何基于模型来进行预测，测试的模型包括逻辑回归（LR）、随机森林（RF）、梯度迭代提升树（GBDT）。</p>
+<h2 id="基于模型的预测"><a href="#基于模型的预测" class="headerlink" title="基于模型的预测"></a>基于模型的预测</h2><p>（注：这里的实现基于 python 的 pandas、sklearn 等工具包。相关程序可参考<a href="https://github.com/PY131/Tianchi-BigData/tree/master/Mobile_Recommendation/model_based" target="_blank" rel="noopener">My GitHub - model-based predication</a>）</p>
+<h3 id="面向模型的数据预处理"><a href="#面向模型的数据预处理" class="headerlink" title="面向模型的数据预处理"></a>面向模型的数据预处理</h3><p>经过<a href="">天池离线赛 - 移动推荐算法（三）：特征构建</a>之后，在对特征数据样本套用模型进行分类预测之前，还需要根据具体所采用的模型对数据进行二次预处理，下面讨论其中重要的几点：</p>
+<ul>
+<li><p><strong>正负样本失衡问题</strong></p>
+<p> 经过特征构建所得的数据集正负样本比例约为 1：1200，数据严重失衡，易导致模型训练失效。在这里，我们可通过下采样和基于 f1_score 的评价标准来应对此问题。</p>
+<p> 若考虑对训练集中的负样本进行下采样。为避免随机采样的特征空间覆盖性不足，先对负样本进行k-means聚类（参考<a href="https://www.quora.com/In-classification-how-do-you-handle-an-unbalanced-training-set/answers/1144228?spm=5176.100239.blogcont93547.8.jsY3M4&amp;srid=h3G6o" target="_blank" rel="noopener">Sergey Feldman所提方法(2)</a>），然后在每个聚类上采用subsample来获得全面的负样本采样，最后与正样本组成较为平衡的训练集。</p>
+<p> 相关程序参考这里:<a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/model_based/k_means_preprocessing.py" target="_blank" rel="noopener">基于k-means数据预处理 - python sklearn</a>。</p>
+</li>
+<li><p><strong>缺失值问题</strong></p>
+<p> 在所构建的特征中，一些特征存在缺失值（如xx_diff_hours），这里，采用移除缺失值特征的数据集进行LR模型的训练，采用将缺失值赋值为-1的训练集进行RF/GBDT模型的训练。</p>
+</li>
+<li><p><strong>归一化问题</strong></p>
+<p> 在进行k-means和LR时，需要对不同度量尺度的特征进行归一化处理，这里我们采用<code>sklearn.preprocessing.StandardScaler()</code>实现。</p>
+</li>
+</ul>
+<h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p><a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/model_based/lr_on_subsample.py" target="_blank" rel="noopener">参考程序 - lr-based prediction</a></p>
+<p>逻辑回归（logistic regression，简称LR）是一种线性回归模型，另一种贴切的名称是“对数几率回归”，该模型采用对数几率函数逼近预测结果。这里采用<code>sklearn.linear_model.LogisticRegression</code>来训练模型。</p>
+<p>由于LR模型对正负样本平衡十分敏感，所以在k-means的基础上采用下采样，通过参数调节选取最优的正负样本比（N/P_ratio），下图是LR训练时的 f1_score 随<br>N/P_ratio 变化示意图：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/lr/f1_npratio.png" alt=""></p>
+<p>从图中看出，由于采用的是 f1 值进行评价，LR 模型在一定的 N/P_ratio 下的结果好一些，下面分别取 N/P_ratio = 35 和 N/P_ratio = 55，以预测的Sigmoid函数阈值参数 cut_off 为变量，观察模型在验证集上的表现：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/lr/f1_cutoff.png" alt=""></p>
+<p>由上图看出，当 N/P_ratio 取值不同时，cut_off 的最优取值也不同，当 N/P_ratio 较小时，正例的特征空间相对较大，故而 cut_off 取值需要大一些，以压缩正样本预测空间，减小偏差；反之 cut_off 取值小一些。</p>
+<p>将两种 [N/P_ratio, cut_off] 参数下的模型预测结果上传，评分如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/lr/res.png" alt=""></p>
+<p>可见，结果不令人满意（比前面基于规则的预测效果要差）。在过程中我们发现，由于数据随机性、非线性等因素，采用 LR 这样的线性模型许难以实现更好的效果，所以重新考虑采用RF、GBDT等集成模型来实现。</p>
+<h3 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h3><p><a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/model_based/rf_on_subsample.py" target="_blank" rel="noopener">参考程序 - rf-based prediction</a></p>
+<p>随机森林（Random Forest，简称RF）是一种基于决策树基模型的集成学习方法，其核心思想是通过特征采样来降低训练方差，提高集成泛化能力。这里我们采用<code>sklearn.ensemble.RandomForestClassifier</code>来随机森林的训练与预测任务。</p>
+<p>在RF（或GBDT）的训练过程中，<strong>参数调节</strong>（parameter tuning）十分重要，一般地，将集成学习模型的参数分为两大类：<strong>过程参数和基学习器参数</strong>，一般地，先调试过程参数（如RF的基学习器个数n_estimators等），然后再调试基学习器参数（如决策树的最大深度max_depth等）。</p>
+<p>下面讨论几个重要参数：</p>
+<ul>
+<li><p><strong>N/P_ratio（负正样本比例）</strong></p>
+<p>  其实对于随机森林模型和下面的GBDT模型来说。其基学习器（决策树）采用“entropy”、“gini“等作为建树依据，对不同类别的划分具有强制作用。这类的模型对于类别失衡不敏感。但是过量冗余的负样本会严重加大训练消耗，所以也可以考虑在不影响模型训练的前提下对数据进行采样。</p>
+</li>
+<li><p><strong>n_estimators（森林规模）</strong></p>
+<p>  n_estimators 代表随机森林中基学习器（决策树）的个数，对应着“森林”的大小。一般地，森林规模越大，集成的方差越小，模型泛化能力越强，但规模越大导致计算开销越大，所以在保证泛化能力前提下取较合适的 n_estimators 值即可。</p>
+<p>  下图示是在某次参数调节中验证集 f1_score 随 n_estimators 的变化曲线，可以看到当 n_estimators 达到一定大小以后，继续增大无助于模型性能的提升。</p>
+<p>  <img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/n_estimators.png" alt=""></p>
+</li>
+<li><p><strong>max_depth（树深度）</strong></p>
+<p>  max_depth 属于基学习器参数，它控制着每个决策树的深度，一般来说，决策树越深，模型拟合的偏差越小，但同时拟合的开销也越大。一般地，需要保证足够的树深度，但也不宜过大。</p>
+<p>  下图示为某次参数调节过程中验证集 f1_score 随 max_depth 的变化曲线，可以看到当 max_depth 达到一定大小以后，继续增大无助于模型性能的提升。</p>
+<p>  <img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/max_depth.png" alt=""></p>
+</li>
+<li><p><strong>min_samples_split（划分样本数）/min_samples_leaf(叶最小样本数)</strong></p>
+<p>  这两个参数控制着分支粒度，防止着过拟合，效果相似。在RF中单个基学习器关注偏差，其叶节点粒度应该很小，所以这两个参数应设置得比较小。</p>
+</li>
+<li><p><strong>cut_off（预测概率阈值）</strong></p>
+<p>  模型在对样本进行二分类预测时，首先得出的是样本所属类别的概率，然后通过阈值（如取cut_off = 0.5）划分得出结果。比如说：大于阈值判为正例，小于阈值的判为反例。该阈值反应了我们对于预测把握的估计，阈值越大的，要求的预测似然越大，对应的预测类别特征空间响应的收缩。</p>
+<p>  下图示为某次参数调节过程中验证集 f1_score 随 cut_off 的变化曲线，可以看到，此时的阈值应取大一些。</p>
+<p>  <img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/cut_off.png" alt=""></p>
+</li>
+</ul>
+<p>此外，还有许多的参数需要在模型训练时予以考虑。总的来说，参数调节是为了找到最适合于当前数据分布下的模型，由于参数众多，要找到这样一个<strong>全局最优</strong>的参数组合在实践中往往做不到，一个合理的方法是采用<strong>贪心</strong>的思路，先过程参数再基学习器参数，粗调与细调相结合，争取找到<strong>局部最优</strong>的参数组合，多次迭代此过程，使得局部最优的参数组合满足任务要求。</p>
+<p>下面是两套参数组合下的预测结果评分，可以看到，基于此随机森林模型的预测结果明显优于之前的结果：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/rf/res.png" alt=""></p>
+<h3 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h3><p><a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/model_based/gbdt_on_subsample.py" target="_blank" rel="noopener">参考程序 - gbdt-based prediction</a></p>
+<p>GBDT（梯度迭代决策树）是一种基于决策回归树的Boosting模型，其核心思想是将提升过程建立在对“之前残差的负梯度表示”的回归拟合上，通过不断的迭代实现降低偏差的目的。这里我们采用<code>sklearn.ensemble.GradientBoostingClassifier</code>来实现GBDT分类器。</p>
+<p>同随机森林一样，GBDT在训练时也需要进行大量的参数调节工作，以期获得适合于当前数据任务的模型。这里依然将GBDT的参数分为过程参数和基学习器参数两类，首先调节过程参数（学习率、基学习器个数等），然后调节基学习器参数（树深度、叶子分裂样本数等），推荐采用启发贪心式的参数调节方法，反复调节以期得到较好的参数组合。GBDT具体的调参对象与随机森林类似，但要注意二者集成本质的区别，下面是对一些重要参数的讨论：</p>
+<ul>
+<li><p><strong>N/P_ratio（负正样本比例）</strong></p>
+<p>  和随机森林一样。考虑到过量冗余的负样本会严重加大训练消耗，考虑在不影响样本信息充分性的前提下对数据进行采样。</p>
+</li>
+<li><p><strong>learning_rate（学习率）/n_estimators（基学习器数目）</strong></p>
+<p>  这里，learning_rate 和 n_estimators 分别控制迭代的步长和最大迭代次数，所以，这两个参数应当一起调试，寻找最优的组合。GBDT设置大量基学习器的目的是为了集成来降低偏差，所以 n_estimators 一般会设置得大一些。</p>
+<p>  下图示为某次参数调节过程中验证集 f1_score 在不同 learning_rate 取值下随 n_estimators 的变化曲线。从图中可以看出，过大学习率导致拟合效果很差甚至出现发散，过小的学习率导致拟合太慢。图中学习率<code>lr=0.01</code>的曲线总体上表现最好；另外我们可以看出，当迭代达到一定次数时，继续迭代对模型提升效果不大，据此可选择出一个合适的<code>n_estimators</code>取值。</p>
+<p>  <img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/lr_nt.png" alt=""></p>
+</li>
+<li><p><strong>max_depth（树深度）</strong></p>
+<p>  对于GBDT模型来说，其每个基学习器是一个弱学习器，决策树的深度一般设置得比较小，以此来降低方差，之后在经过残差逼近迭代来降低偏差，从而形成强学习器。所以不同于随机森林模型，这里的 max_depth 参数值应设置得比较小，</p>
+<p>  下图示为某次参数调节过程中验证集 f1_score 随 max_depth 的变化曲线。</p>
+<p>  <img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/md.png" alt=""></p>
+</li>
+<li><p><strong>min_samples_split（划分样本数）/min_samples_leaf(叶最小样本数)</strong></p>
+<p>  在GBDT中，单个基学习器侧重于降低方差，其叶节点粒度应该比较粗，所以这两个参数应设置得较大，但同时要考虑到数据失衡的情况，所以又不能设置得过大。</p>
+<p>  下图示为某次参数调节过程中验证集 f1_score 随 min_samples_leaf 的变化曲线。</p>
+<p>  <img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/msl.png" alt=""></p>
+</li>
+<li><p><strong>cut_off（预测概率阈值）</strong></p>
+<p>  同随机森林中该项参数一致，cut_off 控制着我们对结果的置信程度。下图示为某次参数调节过程中验证集 f1_score 随 cut_off 的变化曲线，可以看出，当前参数设定下的训练器，取 cut_off ~ [0.4，0.6]比较合适，（p.s.cut_off分布较对称且矮胖得出来的结果比较稳定）。</p>
+<p>  <img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/cut_off.png" alt=""></p>
+</li>
+</ul>
+<p>除了上述参数之外，在一般调参的过程中还需要考虑的参数有：参考随机森林引入特征随机性的参数 max_features ，控制叶节点分裂粒度的参数 min_samples_split、min_samples_leaf 等。</p>
+<p>下面是两套参数组合下的预测结果评分，可以看到，基于此GBDT模型的预测结果：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/model_based/gbdt/res.png" alt=""></p>
+<p>(p.s.借助GBDT的强大力量，终于有一次rank到了第2名….2/200)</p>
+<h2 id="结果总结"><a href="#结果总结" class="headerlink" title="结果总结"></a>结果总结</h2><p><strong>1. 过程回顾</strong></p>
+<ul>
+<li><p>任务被确立为<strong>基于模型的二分类</strong>，总体任务明确为是：<strong>分类模型套用 + 参数调节</strong>。</p>
+</li>
+<li><p>采用最简单的<strong>逻辑斯蒂回归</strong>（LR）进行了训练与预测，效果很差，进一步验证了数据随机性强、非线性的问题。</p>
+</li>
+<li><p>采用两种主流的集成学习方法<strong>随机森林（RF）和梯度提升树（GBDT）</strong>进行了训练与预测，效果提升明显，说明这种树集成的模型对工程实践中的随机性、非线性强，特征规约困难的数据适应性好。</p>
+</li>
+</ul>
+<p><strong>2. 关于参数调节</strong></p>
+<p> 在采用集成学习模型RF和GBDT时，参数优化对模型效果的提升十分明显，但是最优参数的获取往往是一个NP难题，故而采用启发式的贪婪搜索是一个相对好的选择。</p>
+<p> 对于集成模型，我们将其参数分为<strong>过程参数</strong>和<strong>基学习器参数</strong>两种，根据其对模型性能影响大小的经验判断来依次对其进行优化，不断的迭代往复进行直到获得一个满足要求的参数组合（一般是局部最优）。注意在整个过程中对拟合程度的把握，防止<strong>欠拟合/过拟合</strong>，拟合程度可根据训练过程中的训练损失（Train loss）、袋外估计（OOB），验证过程中的f1分数变化曲线等信息结合经验判断。</p>
+<p><strong>3. 其他</strong></p>
+<p>考虑到模型训练的效率以及对数据信息的学习能力，下一步拟采用<strong>XGBoost</strong>以期更好地实现当前任务。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>下面列出本文涉及的重要参考来源：</p>
+<ul>
+<li>基础知识 - GBDT：<a href="http://www.jianshu.com/p/005a4e6ac775" target="_blank" rel="noopener">GBDT：梯度提升决策树</a></li>
+<li>实践技能 - 数据不平衡问题：<a href="http://blog.csdn.net/heyongluoyao8/article/details/49408131" target="_blank" rel="noopener">在分类中如何处理训练集中不平衡问题</a></li>
+<li>实践技能 - 数据不平衡问题：<a href="https://yq.aliyun.com/articles/93547" target="_blank" rel="noopener">七招教你处理非平衡数据</a></li>
+<li>实践技能 - 参数调节_RF：<a href="https://www.analyticsvidhya.com/blog/2015/06/tuning-random-forest-model/" target="_blank" rel="noopener">Tuning the parameters of your Random Forest model</a></li>
+<li>实践技能 - 参数调节_GBDT：<a href="https://www.analyticsvidhya.com/blog/2016/02/complete-guide-parameter-tuning-gradient-boosting-gbm-python/" target="_blank" rel="noopener">Complete Guide to Parameter Tuning in Gradient Boosting (GBM) in Python</a></li>
+<li>编程实现 - sklearn集成学习主页：<a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble" target="_blank" rel="noopener">sklearn.ensemble</a></li>
+<li>编程实现 - sklearn分类示例集合：<a href="http://scikit-learn.org/dev/auto_examples/classification/plot_classifier_comparison.html#sphx-glr-auto-examples-classification-plot-classifier-comparison-py" target="_blank" rel="noopener">Classifier comparison</a> </li>
+<li>编程实现 - sklearn：<a href="http://www.cnblogs.com/jasonfreak/p/5720137.html" target="_blank" rel="noopener">使用sklearn进行集成学习</a></li>
+<li>赛题相关 - <a href="http://blog.csdn.net/bryan__/article/details/47112993" target="_blank" rel="noopener">阿里移动推荐算法思路解析</a></li>
+<li>赛题相关 - <a href="https://bbs.aliyun.com/read/233904.html" target="_blank" rel="noopener">阿里巴巴移动推荐挑战赛FAQ</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/blog/tags/集成学习/" rel="tag"># 集成学习</a>
+          
+            <a href="/blog/tags/LR/" rel="tag"># LR</a>
+          
+            <a href="/blog/tags/随机森林/" rel="tag"># 随机森林</a>
+          
+            <a href="/blog/tags/GBDT/" rel="tag"># GBDT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（三）：特征构建/" rel="next" title="天池离线赛 - 移动推荐算法（三）：特征构建">
+                <i class="fa fa-chevron-left"></i> 天池离线赛 - 移动推荐算法（三）：特征构建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于模型的预测"><span class="nav-text">基于模型的预测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向模型的数据预处理"><span class="nav-text">面向模型的数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑回归"><span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机森林"><span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT"><span class="nav-text">GBDT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果总结"><span class="nav-text">结果总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/blog/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/blog/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/blog/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Y4X73J6x55bq6ze8RXFmT9Hc-gzGzoHsz", "mbo4tldbCoNWLb7oL4yKyCIk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

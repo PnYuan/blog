@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,天池大数据竞赛," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="移动推荐算法是阿里天池赛2015年赛题，这里对题目进行回顾，基于可视化手段对数据集进行解析。">
+<meta name="keywords" content="数据挖掘,天池大数据竞赛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="天池离线赛 - 移动推荐算法（一）：题目与数据">
+<meta property="og:url" content="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（一）：题目与数据解析/index.html">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="移动推荐算法是阿里天池赛2015年赛题，这里对题目进行回顾，基于可视化手段对数据集进行解析。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gtms02.alicdn.com/tps/i2/TB1T.q.HXXXXXcGXVXXwu0bFXXX.png">
+<meta property="og:image" content="https://gtms01.alicdn.com/tps/i1/TB1WNN4HXXXXXbZaXXXwu0bFXXX.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/file_size.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/user_csv.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/item_csv.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_day.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_day_of_P.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_hour_17-18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_hour_17-18_4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/user_count.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/item_count.png">
+<meta property="og:updated_time" content="2018-02-28T02:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="天池离线赛 - 移动推荐算法（一）：题目与数据">
+<meta name="twitter:description" content="移动推荐算法是阿里天池赛2015年赛题，这里对题目进行回顾，基于可视化手段对数据集进行解析。">
+<meta name="twitter:image" content="https://gtms02.alicdn.com/tps/i2/TB1T.q.HXXXXXcGXVXXwu0bFXXX.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'Q3TXVRGIPE',
+      apiKey: '3caec9a755e01d18eb5e952fbba501eb',
+      indexName: 'for-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（一）：题目与数据解析/"/>
+
+
+
+
+
+  <title>天池离线赛 - 移动推荐算法（一）：题目与数据 | PnYuan's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f5a11b34d0ea26498185957b7517c6cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/tianchi-dm/天池离线赛 - 移动推荐算法（一）：题目与数据解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">天池离线赛 - 移动推荐算法（一）：题目与数据</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T23:10:16+08:00">
+                2017-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/天池大数据竞赛/" itemprop="url" rel="index">
+                    <span itemprop="name">天池大数据竞赛</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（一）：题目与数据解析/" class="leancloud_visitors" data-flag-title="天池离线赛 - 移动推荐算法（一）：题目与数据">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  移动推荐算法是阿里天池赛2015年赛题，这里对题目进行回顾，基于可视化手段对数据集进行解析。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://tianchi.aliyun.com/getStart/introduction.htm?spm=5176.100068.5678.1.oTKroo&amp;raceId=231522" target="_blank" rel="noopener">移动推荐算法</a>是阿里天池赛2015年赛题之一，题目以移动电商平台的真实<strong>用户-商品行为数据</strong>为基础来构建商品推荐模型。该题现已成为新人入门的经典演练对象，博主也希望基于该题场景，加深对机器学习相关知识的理解，积累实践经验。</p>
+<h2 id="题目回顾"><a href="#题目回顾" class="headerlink" title="题目回顾"></a>题目回顾</h2><p>关于题目和数据的介绍可访问天池官网中的：<a href="https://tianchi.aliyun.com/getStart/information.htm?spm=5176.100067.5678.2.j9qL7V&amp;raceId=231522" target="_blank" rel="noopener">离线赛（移动推荐算法）-赛题与数据</a></p>
+<h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><blockquote>
+<p>在真实的业务场景下，我们往往需要对所有商品的一个子集构建个性化推荐模型。在完成这件任务的过程中，我们不仅需要利用用户在这个商品子集上的行为数据，往往还需要利用更丰富的用户行为数据。定义如下的符号：</p>
+</blockquote>
+<blockquote>
+<p>U——用户集合</p>
+</blockquote>
+<blockquote>
+<p>I——商品全集</p>
+</blockquote>
+<blockquote>
+<p>P——商品子集，P ⊆ I</p>
+</blockquote>
+<blockquote>
+<p>D——用户对商品全集的行为数据集合</p>
+</blockquote>
+<blockquote>
+<p>那么我们的目标是利用 D 来构造 U 中用户对 P 中商品的推荐模型。</p>
+</blockquote>
+<h3 id="数据内容"><a href="#数据内容" class="headerlink" title="数据内容"></a>数据内容</h3><blockquote>
+<p>本场比赛提供20000用户的完整行为数据以及百万级的商品信息。竞赛数据包含两个部分。第一部分是用户在商品全集上的移动端行为数据（D），表名为<code>tianchi_fresh_comp_train_user</code>，第二个部分是商品子集（P），表名为<code>tianchi_fresh_comp_train_item</code>，两个数据集所包含的字段如下：</p>
+<p><strong>D: tianchi_fresh_comp_train_user</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>字段说明</th>
+<th>提取说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_id</td>
+<td>用户标识</td>
+<td>抽样&amp;字段脱敏</td>
+</tr>
+<tr>
+<td>item_id</td>
+<td>商品标识</td>
+<td>字段脱敏</td>
+</tr>
+<tr>
+<td>behavior_type</td>
+<td>用户对商品的行为类型</td>
+<td>包括浏览、收藏、加购物车、购买，对应取值分别是1、2、3、4</td>
+</tr>
+<tr>
+<td>user_geohash</td>
+<td>用户位置的空间标识，可以为空</td>
+<td>由经纬度通过保密的算法生成</td>
+</tr>
+<tr>
+<td>item_category</td>
+<td>商品分类标识</td>
+<td>字段脱敏</td>
+</tr>
+<tr>
+<td>time</td>
+<td>行为时间</td>
+<td>精确到小时级别</td>
+</tr>
+</tbody>
+</table>
+<p><strong>P: tianchi_fresh_comp_train_item</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>字段说明</th>
+<th>提取说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>item_id</td>
+<td>商品标识</td>
+<td>抽样&amp;字段脱敏</td>
+</tr>
+<tr>
+<td>item_ geohash</td>
+<td>商品位置的空间标识，可以为空</td>
+<td>由经纬度通过保密的算法生成</td>
+</tr>
+<tr>
+<td>item_category</td>
+<td>商品分类标识</td>
+<td>字段脱敏</td>
+</tr>
+</tbody>
+</table>
+<p><strong>训练数据</strong>包含了抽样出来的一定量用户在一个月时间（11.18~12.18）之内的移动端行为数据（D）。</p>
+<p><strong>评分数据</strong>是这些用户在这个一个月之后的一天（12.19）对商品子集（P）的购买数据。</p>
+</blockquote>
+<h3 id="赛题目标"><a href="#赛题目标" class="headerlink" title="赛题目标"></a>赛题目标</h3><blockquote>
+<p>参赛者要使用训练数据建立推荐模型，并输出用户在接下来一天对商品子集购买行为的预测结果。<strong>即预测12.19这一天用户在P上的购买情况</strong>。</p>
+<p>参赛者完成用户对商品子集的购买预测之后，需要将结果放入指定格式的数据表（非分区表）中，要求结果表名为：<code>tianchi_mobile_recommendation_predict.csv</code>，且以utf-8格式编码；包含<code>user_id</code>和<code>item_id</code>两列（均为string类型）,要求去除重复。例如：</p>
+<p><img src="https://gtms02.alicdn.com/tps/i2/TB1T.q.HXXXXXcGXVXXwu0bFXXX.png" alt=""></p>
+</blockquote>
+<h3 id="结果评价"><a href="#结果评价" class="headerlink" title="结果评价"></a>结果评价</h3><blockquote>
+<p>比赛采用经典的精确度(precision)、召回率(recall)和F1值作为评估指标。具体计算公式如下：</p>
+</blockquote>
+<blockquote>
+<p><img src="https://gtms01.alicdn.com/tps/i1/TB1WNN4HXXXXXbZaXXXwu0bFXXX.png" alt=""></p>
+<p>其中<code>PredictionSet</code>为算法预测的购买数据集合，<code>ReferenceSet</code>为真实的答案购买数据集合。我们以F1值作为最终的唯一评测标准。</p>
+</blockquote>
+<h3 id="问题综述"><a href="#问题综述" class="headerlink" title="问题综述"></a>问题综述</h3><p>采用前面一个月的<strong>用户-行为</strong>数据，<strong>预测</strong>在接下来的一天用户在<strong>指定商品子集</strong>上的<strong>购买情况</strong>。</p>
+<h2 id="数据解析"><a href="#数据解析" class="headerlink" title="数据解析"></a>数据解析</h2><p>在得到数据后对数据进行初步分析认识是很有趣的。这里我们结合一些<strong>数据预处理和可视化</strong>的手段，对数据内涵进行初步挖掘。</p>
+<h3 id="规模和属性"><a href="#规模和属性" class="headerlink" title="规模和属性"></a>规模和属性</h3><h4 id="数据规模"><a href="#数据规模" class="headerlink" title="数据规模"></a>数据规模</h4><p>数据集文件<a href="https://tianchi.aliyun.com/getStart/information.htm?spm=5176.100067.5678.2.j9qL7V&amp;raceId=231522" target="_blank" rel="noopener">fresh_comp_offline</a>包含两个<code>csv</code>文件，分别对应数据集D和P。其文件大小如下图示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/file_size.png" alt=""></p>
+<p>根据题目，我们将上述两个数据集分别即为 <strong>D 和 P</strong> 。</p>
+<p>采用vim查看数据集文件内容，示意如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/user_csv.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/item_csv.png" alt=""></p>
+<p>从上面的分析可以看到：D数据集包含2千多万条样本，文件大小约1G；P数据集包含60多万条记录，文件大小约10M。可以进一步测试数据全部加载所需时间，从而对数据量有个更直观的感受（这里采用python-pandas，<a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/data_preanalysis/time_test_of_data_loading.py" target="_blank" rel="noopener">查看测试代码</a>）。结果显示，在我的计算机环境下，D数据集载入pandas-dataframe耗时约45s，P数据集载入耗时不到1s。（可以看到数据集的规模比较大，基于普通PC环境的分析处理可能会承受一定的压力，可考虑分块操作或抽样分析。）</p>
+<h4 id="属性特征"><a href="#属性特征" class="headerlink" title="属性特征"></a>属性特征</h4><p>数据的属性已经在题目中给出，可以采用pandas查看部分数据如下图示：</p>
+<ol>
+<li><p>数据集D</p>
+<pre><code>   user_id   item_id    behavior_type  user_geohash  item_category  time  
+0  10001082  285259775  1              97lk14c       4076           2014-12-08 18  
+1  10001082    4368907  1              NaN           5503           2014-12-12 12  
+2  10001082    4368907  1              NaN           5503           2014-12-12 12  
+3  10001082   53616768  1              NaN           9762           2014-12-02 15  
+4  10001082  151466952  1              NaN           5232           2014-12-12 11  
+</code></pre></li>
+<li><p>数据集P</p>
+<pre><code>   item_id    item_geohash  item_category
+0  100002303  NaN           3368
+1  100003592  NaN           7995
+2  100006838  NaN           12630
+3  100008089  NaN           7791
+4  100012750  NaN           9614    
+</code></pre></li>
+</ol>
+<p>其中数据集D包含6个属性，如代表不同用户的user_id，代表不同商品的item_id等；数据集P包含3个属性。下面列出一些基本的观点：</p>
+<ul>
+<li>每一条样本对应于用户-行为记录，即<code>user_id - behaviour_type</code>，同时给出了对象<code>item_id</code>和其他关联属性。</li>
+<li>每个属性取值均可在不同的样本中出现。</li>
+</ul>
+<h3 id="宏观分析"><a href="#宏观分析" class="headerlink" title="宏观分析"></a>宏观分析</h3><h4 id="点击购买转化率"><a href="#点击购买转化率" class="headerlink" title="点击购买转化率"></a>点击购买转化率</h4><p>我们的目标是预测购买事件的发生，在这样的业务背景下，我们先关注一下CTR指数（操作购买转化率），即用户购买商品与需要操作的次数的平均比率。通过pandas统计<code>value_counts()</code>统计<code>behavior_type</code>数据列可得：</p>
+<pre><code>CTR = 购买操作样本数 / 样本总数 = 232579 / 23291027 = 0.009986 ≈ 1%
+</code></pre><p>即用户平均下来大约要进行100次操作（各种商品的点击查看、加购物车等行为），才会生成一次购买决定。</p>
+<h4 id="宏观行为统计"><a href="#宏观行为统计" class="headerlink" title="宏观行为统计"></a>宏观行为统计</h4><p>这里要按时间对数据进行一些可视化呈现，暂不考虑由“地理位置-时区”等因素，默认为统一的时间尺度。注意原始数据中的时间格式为<code>%Y-%m-%d %H</code>，精确到小时，（python有许多成熟的软件包可完成对时间数据的高效处理）。这里主要基于<code>pandas-matplotlib</code>进行可视化分析。一些图像如下：（<a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/data_preanalysis/data_analysis.py" target="_blank" rel="noopener">查看可视化代码</a>）</p>
+<p>11月18-12月18，每日操作次数如图：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_day.png" alt=""></p>
+<p>其中属于商品子集P的操作次数如图：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_day_of_P.png" alt=""></p>
+<p>可以看到，除了“双12时期”记录猛增之外，总体稳定（没有反映“月光族”现象），进一步我们发现，不仅总操作数规模平稳，每类操作数也是平稳的。</p>
+<p>下面考察两个假定的“平凡日”12月17日-18日，其各种操作（<code>behavior_type</code>）基于小时记录的统计如下图示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_hour_17-18.png" alt=""></p>
+<p>可见两天的变化趋势基本一致，并且可以看出一些符合实际的规律，比如每天记录的高峰期在晚上（人们较空闲），比如凌晨记录相对较少（都睡觉了），比如0号操作（点击浏览<code>behavior_type=1</code>）比其他三种多得多等等。我们进一步查看3号<br>操作（购买<code>behavior_type=1</code>）的统计如下图示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/count_hour_17-18_4.png" alt=""></p>
+<p>可看到每天购买操作的变化趋势大体相同，同其他类型操作一致。</p>
+<h3 id="微观行为统计"><a href="#微观行为统计" class="headerlink" title="微观行为统计"></a>微观行为统计</h3><p>首先考察用户微观信息，这里我们抽取一些用户，查看其操作（<code>behavior_type</code>）的统计信息得到下表。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/user_count.png" alt=""></p>
+<p>从表中可以看出这几个用户的信息，如<code>10001082</code>的的CTR（操作购买转化率）高，且没有收藏和加购物车的习惯，看来很果断；如<code>108461135</code>的操作次数多，可能成天逛手淘；<code>111345634</code>购买次数很多，可能是购物狂等等。</p>
+<p>然后考察商品微观信息，先查看数据集P，（由于P文件较小，可直接采用excel进行分析）。一些统计信息如下表示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/item_count.png" alt=""></p>
+<p>得出数据集P总计62万多件商品，分属于1054个商品类，其中最多的商品类<code>4561</code>包括3万多件商品，最少的类别只有一件商品。</p>
+<p>进一步地，我们还可以分析同一类商品的销售量，同一个用户的商品购买分布及对应的回头率等等更多内容。。。</p>
+<h2 id="本文小结"><a href="#本文小结" class="headerlink" title="本文小结"></a>本文小结</h2><p>本文先是对“移动推荐算法”的题目进行了回顾，然后基于大量可视化的呈现对数据集进行了初步分析。至此，我们对所要分析的数据对象有了一个基本的轮廓认知，为进一步的数据挖掘工作做出了先验铺垫。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/blog/tags/天池大数据竞赛/" rel="tag"># 天池大数据竞赛</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5 - 神经网络/" rel="next" title="周志华《机器学习》习题解答：Ch5 - 神经网络">
+                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch5 - 神经网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（二）：基于简单规则的预测/" rel="prev" title="天池离线赛 - 移动推荐算法（二）：基于简单规则的预测">
+                天池离线赛 - 移动推荐算法（二）：基于简单规则的预测 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目回顾"><span class="nav-text">题目回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#业务场景"><span class="nav-text">业务场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据内容"><span class="nav-text">数据内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赛题目标"><span class="nav-text">赛题目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果评价"><span class="nav-text">结果评价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题综述"><span class="nav-text">问题综述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据解析"><span class="nav-text">数据解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规模和属性"><span class="nav-text">规模和属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据规模"><span class="nav-text">数据规模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性特征"><span class="nav-text">属性特征</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宏观分析"><span class="nav-text">宏观分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#点击购买转化率"><span class="nav-text">点击购买转化率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#宏观行为统计"><span class="nav-text">宏观行为统计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微观行为统计"><span class="nav-text">微观行为统计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文小结"><span class="nav-text">本文小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/blog/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/blog/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/blog/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Y4X73J6x55bq6ze8RXFmT9Hc-gzGzoHsz", "mbo4tldbCoNWLb7oL4yKyCIk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘,天池大数据竞赛,人工规则," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文讨论如何运用一个简单的规则来进行预测，目的是感受下天池赛答题评分的过程。">
+<meta name="keywords" content="数据挖掘,天池大数据竞赛,人工规则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="天池离线赛 - 移动推荐算法（二）：基于简单规则的预测">
+<meta property="og:url" content="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（二）：基于简单规则的预测/index.html">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="本文讨论如何运用一个简单的规则来进行预测，目的是感受下天池赛答题评分的过程。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/time_decay.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/rule_example_res.png">
+<meta property="og:updated_time" content="2018-02-28T02:00:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="天池离线赛 - 移动推荐算法（二）：基于简单规则的预测">
+<meta name="twitter:description" content="本文讨论如何运用一个简单的规则来进行预测，目的是感受下天池赛答题评分的过程。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/time_decay.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'Q3TXVRGIPE',
+      apiKey: '3caec9a755e01d18eb5e952fbba501eb',
+      indexName: 'for-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/tianchi-dm/天池离线赛 - 移动推荐算法（二）：基于简单规则的预测/"/>
+
+
+
+
+
+  <title>天池离线赛 - 移动推荐算法（二）：基于简单规则的预测 | PnYuan's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f5a11b34d0ea26498185957b7517c6cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/tianchi-dm/天池离线赛 - 移动推荐算法（二）：基于简单规则的预测/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">天池离线赛 - 移动推荐算法（二）：基于简单规则的预测</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T10:25:00+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/天池大数据竞赛/" itemprop="url" rel="index">
+                    <span itemprop="name">天池大数据竞赛</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（二）：基于简单规则的预测/" class="leancloud_visitors" data-flag-title="天池离线赛 - 移动推荐算法（二）：基于简单规则的预测">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  本文讨论如何运用一个简单的规则来进行预测，目的是感受下天池赛答题评分的过程。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于题目回顾与数据初探，可参考：<a href="">天池离线赛 - 移动推荐算法（一）：题目与数据解析</a>，本文讨论如何运用一个简单的规则来进行预测，主要目的是感受一下天池赛答题评分的过程。</p>
+<h2 id="规则提出"><a href="#规则提出" class="headerlink" title="规则提出"></a>规则提出</h2><p>根据生活常识，我们很容易想到加购物车的行为<code>behavior_type = 3</code>与最终的购买行为<code>behavior_type = 4</code>强关联，于是我们提出这样一条规则：</p>
+<pre><code>在 T 时间内加购物车的用户最终会选择购买、
+</code></pre><p>于是我们的任务变成了确定这个最优参数 T。</p>
+<h2 id="数据构建与宏观分析"><a href="#数据构建与宏观分析" class="headerlink" title="数据构建与宏观分析"></a>数据构建与宏观分析</h2><p>为了进行分析，我们基于原始数据集构建一个新的数据集：</p>
+<pre><code>D_time = {&lt;user_id, item_id, time_3, time_4&gt;}
+</code></pre><p>D_time数据集中的<code>time_3, time_4</code>对应某个用户商品对[user_id, item_id]下的2种操作（加购物车、购买）的初次时间，缺省值为nan，采用pandas处理数据并做去重处理，生成的新数据，示意如下：</p>
+<pre><code>&gt;&gt;&gt; df_time.head(5)
+     user_id    item_id               time3               time4
+0  100029775  222229697 2014-12-12 15:00:00 2014-12-12 15:00:00
+1  100068031  250636264 2014-12-14 00:00:00 2014-12-14 00:00:00
+2  100068031  296527651 2014-12-15 07:00:00                 NaT
+3  100068031  187577314 2014-12-15 06:00:00                 NaT
+4  100068031  150442941 2014-12-18 17:00:00                 NaT
+...
+</code></pre><p>剔除数据集中的缺失值样本，得到既有加购物车又有购买的样本数据集事宜如下：</p>
+<pre><code>&gt;&gt;&gt; df_time_34.head(5)
+      user_id    item_id               time3               time4
+0   100029775  222229697 2014-12-12 15:00:00 2014-12-12 15:00:00
+1   100068031  250636264 2014-12-14 00:00:00 2014-12-14 00:00:00
+6   100076491   28462638 2014-12-02 22:00:00 2014-12-02 22:00:00
+10  100097524  234964999 2014-11-30 22:00:00 2014-11-30 22:00:00
+11  100097524   95870772 2014-11-30 22:00:00 2014-11-30 22:00:00
+...
+</code></pre><p>对数据的time3、time4做差，得到时间差，绘制出<strong>“加购物车-购买”时间差</strong>分布直方图示意图如下：<a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/rule_example.py" target="_blank" rel="noopener">查看源码 - python</a></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/time_decay.png" alt="“加购物车-购买”时间差衰减"></p>
+<p>由上图可见，绝大多数记录的“加购物车-购买”时间差在1天以内（这也和我们的生活经验一致），于是我们取参数<code>T = 1 day</code>即最终规则为：</p>
+<pre><code>在12月18日加购物车而未购买的用户，最终会选择在12月19日购买。
+</code></pre><h2 id="规则验证"><a href="#规则验证" class="headerlink" title="规则验证"></a>规则验证</h2><p>统计出规则中的”用户-商品(属于商品子集)”对（即12月18日加购物车而为购买的样本），导出预测结果示意如下：<a href="https://github.com/PnYuan/Tianchi-BigData/blob/master/Mobile_Recommendation/rule_example.py" target="_blank" rel="noopener">查看源码 - python</a></p>
+<pre><code>user_id,item_id
+100442521,85464552
+100442521,169674678
+103215328,126238643
+103490614,300814663
+103490614,79590796
+...
+</code></pre><p>将所生成的csv文件<code>tianchi_mobile_recommendation_predict.csv</code>提交，得到评测结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Tianchi-BigData/master/Mobile_Recommendation/files/imgs/mobile_recommendation/rule_example_res.png" alt="rule_example_res"></p>
+<p>可以看到，这样一种基于规则的预测方法还是取得了一定的效果。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/blog/tags/天池大数据竞赛/" rel="tag"># 天池大数据竞赛</a>
+          
+            <a href="/blog/tags/人工规则/" rel="tag"># 人工规则</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/tianchi-dm/天池离线赛 - 移动推荐算法（一）：题目与数据解析/" rel="next" title="天池离线赛 - 移动推荐算法（一）：题目与数据">
+                <i class="fa fa-chevron-left"></i> 天池离线赛 - 移动推荐算法（一）：题目与数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验/" rel="prev" title="周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验">
+                周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#规则提出"><span class="nav-text">规则提出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据构建与宏观分析"><span class="nav-text">数据构建与宏观分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规则验证"><span class="nav-text">规则验证</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/blog/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/blog/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/blog/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Y4X73J6x55bq6ze8RXFmT9Hc-gzGzoHsz", "mbo4tldbCoNWLb7oL4yKyCIk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
