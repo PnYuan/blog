@@ -214,6 +214,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/blog/archives/" rel="section">
             
@@ -398,9 +418,9 @@
       
 
       
-        <p><a href="https://tianchi.aliyun.com/getStart/introduction.htm?spm=5176.100068.5678.1.oTKroo&amp;raceId=231522" target="_blank" rel="noopener">移动推荐算法</a>是阿里天池赛2015年赛题之一，题目以移动电商平台的真实<strong>用户-商品行为数据</strong>为基础来构建商品推荐模型。该题现已成为新人入门的经典演练对象，博主也希望基于该题场景，加深对机器学习相关知识的理解，积累实践经验。关于题目回顾与数据初探，可参考：<a href="">天池离线赛 - 移动推荐算法（一）：题目与数据解析</a>，本文讨论如何基于模型来进行预测，测试的模型包括逻辑回归（LR）、随机森林（RF）、梯度迭代提升树（GBDT）。</p>
+        <p><a href="https://tianchi.aliyun.com/getStart/introduction.htm?spm=5176.100068.5678.1.oTKroo&amp;raceId=231522" target="_blank" rel="noopener">移动推荐算法</a>是阿里天池赛2015年赛题之一，题目以移动电商平台的真实<strong>用户-商品行为数据</strong>为基础来构建商品推荐模型。该题现已成为新人入门的经典演练对象，博主也希望基于该题场景，加深对机器学习相关知识的理解，积累实践经验。关于题目回顾与数据初探，可参考：<a href="https://pnyuan.github.io/blog/tianchi-dm/天池离线赛%20-%20移动推荐算法（一）：题目与数据解析/">天池离线赛 - 移动推荐算法（一）：题目与数据解析</a>，本文讨论如何基于模型来进行预测，测试的模型包括逻辑回归（LR）、随机森林（RF）、梯度迭代提升树（GBDT）。</p>
 <h2 id="基于模型的预测"><a href="#基于模型的预测" class="headerlink" title="基于模型的预测"></a>基于模型的预测</h2><p>（注：这里的实现基于 python 的 pandas、sklearn 等工具包。相关程序可参考<a href="https://github.com/PY131/Tianchi-BigData/tree/master/Mobile_Recommendation/model_based" target="_blank" rel="noopener">My GitHub - model-based predication</a>）</p>
-<h3 id="面向模型的数据预处理"><a href="#面向模型的数据预处理" class="headerlink" title="面向模型的数据预处理"></a>面向模型的数据预处理</h3><p>经过<a href="">天池离线赛 - 移动推荐算法（三）：特征构建</a>之后，在对特征数据样本套用模型进行分类预测之前，还需要根据具体所采用的模型对数据进行二次预处理，下面讨论其中重要的几点：</p>
+<h3 id="面向模型的数据预处理"><a href="#面向模型的数据预处理" class="headerlink" title="面向模型的数据预处理"></a>面向模型的数据预处理</h3><p>经过<a href="https://pnyuan.github.io/blog/tianchi-dm/天池离线赛%20-%20移动推荐算法（三）：特征构建/">天池离线赛 - 移动推荐算法（三）：特征构建</a>之后，在对特征数据样本套用模型进行分类预测之前，还需要根据具体所采用的模型对数据进行二次预处理，下面讨论其中重要的几点：</p>
 <ul>
 <li><p><strong>正负样本失衡问题</strong></p>
 <p> 经过特征构建所得的数据集正负样本比例约为 1：1200，数据严重失衡，易导致模型训练失效。在这里，我们可通过下采样和基于 f1_score 的评价标准来应对此问题。</p>
