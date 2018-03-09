@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习,tensorflow,softmax," />
+  <meta name="keywords" content="深度学习,tensorflow,softmax,mnist," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="基于tensorflow开发框架，搭建softmax模型完成mnist分类任务。">
-<meta name="keywords" content="深度学习,tensorflow,softmax">
+<meta name="keywords" content="深度学习,tensorflow,softmax,mnist">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习基础 - MNIST实验（tensorflow+Softmax）">
 <meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+Softmax）/index.html">
@@ -422,7 +422,7 @@
         <p>基于tensorflow开发框架，搭建softmax模型完成mnist分类任务。</p>
 <p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/display_some_valid.png" alt=""></p>
 <a id="more"></a>
-<p>本文的完整代码托管在我的Github <a href="https://github.com/PY131/Practice-of-Machine-Learning" target="_blank" rel="noopener">PnYuan/Practice-of-Machine-Learning</a>，欢迎访问。</p>
+<p>本文的完整代码托管在我的Github <a href="https://github.com/PnYuan/Practice-of-Machine-Learning/tree/master/code/MNIST_tensorflow_demo" target="_blank" rel="noopener">PnYuan - Practice-of-Machine-Learning - MNIST_tensorflow_demo</a>，欢迎访问。</p>
 <h2 id="1-任务背景"><a href="#1-任务背景" class="headerlink" title="1.任务背景"></a>1.任务背景</h2><h3 id="1-1-目的"><a href="#1-1-目的" class="headerlink" title="1.1.目的"></a>1.1.目的</h3><p>以<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST</a>手写数字识别为课题，研究基本<strong>深度学习</strong>方法的应用。本文先从Softmax模型切入，以熟悉tensorflow下mnist任务的开发流程。之后的文章将陆续引入MLP、CNN等模型，以达到更优异的识别效果。</p>
 <h3 id="1-2-数据集"><a href="#1-2-数据集" class="headerlink" title="1.2.数据集"></a>1.2.数据集</h3><p><a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST</a>任务是图像识别领域经典的“Helloworld”。在其所提供的数据集中，包含了6w个训练样本和1w个测试样本，均为黑白图片，大小28×28，以灰度矩阵的形式存放，数值取浮点数“0~1”对应“白~黑”。给出一些图片（X）及对应标注（Y）如下图所示：</p>
 <p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/display_some.png" alt="display_some"></p>
@@ -451,7 +451,7 @@
 <pre><code>valid accuracy 0.9266
 test accuracy 0.922
 </code></pre><p>可以看出，Softmax模型在经过一定时间的训练之后，达到了九成的分类准确率。与<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST官网</a>给出的线性分类器（单层NN）的准确级别相近。</p>
-<h2 id="3-实验小结"><a href="#3-实验小结" class="headerlink" title="3.实验小结"></a>3.实验小结</h2><p>这里采用tensorflow开发框架搭建了Softmax多分类模型，实现了超过90%的测试准确率。模型的搭建以及训练测试过程十分简便。据<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_beginners.html" target="_blank" rel="noopener">tensorflow官网</a>，当使用多层神经网络等更复杂的模型时，分类效果还将进一步大幅提升，接下来的文章，将记述相关的进一步实验。</p>
+<h2 id="3-实验小结"><a href="#3-实验小结" class="headerlink" title="3.实验小结"></a>3.实验小结</h2><p>这里采用tensorflow开发框架搭建了Softmax多分类模型，实现了超过90%的测试准确率。模型的搭建以及训练测试过程十分简便。据<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_beginners.html" target="_blank" rel="noopener">tensorflow官网</a>所述，使用多层神经网络等更复杂的模型还可进一步提升分类效果，接下来的文章，将对此进行跟进。</p>
 <h2 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4.参考资料"></a>4.参考资料</h2><ul>
 <li>基础教程：<a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_beginners.html" target="_blank" rel="noopener">tensorflow官网 - MNIST机器学习入门</a></li>
 <li>辅助资料：<a href="http://blog.sina.com.cn/s/blog_6ca0f5eb0102wr4j.html" target="_blank" rel="noopener">TensorFlow中的Nan值的陷阱</a></li>
@@ -478,6 +478,8 @@ test accuracy 0.922
             <a href="/blog/tags/tensorflow/" rel="tag"># tensorflow</a>
           
             <a href="/blog/tags/softmax/" rel="tag"># softmax</a>
+          
+            <a href="/blog/tags/mnist/" rel="tag"># mnist</a>
           
         </div>
       
@@ -606,7 +608,7 @@ test accuracy 0.922
               
               <div class="site-state-item site-state-tags">
                 <a href="/blog/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
