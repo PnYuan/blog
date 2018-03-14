@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习,tensorflow,softmax,mnist," />
+  <meta name="keywords" content="深度学习,tensorflow,mnist,softmax," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="基于tensorflow开发框架，搭建softmax模型完成mnist分类任务。">
-<meta name="keywords" content="深度学习,tensorflow,softmax,mnist">
+<meta name="keywords" content="深度学习,tensorflow,mnist,softmax">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习基础 - MNIST实验（tensorflow+Softmax）">
 <meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+Softmax）/index.html">
@@ -446,7 +446,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#========== Softmax Modeling ==========#</span></span><br><span class="line">x = tf.placeholder(<span class="string">"float"</span>, [<span class="keyword">None</span>, <span class="number">784</span>])  <span class="comment"># placeholder of input</span></span><br><span class="line"></span><br><span class="line">W = tf.Variable(tf.zeros([<span class="number">784</span>,<span class="number">10</span>]))  <span class="comment"># parameters (initial to 0)</span></span><br><span class="line">b = tf.Variable(tf.zeros([<span class="number">10</span>]))</span><br><span class="line"></span><br><span class="line">y = tf.nn.softmax(tf.matmul(x,W) + b)  <span class="comment"># softmax computation graph</span></span><br></pre></td></tr></table></figure>
 <h3 id="2-3-训练与测试"><a href="#2-3-训练与测试" class="headerlink" title="2.3.训练与测试"></a>2.3.训练与测试</h3><p>通过构建tensorflow对话（session），给定输入<code>x</code>，运行由<code>x--&gt;y</code>的计算图（Computation Graph），后台可简单完成训练过程。这里采用的是简单的<code>mini-batch Gradient Descent</code>优化策略。</p>
 <p>模型的训练样例代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">y_ = tf.placeholder(<span class="string">"float"</span>, [<span class="keyword">None</span>, <span class="number">10</span>])  <span class="comment"># placeholder of label</span></span><br><span class="line"></span><br><span class="line">cross_entropy = -tf.reduce_sum(y_*tf.log(y))  <span class="comment"># loss (cross-entropy)</span></span><br><span class="line"></span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(learning_rate = <span class="number">0.01</span>).minimize(cross_entropy)  <span class="comment"># using GD</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#========== Training ==========#</span></span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line"></span><br><span class="line">sess = tf.InteractiveSession()  <span class="comment"># initial a session</span></span><br><span class="line">sess.run(init)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):  <span class="comment"># iterate  for 100 times</span></span><br><span class="line">	batch_xs, batch_ys = mnist.train.next_batch(<span class="number">100</span>)  <span class="comment"># using mini-batch</span></span><br><span class="line">    sess.run(train_step, feed_dict=&#123;x: batch_xs, y_: batch_ys&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">y_ = tf.placeholder(<span class="string">"float"</span>, [<span class="keyword">None</span>, <span class="number">10</span>])  <span class="comment"># placeholder of label</span></span><br><span class="line"></span><br><span class="line">cross_entropy = -tf.reduce_sum(y_*tf.log(y))  <span class="comment"># loss (cross-entropy)</span></span><br><span class="line"></span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(learning_rate = <span class="number">0.01</span>).minimize(cross_entropy)  <span class="comment"># using GD</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#========== Training ==========#</span></span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line"></span><br><span class="line">sess = tf.InteractiveSession()  <span class="comment"># initial a session</span></span><br><span class="line">sess.run(init)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):  <span class="comment"># iterate  for 100 times</span></span><br><span class="line">    batch_xs, batch_ys = mnist.train.next_batch(<span class="number">100</span>)  <span class="comment"># using mini-batch</span></span><br><span class="line">    sess.run(train_step, feed_dict=&#123;x: batch_xs, y_: batch_ys&#125;)</span><br></pre></td></tr></table></figure>
 <p>在验证集与测试集上评估所学模型的效果，以预测准确率（accuracy）为指标，得出结果如下：</p>
 <pre><code>valid accuracy 0.927
 test accuracy 0.9208
@@ -477,9 +477,9 @@ test accuracy 0.9208
           
             <a href="/blog/tags/tensorflow/" rel="tag"># tensorflow</a>
           
-            <a href="/blog/tags/softmax/" rel="tag"># softmax</a>
-          
             <a href="/blog/tags/mnist/" rel="tag"># mnist</a>
+          
+            <a href="/blog/tags/softmax/" rel="tag"># softmax</a>
           
         </div>
       
@@ -501,6 +501,10 @@ test accuracy 0.9208
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/" rel="prev" title="深度学习基础 - MNIST实验（tensorflow+MLP）">
+                深度学习基础 - MNIST实验（tensorflow+MLP） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -586,7 +590,7 @@ test accuracy 0.9208
               
                 <a href="/blog/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -608,7 +612,7 @@ test accuracy 0.9208
               
               <div class="site-state-item site-state-tags">
                 <a href="/blog/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度学习,tensorflow,MLP,mnist,Adam,Dropout," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="采用MLP（多层感知机）模型进行mnist分类任务，尝试Adam、Dropout等训练策略。">
+<meta name="keywords" content="深度学习,tensorflow,MLP,mnist,Adam,Dropout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习基础 - MNIST实验（tensorflow+MLP）">
+<meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/index.html">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="采用MLP（多层感知机）模型进行mnist分类任务，尝试Adam、Dropout等训练策略。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/mlp_graph.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/mlp_graph.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/acc_compare_size.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/acc_compare_scheme.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/dropout_graph.png">
+<meta property="og:updated_time" content="2018-03-14T11:36:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习基础 - MNIST实验（tensorflow+MLP）">
+<meta name="twitter:description" content="采用MLP（多层感知机）模型进行mnist分类任务，尝试Adam、Dropout等训练策略。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/mlp_graph.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'Q3TXVRGIPE',
+      apiKey: '3caec9a755e01d18eb5e952fbba501eb',
+      indexName: 'for-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/"/>
+
+
+
+
+
+  <title>深度学习基础 - MNIST实验（tensorflow+MLP） | PnYuan's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f5a11b34d0ea26498185957b7517c6cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习基础 - MNIST实验（tensorflow+MLP）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T19:36:00+08:00">
+                2018-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/机器学习散记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习散记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            <!--noindex-->
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+              <!--/noindex-->
+            
+          
+
+          
+          
+             <span id="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/" class="leancloud_visitors" data-flag-title="深度学习基础 - MNIST实验（tensorflow+MLP）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>采用MLP（多层感知机）模型进行mnist分类任务，尝试Adam、Dropout等训练策略。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/mlp_graph.png" alt=""></p>
+<a id="more"></a>
+<p>本文的完整代码托管在我的Github <a href="https://github.com/PnYuan/Practice-of-Machine-Learning/tree/master/code/MNIST_tensorflow_demo" target="_blank" rel="noopener">PnYuan - Practice-of-Machine-Learning - MNIST_tensorflow_demo</a>，欢迎交流。</p>
+<h2 id="1-任务背景"><a href="#1-任务背景" class="headerlink" title="1.任务背景"></a>1.任务背景</h2><p>在前一篇<a href="https://pnyuan.github.io/blog/ml_practice/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%20-%20MNIST%E5%AE%9E%E9%AA%8C%EF%BC%88tensorflow+Softmax%EF%BC%89/">深度学习基础 - MNIST实验（tensorflow+Softmax）</a>的基础上，我们进一步引入<strong>MLP</strong>（multi-layer perceptron - 多层感知机）来进行mnist实验，以期实现更好的识别效果。</p>
+<p>关于mnist数据集的相关基础信息可参考<a href="https://pnyuan.github.io/blog/ml_practice/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%20-%20MNIST%E5%AE%9E%E9%AA%8C%EF%BC%88tensorflow+Softmax%EF%BC%89/">前一篇文章</a>或<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST官网</a>。</p>
+<h2 id="2-实验过程"><a href="#2-实验过程" class="headerlink" title="2.实验过程"></a>2.实验过程</h2><p><a href="https://github.com/PnYuan/Practice-of-Machine-Learning/blob/master/code/MNIST_tensorflow_demo/mlp_demo.py" target="_blank" rel="noopener">实验参考代码：python + tensorflow</a></p>
+<h3 id="2-1-MLP建模"><a href="#2-1-MLP建模" class="headerlink" title="2.1.MLP建模"></a>2.1.MLP建模</h3><p>这里，MLP用于MNIST分类实验，输入是<code>x - 28×28=784</code>的图片灰度向量，输出是类别标签<code>y ~ [0,1,2,...,9]</code>，拟构建的MLP（全连接NN）模型如下图示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/mlp_graph.png" alt="mlp_graph"></p>
+<p>这里我们从一个无隐含层模型（即Softmax）开始，逐渐增加神经网络规模，来观察效果变化情况。</p>
+<p>为适应任意层数和层内神经元节点数的开发需求，编写参数初始化和前向传播函数如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''(MLP) parameter initial'''</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mlp_param_init</span><span class="params">(dim)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    @note: Initializes parameters to build a multi-layer perceptron with tensorflow.</span></span><br><span class="line"><span class="string">        The shapes are:</span></span><br><span class="line"><span class="string">            W1: [n1, n_x]</span></span><br><span class="line"><span class="string">            B1: [n1, 1]</span></span><br><span class="line"><span class="string">            W2: [n2, n1]</span></span><br><span class="line"><span class="string">            B2: [n2, 1]</span></span><br><span class="line"><span class="string">            ...</span></span><br><span class="line"><span class="string">            Wl: [n_y, nl-1]</span></span><br><span class="line"><span class="string">            Bl: [n_y, 1]</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">    @param dim: the number of unit in each level -- dim = [n_x, n1, n2, ..., n(l-1), n_y]    </span></span><br><span class="line"><span class="string">    @return: parameters -- a dictionary of tensors containing W1, b1, W2, b2, W3, b3</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    parameters = &#123;&#125;</span><br><span class="line">    l = len(dim)  <span class="comment"># the layers' count</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># parameter initializing (using xavier_initializer for weight) (from 0 - input to l-1 - output)</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, l):</span><br><span class="line">        parameters[<span class="string">'W'</span>+str(i)] = tf.get_variable(<span class="string">'W'</span>+str(i), [dim[i], dim[i<span class="number">-1</span>]], initializer = tf.contrib.layers.xavier_initializer())   </span><br><span class="line">        parameters[<span class="string">'B'</span>+str(i)] = tf.get_variable(<span class="string">'B'</span>+str(i), [dim[i], <span class="number">1</span>], initializer = tf.zeros_initializer())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> parameters</span><br><span class="line"></span><br><span class="line"><span class="string">'''(MLP) forward propagation'''</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mlp_forward_propagation</span><span class="params">(X, parameters)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    @note: Implements the forward propagation for the model: LINEAR -&gt; RELU -&gt; LINEAR -&gt; RELU ... -&gt; LINEAR -&gt; (SOFTMAX)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    @param X: input dataset placeholder, of shape (input size, number of examples)</span></span><br><span class="line"><span class="string">    @param parameters: python dictionary containing your parameters "W1", "B1", "W2", "B2", ... the shapes are given in initialize_parameters.</span></span><br><span class="line"><span class="string">                       </span></span><br><span class="line"><span class="string">    @return: Z_l the output of the last LINEAR unit</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">        </span><br><span class="line">    l = int(len(parameters)/<span class="number">2</span>)  <span class="comment"># the number of layer</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># for hidden layer(linear--&gt;relu)</span></span><br><span class="line">    A = X</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, l):</span><br><span class="line">        W = parameters[<span class="string">'W'</span>+str(i)]</span><br><span class="line">        B = parameters[<span class="string">'B'</span>+str(i)]</span><br><span class="line">        Z = tf.add(tf.matmul(W, A), B)  <span class="comment"># Z = np.dot(W, X) + B</span></span><br><span class="line">        A = tf.nn.relu(Z)               <span class="comment"># A = relu(Z)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># for output layer(linear--&gt;softmax) softmax is canceled here</span></span><br><span class="line">    W = parameters[<span class="string">'W'</span>+str(l)]</span><br><span class="line">    B = parameters[<span class="string">'B'</span>+str(l)]</span><br><span class="line">    Z_l = tf.add(tf.matmul(W, A), B)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Z_l</span><br></pre></td></tr></table></figure>
+<p>这样，通过输入神经网络维度变量dim，可构建出相应的MLP计算图。</p>
+<h3 id="2-2-训练与测试"><a href="#2-2-训练与测试" class="headerlink" title="2.2.训练与测试"></a>2.2.训练与测试</h3><p>设置超参数（如learning rate=0.05、mini-batch size=128、optimizer=GD等），加载MNIST数据集，然后通过在Session下运行Optimizer来进行训练。得出不同神经网络规模下效果如下，这里的模型效果由分类准确率（Accuracy）来衡量。</p>
+<pre><code>|dim | NN层数 | 参数规模 | 训练时耗 | Accuracy （Train/Valid/Test） |
+|----|----|----|----|----|
+| [784,10] | 1 | 7850 | 1&apos;38&quot; | 90.5% / 91.0% / 91.0% |
+| [784,20,10] | 2 | 15910 | 1&apos;34&quot; | 92.6% / 92.9% / 92.7% |
+| [784,30,100,30,10] | 4 | 29990 | 1&apos;57&quot; | 95.3% / 95.4% / 95.0% |
+</code></pre><p>对比上表三次训练可看出，随着神经网络规模的扩大，模型效果越来越好。截取tensorboard监视器上关于accuracy指标的变化曲线，进一步可对比如下图：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/acc_compare_size.png" alt="acc_compare_size"></p>
+<h3 id="2-3-改进"><a href="#2-3-改进" class="headerlink" title="2.3.改进"></a>2.3.改进</h3><h4 id="2-3-1-优化策略-Adam"><a href="#2-3-1-优化策略-Adam" class="headerlink" title="2.3.1.优化策略-Adam"></a>2.3.1.优化策略-Adam</h4><p>采用<code>Momentum</code>、<code>Adam</code>等优化策略替代原始的<code>Gradient Descent</code>，可以促进优化收敛，下面开展实验对比了几种优化策略的训练效果：</p>
+<pre><code>| 训练策略 | Accuracy （Train/Valid/Test） |
+|----|----|
+| Gradient Descent | 95.3% / 95.4% / 95.0% |
+| Momentum | 97.1% / 96.4% / 96.4% |
+| Adagrad | 96.7% / 96.4% / 96.0% |
+| Adam | 97.5% / 96.8% / 96.7% |
+</code></pre><p>各accuracy指标的变化曲线如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/acc_compare_scheme.png" alt="acc_compare_scheme"></p>
+<p>可以看出，优化策略调整之后，accuracy上升趋势提早（收敛加快），这说明达到相同的指标，新策略比旧策略所需的训练迭代次数更少，这对于提高深度学习训练效率具有极其重要的意义。接下来，在<code>Adam</code>的基础上，进一步调整<code>learning_rate，num_epochs</code>等超参数，经过一定时间的学习（≈10min），得出最终的预测结果为：</p>
+<pre><code>train accuracy: 0.9851
+valid accuracy: 0.9684
+test accuracy: 0.9679
+</code></pre><h4 id="2-3-2-正则化-Dropout"><a href="#2-3-2-正则化-Dropout" class="headerlink" title="2.3.2.正则化-Dropout"></a>2.3.2.正则化-Dropout</h4><p>对上面的最后预测结果来看进行<code>bias-variance</code>分析，设<code>bayes_optimal=human_level=0.99</code>，则：</p>
+<pre><code>avoidable bais --&gt; 1 - train accuracy = 0.005
+variance --&gt; train accuracy - valid accuracy = 0.017
+</code></pre><p>于是，要进一步改进模型效果，需要从<code>Variance</code>入手，解决所出现的轻微<code>Overfitting</code>。这里拟采用<a href="https://en.wikipedia.org/wiki/Dropout_(neural_networks" target="_blank" rel="noopener">Dropout</a>)来进行模型优化。Dropout机制下，每次所训练的神经网络会以一定概率去掉一些节点，其示意图如下（参考<a href="http://www.jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf?utm_content=buffer79b43&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer" target="_blank" rel="noopener">原文献</a>）：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/dropout_graph.png" alt="dropout_graph"></p>
+<p>由Dropout所产生的效用可形象地概括为以下两点：</p>
+<ul>
+<li>每一次训练时，去掉一些节点，相当于实现了<code>shrink weight</code>，平抑了噪声，产生“正则化”效果，减少过拟合。</li>
+<li>节点依概率随机去除，使得多次训练间的模型存在差异，产生“集成学习”的效果，提高整体精度。</li>
+</ul>
+<p>这里采用<code>tf.nn.dropout()</code>函数实现针对于隐层的Dropout，通过在训练时<code>feed - keep_prob</code>即可，经过较长时间的训练（≈20min），得出最终的结果为：</p>
+<pre><code>train accuracy: 0.997
+valid accuracy: 0.968
+test accuracy: 0.969
+</code></pre><p>实验结果看来，经过更长时间的训练，MLP训练精度已经达到99.7%，而测试精度徘徊于97%左右，要做进一步提升或还需从其他改进策略入手。</p>
+<h2 id="3-实验小结"><a href="#3-实验小结" class="headerlink" title="3.实验小结"></a>3.实验小结</h2><p>本文通过搭建多层全连接神经网络（MLP），开展了MNIST分类实验。在该实验中，我们对比了不同优化策略（GD、Adam等）对于训练过程快慢的影响，尝试了Dropout策略以应对过拟合问题。任务最终取得了不错的效果。</p>
+<p>此外我们还注意到，为达到较高的精度，MLP需要较长的时间训练，初步猜想其原因之一为所需训练的参数量大，这是由于MLP全连接模式所导致的。接下来，我们将进一步考察其他神经网络架构（如CNN）在当前任务下的应用，并与MLP模型实验进行对比分析。</p>
+<h2 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4.参考资料"></a>4.参考资料</h2><ul>
+<li><a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST - 官网</a></li>
+<li><a href="http://www.tensorfly.cn/" target="_blank" rel="noopener">Tensorflow - 中文社区</a></li>
+<li><a href="http://www.tensorfly.cn/tfdoc/how_tos/summaries_and_tensorboard.html" target="_blank" rel="noopener">Tensorboard - 可视化学习</a></li>
+<li><a href="http://www.jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf?utm_content=buffer79b43&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer" target="_blank" rel="noopener">Dropout - 原文献</a></li>
+<li><a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener">Coursera - DeepLearning - 专项课程</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/blog/tags/tensorflow/" rel="tag"># tensorflow</a>
+          
+            <a href="/blog/tags/MLP/" rel="tag"># MLP</a>
+          
+            <a href="/blog/tags/mnist/" rel="tag"># mnist</a>
+          
+            <a href="/blog/tags/Adam/" rel="tag"># Adam</a>
+          
+            <a href="/blog/tags/Dropout/" rel="tag"># Dropout</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+Softmax）/" rel="next" title="深度学习基础 - MNIST实验（tensorflow+Softmax）">
+                <i class="fa fa-chevron-left"></i> 深度学习基础 - MNIST实验（tensorflow+Softmax）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="hypercomments_widget"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-任务背景"><span class="nav-text">1.任务背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-实验过程"><span class="nav-text">2.实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-MLP建模"><span class="nav-text">2.1.MLP建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-训练与测试"><span class="nav-text">2.2.训练与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-改进"><span class="nav-text">2.3.改进</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-优化策略-Adam"><span class="nav-text">2.3.1.优化策略-Adam</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-正则化-Dropout"><span class="nav-text">2.3.2.正则化-Dropout</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-实验小结"><span class="nav-text">3.实验小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-参考资料"><span class="nav-text">4.参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+		<script type="text/javascript">
+		_hcwp = window._hcwp || [];
+
+		_hcwp.push({widget:"Bloggerstream", widget_id: 101899, selector:".hc-comment-count", label: "{\%COUNT%\}" });
+
+		
+		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/"});
+		
+
+		(function() {
+		if("HC_LOAD_INIT" in window)return;
+		HC_LOAD_INIT = true;
+		var lang = (navigator.language || navigator.systemLanguage || navigator.userLanguage || "en").substr(0, 2).toLowerCase();
+		var hcc = document.createElement("script"); hcc.type = "text/javascript"; hcc.async = true;
+		hcc.src = ("https:" == document.location.protocol ? "https" : "http")+"://w.hypercomments.com/widget/hc/101899/"+lang+"/widget.js";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hcc, s.nextSibling);
+		})();
+		</script>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/blog/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/blog/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/blog/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Y4X73J6x55bq6ze8RXFmT9Hc-gzGzoHsz", "mbo4tldbCoNWLb7oL4yKyCIk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
