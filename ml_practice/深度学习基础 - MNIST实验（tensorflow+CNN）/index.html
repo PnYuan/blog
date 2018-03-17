@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,python,神经网络,RBF网络," />
+  <meta name="keywords" content="深度学习,tensorflow,CNN,mnist,LeNet-5," />
 
 
 
@@ -79,32 +79,24 @@
 
 
 
-<meta name="description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
-<meta name="keywords" content="机器学习,python,神经网络,RBF网络">
+<meta name="description" content="采用CNN（卷积神经网络）模型进行mnist分类任务。">
+<meta name="keywords" content="深度学习,tensorflow,CNN,mnist,LeNet-5">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
-<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验/index.html">
+<meta property="og:title" content="深度学习基础 - MNIST实验（tensorflow+CNN）">
+<meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
+<meta property="og:description" content="采用CNN（卷积神经网络）模型进行mnist分类任务。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="
-https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
-">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png">
-<meta property="og:updated_time" content="2018-02-24T14:00:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/lenet-5_graph.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/lenet-5_graph.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/cnn_training_curve.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/number_test.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/self_test.png">
+<meta property="og:updated_time" content="2018-03-17T04:07:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
-<meta name="twitter:description" content="编程实现单层RBF神经网络，并在异或数据集上进行了实验。">
-<meta name="twitter:image" content="
-https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
-">
+<meta name="twitter:title" content="深度学习基础 - MNIST实验（tensorflow+CNN）">
+<meta name="twitter:description" content="采用CNN（卷积神经网络）模型进行mnist分类任务。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/lenet-5_graph.png">
 
 
 
@@ -134,13 +126,13 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
 
 
 
-  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验/"/>
+  <link rel="canonical" href="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/"/>
 
 
 
 
 
-  <title>周志华《机器学习》习题解答：Ch5.7 - RBF网络实验 | PnYuan's Blog</title>
+  <title>深度学习基础 - MNIST实验（tensorflow+CNN） | PnYuan's Blog</title>
   
 
 
@@ -315,7 +307,7 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验/">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pn.Yuan">
@@ -332,7 +324,7 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
 
         
         
-          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch5.7 - RBF网络实验</h1>
+          <h1 class="post-title" itemprop="name headline">深度学习基础 - MNIST实验（tensorflow+CNN）</h1>
         
 
         <div class="post-meta">
@@ -344,8 +336,8 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-30T16:58:00+08:00">
-                2017-04-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-17T12:07:00+08:00">
+                2018-03-17
               </time>
             
 
@@ -367,8 +359,8 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
-                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  <a href="/blog/categories/机器学习散记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习散记</span>
                   </a>
                 </span>
 
@@ -386,8 +378,8 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验/" itemprop="commentsCount"></span>
+                <a href="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/" itemprop="commentsCount"></span>
                 </a>
               </span>
               <!--/noindex-->
@@ -396,7 +388,7 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
 
           
           
-             <span id="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验/" class="leancloud_visitors" data-flag-title="周志华《机器学习》习题解答：Ch5.7 - RBF网络实验">
+             <span id="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/" class="leancloud_visitors" data-flag-title="深度学习基础 - MNIST实验（tensorflow+CNN）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -427,80 +419,49 @@ https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_
       
 
       
-        <div align="center"><br><img width="328" height="150" src="
-https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png
-"><br></div>
-
-<p>编程实现单层RBF神经网络，并在异或数据集上进行了实验。</p>
+        <p>采用CNN（卷积神经网络）模型进行mnist分类任务。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/lenet-5_graph.png" alt=""></p>
 <a id="more"></a>
-<p>相关源代码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问.</p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.png" alt=""></p>
-</blockquote>
-<p>注：本题程序基于Python实现（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch5_neural_networks/5.7_RBF_BP" target="_blank" rel="noopener">这里查看完整代码和数据集</a>）。</p>
-<h2 id="RBF网络基础知识回顾"><a href="#RBF网络基础知识回顾" class="headerlink" title="RBF网络基础知识回顾"></a>RBF网络基础知识回顾</h2><p>RBF网络采用RBF（Radial Basis Function函数）作为隐层神经元激活函数，是一种局部逼近神经网络，下面先分析其激活函数RBF，然后分析RBF神经网络的结构。</p>
-<h3 id="径向基函数-RBF"><a href="#径向基函数-RBF" class="headerlink" title="径向基函数(RBF)"></a>径向基函数(RBF)</h3><p>径向基函数是一类取值依赖样本于到中心点距离的函数，本题基于常用的<strong>高斯径向基函数</strong>（gaussian RBF）开展实验。下面是高斯径向基函数形式书p108式(5.19)：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.1.png" alt=""></p>
-<p>这里的 β 为尺度系数， c_i 为中心点（维度由输入决定），函数的取值取决于样本 x 到中心点的距离（2-范数），该函数的参数为 (β, c_i)。</p>
-<p>如下图示为高斯径向基函数示意图（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/draw_RBF.py" target="_blank" rel="noopener">绘图程序</a>）：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_fig1.png" alt=""></p>
-<h3 id="RBF网络"><a href="#RBF网络" class="headerlink" title="RBF网络"></a>RBF网络</h3><p>RBF神经网络一般指一种单隐层前馈神经网络，它使用径向基函数作为隐层神经元激活函数，而输出是隐层输出的线性组合，网络结构示意如下：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.net_fig1.png" alt=""></p>
-<p>参考书p108式(5.18)，该神经网络的输出为：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.2.png" alt=""></p>
-<p>进一步分析，一般函数均可表示成一组基函数的线性组合，而RBF网络相当于用隐层神经元构建了这样一组基函数，由输出层进行线性组合，从而实现函数逼近的功能。</p>
-<h3 id="RBF网络实现"><a href="#RBF网络实现" class="headerlink" title="RBF网络实现"></a>RBF网络实现</h3><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/RBF_BP.py" target="_blank" rel="noopener">查看完整代码</a></p>
-<p>这里RBF神经网络建模的过程分一下两步：</p>
+<p>本文的完整代码托管在我的Github <a href="https://github.com/PnYuan/Practice-of-Machine-Learning/tree/master/code/MNIST_tensorflow_demo" target="_blank" rel="noopener">PnYuan - Practice-of-Machine-Learning - MNIST_tensorflow_demo</a>，欢迎交流。</p>
+<h2 id="1-任务背景"><a href="#1-任务背景" class="headerlink" title="1.任务背景"></a>1.任务背景</h2><p>这里，我们拟通过搭建<strong>卷积神经网络</strong>（CNN）来完成<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST</a>手写数字识别任务，关于MNIST任务的相关内容可参考前文<a href="https://pnyuan.github.io/blog/ml_practice/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%20-%20MNIST%E5%AE%9E%E9%AA%8C%EF%BC%88tensorflow+Softmax%EF%BC%89/">深度学习基础 - MNIST实验（tensorflow+Softmax）</a>或<a href="https://pnyuan.github.io/blog/ml_practice/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%20-%20MNIST%E5%AE%9E%E9%AA%8C%EF%BC%88tensorflow+MLP%EF%BC%89/">深度学习基础 - MNIST实验（tensorflow+MLP）</a>。</p>
+<h2 id="2-实验过程"><a href="#2-实验过程" class="headerlink" title="2.实验过程"></a>2.实验过程</h2><p><a href="https://github.com/PnYuan/Practice-of-Machine-Learning/blob/master/code/MNIST_tensorflow_demo/" target="_blank" rel="noopener">实验参考代码：python + tensorflow</a>: cnn_demo.py &amp; cnn_demo_self_test.py</p>
+<p>实验分三步进行：</p>
 <ol>
-<li>确定神经元对应的高斯径向基函数中心 c ；</li>
-<li>利用BP算法来训练剩余参数 w, β ；</li>
+<li>参考LeNet-5，搭建适用于该任务的CNN模型，开发实现基于tensorflow；</li>
+<li>加载MNIST数据集，配置超参数，进行训练与测试，分析效果；</li>
+<li>加载自制手写图片，采用训练好的CNN进行识别，分析效果；</li>
 </ol>
-<p>下面依次讨论其实现：</p>
-<h3 id="RBF中心参数获取"><a href="#RBF中心参数获取" class="headerlink" title="RBF中心参数获取"></a>RBF中心参数获取</h3><p>RBF的中心参数 c 的获取方法有以下一些：</p>
+<h3 id="2-1-CNN建模"><a href="#2-1-CNN建模" class="headerlink" title="2.1.CNN建模"></a>2.1.CNN建模</h3><p>LeNet-5是Y.LeCun等人早期所设计的一种CNN，是经典的神经网络架构之一，如下图所示：(参考<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf" target="_blank" rel="noopener">原文献</a>)</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/lenet-5_graph.png" alt="lenet-5_graph"></p>
+<p>本实验采用python-tensorflow实现LeNet-5，其建模代码样例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''construction of leNet-5 model'''</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lenet_5_forward_propagation</span><span class="params">(X)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    @note: construction of leNet-5 forward computation graph:</span></span><br><span class="line"><span class="string">        CONV1 -&gt; MAXPOOL1 -&gt; CONV2 -&gt; MAXPOOL2 -&gt; FC3 -&gt; FC4 -&gt; SOFTMAX</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">    @param X: input dataset placeholder, of shape (number of examples (m), input size)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    @return: A_l, the output of the softmax layer, of shape (number of examples, output size)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># reshape imput as [number of examples (m), weight, height, channel]</span></span><br><span class="line">    X_ = tf.reshape(X, [<span class="number">-1</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>])  <span class="comment"># num_channel = 1 (gray image)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">### CONV1 (f = 5*5*1, n_f = 6, s = 1, p = 'same')</span></span><br><span class="line">    W_conv1 = weight_variable(shape = [<span class="number">5</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">6</span>])</span><br><span class="line">    b_conv1 = bias_variable(shape = [<span class="number">6</span>])</span><br><span class="line">    <span class="comment"># shape of A_conv1 ~ [m,28,28,6]</span></span><br><span class="line">    A_conv1 = tf.nn.relu(tf.nn.conv2d(X_, W_conv1, strides = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding = <span class="string">'SAME'</span>) + b_conv1)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">### MAXPOOL1 (f = 2*2*1, s = 2, p = 'same')</span></span><br><span class="line">    <span class="comment"># shape of A_pool1 ~ [m,14,14,6]</span></span><br><span class="line">    A_pool1 = tf.nn.max_pool(A_conv1, ksize = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], strides=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], padding = <span class="string">'SAME'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">### CONV2 (f = 5*5*1, n_f = 16, s = 1, p = 'same')</span></span><br><span class="line">    W_conv2 = weight_variable(shape = [<span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">16</span>])</span><br><span class="line">    b_conv2 = bias_variable(shape = [<span class="number">16</span>])    </span><br><span class="line">    <span class="comment"># shape of A_conv2 ~ [m,10,10,16]</span></span><br><span class="line">    A_conv2 = tf.nn.relu(tf.nn.conv2d(A_pool1, W_conv2, strides = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding = <span class="string">'VALID'</span>) + b_conv2)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">### MAXPOOL2 (f = 2*2*1, s = 2, p = 'same')  </span></span><br><span class="line">    <span class="comment"># shape of A_pool2~ [m,5,5,16]</span></span><br><span class="line">    A_pool2 = tf.nn.max_pool(A_conv2, ksize = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], strides=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], padding = <span class="string">'SAME'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">### FC3 (n = 120)</span></span><br><span class="line">    <span class="comment"># flatten the volumn to vector</span></span><br><span class="line">    A_pool2_flat = tf.reshape(A_pool2, [<span class="number">-1</span>, <span class="number">5</span>*<span class="number">5</span>*<span class="number">16</span>])</span><br><span class="line">    </span><br><span class="line">    W_fc3 = weight_variable([<span class="number">5</span>*<span class="number">5</span>*<span class="number">16</span>, <span class="number">120</span>])</span><br><span class="line">    b_fc3 = bias_variable([<span class="number">120</span>])</span><br><span class="line">    <span class="comment"># shape of A_fc3 ~ [m,120]</span></span><br><span class="line">    A_fc3 = tf.nn.relu(tf.matmul(A_pool2_flat, W_fc3) + b_fc3)</span><br><span class="line">        </span><br><span class="line">    <span class="comment">### FC4 (n = 84)</span></span><br><span class="line">    W_fc4 = weight_variable([<span class="number">120</span>, <span class="number">84</span>])</span><br><span class="line">    b_fc4 = bias_variable([<span class="number">84</span>])</span><br><span class="line">    <span class="comment"># shape of A_fc4 ~ [m, 84]</span></span><br><span class="line">    A_fc4 = tf.nn.relu(tf.matmul(A_fc3, W_fc4) + b_fc4)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Softmax (n = 10)</span></span><br><span class="line">    W_l = weight_variable([<span class="number">84</span>, <span class="number">10</span>])</span><br><span class="line">    b_l = bias_variable([<span class="number">10</span>])</span><br><span class="line">    <span class="comment"># shape of A_l ~ [m,10]</span></span><br><span class="line">    A_l=tf.nn.softmax(tf.matmul(A_fc4, W_l) + b_l)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> A_l</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-训练与测试"><a href="#2-2-训练与测试" class="headerlink" title="2.2.训练与测试"></a>2.2.训练与测试</h3><p>设置优化策略及相关超参数（如<code>learning_rate</code>、<code>num_epochs</code>、<code>mini-batch size</code>等），进行训练，经过一段时间的训练，得出的<code>accuracy</code>结果如下：</p>
+<pre><code>Train Accuracy: 0.9920
+Valid Accuracy: 0.9896
+Test Accuracy: 0.9881
+</code></pre><p>同时该训练期间，指标<code>accuracy</code>和<code>cost</code>的变化过程如下图示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/cnn_training_curve.png" alt="cnn_training_curve"></p>
+<p>可以看出，此处CNN（LeNet-5）已经取得了不错的结果（≈99%的测试准确率）。而通过观察训练曲线变化趋势，猜测随着迭代的继续，模型效果还可继续提升。</p>
+<h3 id="2-3-实测"><a href="#2-3-实测" class="headerlink" title="2.3.实测"></a>2.3.实测</h3><p>接下来验证该CNN模型在生活场景下的泛化效果，笔者此处在实验室即兴写了若干待识别数字，示意如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/number_test.jpg" alt="cnn_training_curve"></p>
+<p>采用之前所训练的CNN，得出预测结果示意如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/MNIST_tensorflow_demo/self_test.png" alt="cnn_training_curve"></p>
+<p>结果中出现了一些识别错误，初步猜测是由数据分布的差异所引起。可以考虑在图像训练和测试时，先采用更多的预处理手段（如灰度归一化、对比度增强、阈值分割…），从而使分布接近。降低模型迁移难度。</p>
+<h2 id="3-实验小结"><a href="#3-实验小结" class="headerlink" title="3.实验小结"></a>3.实验小结</h2><p>本文采用CNN模型进行mnist手写数字识别任务，取得了很好的效果（99%的测试准确率）。同时采用训练好的模型识别了实际场景中的数字，体现了一定的识别效果。</p>
+<h2 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4.参考资料"></a>4.参考资料</h2><p>官方参考：</p>
 <ul>
-<li><strong>从输入数据样本中抽取</strong>，这就要求输入样本具有较好的代表性；</li>
-<li><strong>自组织生成</strong>，如<strong>聚类</strong>法生成，采用聚类中心来作为中心参数 c ，同时根据各中心的距离来初始化尺度系数 β ；</li>
+<li><a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST任务官网</a></li>
+<li><a href="http://www.tensorfly.cn/tfdoc/tutorials/mnist_pros.html" target="_blank" rel="noopener">tensorflow官网 - CNN for mnist</a></li>
 </ul>
-<h3 id="RBF-BP算法推导"><a href="#RBF-BP算法推导" class="headerlink" title="RBF-BP算法推导"></a>RBF-BP算法推导</h3><p>参考<a href="">神经网络基础 - 编程实现标准BP算法</a>，这里隐层激活函数为RBF，输出层神经元数为 1 ，激活函数为 y=f(x)=x 。</p>
-<p>BP算法采用梯度下降法进行参数迭代更新，参考书p102-103，进行RBF-BP算法中基于梯度下降的参数更新推导如下：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_1.png" alt=""></p>
-<p>在完成基础推导之后，给出<strong>RBF网络的BP算法</strong>如下所示：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.rbf_bp_2.png" alt=""></p>
-<h3 id="RBF-BP算法实现"><a href="#RBF-BP算法实现" class="headerlink" title="RBF-BP算法实现"></a>RBF-BP算法实现</h3><p>样例代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">BackPropagateRBF</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    the implementation of special BP algorithm on one slide of sample for RBF network</span></span><br><span class="line"><span class="string">    @param x, y: array and float, input and output of the data sample</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># dependent packages</span></span><br><span class="line">    <span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"></span><br><span class="line">    <span class="comment"># get current network output</span></span><br><span class="line">    self.y = self.Pred(x)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># calculate the gradient for hidden layer </span></span><br><span class="line">    g = np.zeros(self.h_n)</span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        g[h] = (self.y - y) * self.b[h]    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># updating the parameter</span></span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(self.h_n):</span><br><span class="line">        self.beta[h] += self.lr * g[h] * self.w[h] * np.linalg.norm(x-self.c[h],<span class="number">2</span>)</span><br><span class="line">        self.w[h] -= self.lr * g[h]</span><br></pre></td></tr></table></figure>
-<h2 id="异或问题实验"><a href="#异或问题实验" class="headerlink" title="异或问题实验"></a>异或问题实验</h2><p><a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/blob/master/ch5_neural_networks/5.7_RBF_BP/Test_XOR.py" target="_blank" rel="noopener">查看完整代码</a></p>
-<h3 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h3><p>首先基于numpy.array生成异或数据，该数据为2输入，1输出，如下所示：</p>
-<p>样例代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train set</span></span><br><span class="line">X_trn = np.random.randint(<span class="number">0</span>,<span class="number">2</span>,(<span class="number">100</span>,<span class="number">2</span>))</span><br><span class="line">y_trn = np.logical_xor(X_trn[:,<span class="number">0</span>],X_trn[:,<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
-<p>样例数据：</p>
-<pre><code>&gt;&gt;&gt; X_trn
-array([[0, 0],
-       [1, 1],
-       ...
-&gt;&gt;&gt; y_trn
-array([False, False, ...
-</code></pre><h3 id="参数之-RBF中心点"><a href="#参数之-RBF中心点" class="headerlink" title="参数之-RBF中心点"></a>参数之-RBF中心点</h3><p>这里由于采用异或数据，其中心点可以简单设置如下：</p>
-<pre><code>centers = np.array([[0,0],[0,1],[1,0],[1,1]])
-</code></pre><p>同时取隐节点数目为4。</p>
-<h3 id="生成模型并训练"><a href="#生成模型并训练" class="headerlink" title="生成模型并训练"></a>生成模型并训练</h3><p>样例代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># construct the network</span></span><br><span class="line">rbf_nn = RBP_network()  <span class="comment"># initial a BP network class</span></span><br><span class="line">rbf_nn.CreateNN(<span class="number">4</span>, centers, learningrate=<span class="number">0.05</span>)  <span class="comment"># build the network structure</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># parameter training（这里迭代10次）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>): </span><br><span class="line">    rbf_nn.TrainRBF(X_trn, y_trn)</span><br></pre></td></tr></table></figure>
-<p>绘制出训练过程中的均方误差变化曲线如下图：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch5_neural_networks/Ch5/5.7.covergence_curve.png" alt=""></p>
-<p>由上图可以看到，曲线收敛十分迅速，说明这里的RBF网络训练异或数据集十分轻松，这也和我们所生成的数据的完备无误有关。</p>
-<h3 id="测试模型"><a href="#测试模型" class="headerlink" title="测试模型"></a>测试模型</h3><p>按照训练集数据生成方法生成测试集数据，通过模型预测，得出结果如下：</p>
-<pre><code>test error rate: 0.000
-</code></pre><p>即测试错误率为0，可知我们的模型预测十分准确的，泛化性能优秀（主要得益于XOR预测模型对RBF网络来说太过简单）。</p>
-<h2 id="本题小结"><a href="#本题小结" class="headerlink" title="本题小结"></a>本题小结</h2><p>回顾RBF网络工作原理，如参考书p108式(5.18)-(5.19)。RBF网络建模类似于非线性模型中的基函数建模，进一步，我们可将其与广义可加模型联系起来。RBF网络采用径向基函数作为单隐层激活函数（即核函数），又可将其与SVM with RBF kernel联系起来。</p>
-<p>回顾RBF网络实现过程，我们或可将该方法视为一种半监督的学习方法，具体有：</p>
+<p>CNN模型：</p>
 <ul>
-<li>step 1：无监督的学习，从数据中获取中心参数，常用聚类方法；</li>
-<li>step 2：有监督的学习，基于数据训练参数，过程一般基于BP算法实现；</li>
+<li><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf" target="_blank" rel="noopener">LeNet-5原文献</a></li>
+<li><a href="https://www.jiqizhixin.com/articles/2016-09-08-2" target="_blank" rel="noopener">神经网络架构演进史：全面回顾从LeNet5到ENet十余种架构</a></li>
 </ul>
-<h2 id="相关参考"><a href="#相关参考" class="headerlink" title="相关参考"></a>相关参考</h2><p>下面列出一些参考内容：</p>
+<p>开发辅助：</p>
 <ul>
-<li>基础知识：<a href="https://wenku.baidu.com/view/c61384dda58da0116c174946.html" target="_blank" rel="noopener">绝对经典RBF神经网络 - 百度文库</a></li>
-<li>进阶知识：<a href="https://www.zhihu.com/question/44328472" target="_blank" rel="noopener">RBF神经网络和BP神经网络有什么区别 - 知乎</a></li>
-<li>可视化：<a href="http://matplotlib.org/1.4.3/mpl_toolkits/mplot3d/index.html#toolkit-mplot3d-index" target="_blank" rel="noopener">matplotlib绘制3D图 - matplotlib官网</a></li>
+<li><a href="https://www.quora.com/How-do-I-swap-dimensions-order-of-grayscale-image-from-height-width-channel-to-channel-height-width" target="_blank" rel="noopener">python矩阵维度重排序</a></li>
+<li><a href="http://blog.csdn.net/marsjhao/article/details/72829635" target="_blank" rel="noopener">TensorFlow模型保存和提取方法</a></li>
 </ul>
 
       
@@ -519,13 +480,15 @@ array([False, False, ...
       
         <div class="post-tags">
           
-            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/blog/tags/深度学习/" rel="tag"># 深度学习</a>
           
-            <a href="/blog/tags/python/" rel="tag"># python</a>
+            <a href="/blog/tags/tensorflow/" rel="tag"># tensorflow</a>
           
-            <a href="/blog/tags/神经网络/" rel="tag"># 神经网络</a>
+            <a href="/blog/tags/CNN/" rel="tag"># CNN</a>
           
-            <a href="/blog/tags/RBF网络/" rel="tag"># RBF网络</a>
+            <a href="/blog/tags/mnist/" rel="tag"># mnist</a>
+          
+            <a href="/blog/tags/LeNet-5/" rel="tag"># LeNet-5</a>
           
         </div>
       
@@ -538,8 +501,8 @@ array([False, False, ...
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.6 - BP算法改进/" rel="next" title="周志华《机器学习》习题解答：Ch5.6 - BP算法改进">
-                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch5.6 - BP算法改进
+              <a href="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+MLP）/" rel="next" title="深度学习基础 - MNIST实验（tensorflow+MLP）">
+                <i class="fa fa-chevron-left"></i> 深度学习基础 - MNIST实验（tensorflow+MLP）
               </a>
             
           </div>
@@ -547,10 +510,6 @@ array([False, False, ...
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch5.8 - SOM网络实验/" rel="prev" title="周志华《机器学习》习题解答：Ch5.8 - SOM网络实验">
-                周志华《机器学习》习题解答：Ch5.8 - SOM网络实验 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -719,7 +678,7 @@ array([False, False, ...
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RBF网络基础知识回顾"><span class="nav-text">RBF网络基础知识回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#径向基函数-RBF"><span class="nav-text">径向基函数(RBF)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络"><span class="nav-text">RBF网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF网络实现"><span class="nav-text">RBF网络实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF中心参数获取"><span class="nav-text">RBF中心参数获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法推导"><span class="nav-text">RBF-BP算法推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBF-BP算法实现"><span class="nav-text">RBF-BP算法实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异或问题实验"><span class="nav-text">异或问题实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备数据"><span class="nav-text">准备数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数之-RBF中心点"><span class="nav-text">参数之-RBF中心点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成模型并训练"><span class="nav-text">生成模型并训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试模型"><span class="nav-text">测试模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本题小结"><span class="nav-text">本题小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关参考"><span class="nav-text">相关参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-任务背景"><span class="nav-text">1.任务背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-实验过程"><span class="nav-text">2.实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-CNN建模"><span class="nav-text">2.1.CNN建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-训练与测试"><span class="nav-text">2.2.训练与测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-实测"><span class="nav-text">2.3.实测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-实验小结"><span class="nav-text">3.实验小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-参考资料"><span class="nav-text">4.参考资料</span></a></li></ol></div>
             
 
           </div>
@@ -893,7 +852,7 @@ array([False, False, ...
 		_hcwp.push({widget:"Bloggerstream", widget_id: 101899, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
 		
-		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "zzh-ml/周志华《机器学习》习题解答：Ch5.7 - RBF网络实验/"});
+		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/"});
 		
 
 		(function() {
