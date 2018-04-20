@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习," />
+  <meta name="keywords" content="深度学习,CNN,对象检测,车辆识别,滑动窗口,YOLO," />
 
 
 
@@ -79,24 +79,30 @@
 
 
 
-<meta name="description" content="本章从如何挑选西瓜的经验出发，介绍了本书所涉及的一些基本概念和术语。">
-<meta name="keywords" content="机器学习">
+<meta name="description" content="本文以自动驾驶场景下的对象检测（Object Detection）为研究对象，学习理解滑窗卷积和YOLO等内容。">
+<meta name="keywords" content="深度学习,CNN,对象检测,车辆识别,滑动窗口,YOLO">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周志华《机器学习》习题解答：Ch1 - 绪论">
-<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/index.html">
+<meta property="og:title" content="深度学习基础 - 对象检测（滑窗、CNN、YOLO）">
+<meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - 对象检测（CNN+滑窗+YOLO）/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="本章从如何挑选西瓜的经验出发，介绍了本书所涉及的一些基本概念和术语。">
+<meta property="og:description" content="本文以自动驾驶场景下的对象检测（Object Detection）为研究对象，学习理解滑窗卷积和YOLO等内容。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.1.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.2.1.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.3.png">
-<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test4_copy.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/concept_object_detect.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/concept_sliding_windows.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/sliding_windows_detection.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/sliding_windows_cnn.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/yolo.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/anchor.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test2.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test3.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test4.jpg">
+<meta property="og:updated_time" content="2018-04-17T08:10:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch1 - 绪论">
-<meta name="twitter:description" content="本章从如何挑选西瓜的经验出发，介绍了本书所涉及的一些基本概念和术语。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.1.png">
+<meta name="twitter:title" content="深度学习基础 - 对象检测（滑窗、CNN、YOLO）">
+<meta name="twitter:description" content="本文以自动驾驶场景下的对象检测（Object Detection）为研究对象，学习理解滑窗卷积和YOLO等内容。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test4_copy.jpg">
 
 
 
@@ -126,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/"/>
+  <link rel="canonical" href="http://pnyuan.github.io/blog/ml_practice/深度学习基础 - 对象检测（CNN+滑窗+YOLO）/"/>
 
 
 
 
 
-  <title>周志华《机器学习》习题解答：Ch1 - 绪论 | PnYuan's Blog</title>
+  <title>深度学习基础 - 对象检测（滑窗、CNN、YOLO） | PnYuan's Blog</title>
   
 
 
@@ -307,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/ml_practice/深度学习基础 - 对象检测（CNN+滑窗+YOLO）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pn.Yuan">
@@ -324,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch1 - 绪论</h1>
+          <h1 class="post-title" itemprop="name headline">深度学习基础 - 对象检测（滑窗、CNN、YOLO）</h1>
         
 
         <div class="post-meta">
@@ -336,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-14T20:37:55+08:00">
-                2017-03-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T16:10:00+08:00">
+                2018-04-17
               </time>
             
 
@@ -359,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
-                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  <a href="/blog/categories/机器学习散记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习散记</span>
                   </a>
                 </span>
 
@@ -378,8 +384,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/" itemprop="commentsCount"></span>
+                <a href="/blog/ml_practice/深度学习基础 - 对象检测（CNN+滑窗+YOLO）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="ml_practice/深度学习基础 - 对象检测（CNN+滑窗+YOLO）/" itemprop="commentsCount"></span>
                 </a>
               </span>
               <!--/noindex-->
@@ -388,7 +394,7 @@
 
           
           
-             <span id="/blog/zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/" class="leancloud_visitors" data-flag-title="周志华《机器学习》习题解答：Ch1 - 绪论">
+             <span id="/blog/ml_practice/深度学习基础 - 对象检测（CNN+滑窗+YOLO）/" class="leancloud_visitors" data-flag-title="深度学习基础 - 对象检测（滑窗、CNN、YOLO）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -419,53 +425,53 @@
       
 
       
-        <p>本章从如何挑选西瓜的经验出发，介绍了本书所涉及的一些基本概念和术语。</p>
+        <p>本文以自动驾驶场景下的<strong>对象检测</strong>（Object Detection）为研究对象，学习理解滑窗卷积和YOLO等内容。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test4_copy.jpg" alt="exp_1"></p>
 <a id="more"></a>
-<h2 id="本章概要"><a href="#本章概要" class="headerlink" title="本章概要"></a>本章概要</h2><p>本章从如何挑选西瓜的经验出发，介绍了本书所涉及<strong>基本术语和概念</strong>。</p>
-<blockquote>
-<p>数据集、样本、特征（属性）、特征空间（属性空间、样本空间、输入空间）、特征向量、维数；</p>
-</blockquote>
-<blockquote>
-<p>学习（训练）、训练数据、训练样本、假设、预测、标记、样例、标记空间（输出空间）、测试、测试样本；</p>
-</blockquote>
-<blockquote>
-<p>分类、回归、聚类、簇、监督、无监督、泛化能力；</p>
-</blockquote>
-<blockquote>
-<p>归纳、演绎、概念学习、假设空间、版本空间；</p>
-</blockquote>
-<blockquote>
-<p>归纳偏好（偏好）、奥卡姆剃刀；</p>
-</blockquote>
-<p>同时简要介绍了机器学习的发展史。</p>
-<blockquote>
-<p>符号主义、连接主义、机器学习、数据挖掘、统计学；</p>
-</blockquote>
-<h2 id="习题解答"><a href="#习题解答" class="headerlink" title="习题解答"></a>习题解答</h2><h3 id="1-版本空间"><a href="#1-版本空间" class="headerlink" title="1.版本空间"></a>1.版本空间</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.1.png" alt="t1"></p>
-</blockquote>
-<p>当前的特征维度为3（色泽、根蒂、敲声），共3、2、2种取值，1，4的特征完全不同</p>
-<p>根据版本空间的定义（版本空间指的是与训练集一致的假设空间），由表可知，1，4样例各特征取值均不同，于是得出当前的版本空间为：</p>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.1.1.png" alt="fig1"></p>
-<hr>
-<h3 id="2-折合范式提升假设空间表示能力"><a href="#2-折合范式提升假设空间表示能力" class="headerlink" title="2.折合范式提升假设空间表示能力"></a>2.折合范式提升假设空间表示能力</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.2.png" alt="t2"></p>
-</blockquote>
-<p>首先给出相关定义，合取范式：<a href="https://en.wikipedia.org/wiki/Conjunctive_normal_form" target="_blank" rel="noopener">Conjunctive normal form - Wikipedia</a>，析合范式：<a href="https://en.wikipedia.org/wiki/Disjunctive_normal_form" target="_blank" rel="noopener">Conjunctive normal form - Wikipedia</a>。</p>
-<p>然后考虑问题。本题采用析合范式来提升假设空间，解答思路如下图：</p>
-<blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.2.1.jpg" alt="fig2"></p>
-</blockquote>
-<hr>
-<h3 id="3-噪声下的归纳偏好设计"><a href="#3-噪声下的归纳偏好设计" class="headerlink" title="3.噪声下的归纳偏好设计"></a>3.噪声下的归纳偏好设计</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch1_introduction/img/1.3.png" alt="t3"></p>
-</blockquote>
+<h2 id="1-对象检测"><a href="#1-对象检测" class="headerlink" title="1.对象检测"></a>1.对象检测</h2><p><strong>对象检测</strong>（Object Detection）的目的是”识别对象并给出其在图中的确切位置”，其内容可解构为三部分：</p>
+<ol>
+<li>识别某个对象（Classification）；</li>
+<li>给出对象在图中的位置（Localization）；</li>
+<li>识别图中所有的目标及其位置（Detection）。</li>
+</ol>
+<p>如下图所示，从左到右分别展示了：某个对象的识别（P(目标)=1，class=car），对象在图中的定位（给出边框bounding box–&lt;bx1,by1,bx2,by2&gt;），图中所有考察对象的识别与框定。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/concept_object_detect.jpg" alt="concept_object_detect"></p>
+<h2 id="2-滑窗-CNN"><a href="#2-滑窗-CNN" class="headerlink" title="2.滑窗+CNN"></a>2.滑窗+CNN</h2><p><strong>滑动窗口</strong>（Sliding Windows，简称滑窗）法是进行目标检测的主流方法。对于某输入图像，由于其对象尺度形状等因素的不确定性，导致直接套用分类器进行识别效率低下。通过设计滑窗来遍历图像，将每个窗口对应的局部图像进行检测，能有效克服尺度、位置、形变等带来的输入异构问题，提升分类器效果。下图展示了某种大小的滑窗在待检测图像上滑动的过程：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/concept_sliding_windows.gif" alt="concept_sliding_windows"></p>
+<p>下图展示了采用滑窗（size=8×8, stride=2）对图片（10×10）进行对象检测的全过程过程示意。图示的输出为2×2的网格，每个格子对应一个输出标签向量，给出了原图对应的窗口区域图像的检测结果（置信度、边框位置、各类别概率等）。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/sliding_windows_detection.jpg" alt="sliding_windows_detection"></p>
+<p>要实现对象检测，需要有相应的目标识别模型（如上图中的Classifier），<strong>卷积神经网络</strong>（CNN）是其中的主流模型之一。但是，按照上图所示，采用CNN对每个窗口图像进行检测，会产生大量的重复计算（如卷积操作），为了提高检测效率，通过合理设计CNN模型，可以仅需一次前向传播而得出整个图像的滑窗检测结果。下图展示了相关的模型设计实现过程：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/sliding_windows_cnn.jpg" alt="sliding_windows_cnn"></p>
+<p>上图的三步描述了采用14×14大小的窗口进行滑动卷积时的CNN设计实现过程。采用（2）所设计的CNN对（3）中的输入图像进行检测，可以一次性得出最终的结果网格，其相应位置的网格映射了滑动窗口在原图像上的相应区域（如图中输出2×2网格左上角向量即为第一个窗口的CNN检测结果，图中的阴影标注了该窗口信息在CNN中的流动）。</p>
+<h2 id="3-YOLO"><a href="#3-YOLO" class="headerlink" title="3.YOLO"></a>3.YOLO</h2><p><strong>YOLO</strong>（You Only Look Once），是一种端到端（end-to-end）的对象检测方法。虽然是端到端模型，其实也可以粗略地分解为回归预测与边框筛选两部分。首先，将图像进行网格化分，每个格子负责中心点落于其上的对象的边框，并采用回归模型（如滑窗CNN）一次得出全图像的边框标注；然后，采用非最大抑制基于每个格子得出经过筛选的边框输出。该过程示意如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/yolo.jpg" alt="yolo"></p>
+<p>上图中，标注预测（Boxes Prediction）环节负责得出大量候选边框，该部分可采用的模型多种多样（如上文介绍的滑窗CNN）；边框筛选（Boxes Filtering）过程则采用非最大抑制来实现。这里先给出YOLO边框筛选的两个重要基础概念：交并比（IoU）与非最大抑制（NMS）。</p>
 <ul>
-<li>最简单的设计就是：训练样本一致特征越多越好（一致性比例越高越好）为归纳偏好。</li>
-<li>另外，考虑归纳偏好应尽量与问题相匹配，这里可使归纳偏好与噪声分布相匹配。</li>
+<li><p><strong>交并比</strong>（Intersection over Union，IoU）</p>
+<p> 交并比用来描述两个边框（bounding boxes）的重合程度，其定义为：<code>IoU = (S1∩S2)/(S1∪S2)</code>，即两框覆盖区域的交集与并集的面积比。<code>IoU</code> 越大，说明两个边框重合度越高。</p>
+</li>
+<li><p><strong>非最大抑制</strong>（Non-Max Suppression，NMS）</p>
+<p> 非最大抑制的基本思想是，对于表示同一个对象的多个边框，仅保留其中置信度最大的框，而将其他筛除。该筛选过程可描述如下：</p>
+<p> 设每个输出形式为： boxes = [pc,bx1,by1,bx2,by2,…]    </p>
+<ol>
+<li>去掉 <code>pc ≤ 阈值</code> 的 <code>boxes</code> ；</li>
+<li>若还有 <code>boxes</code> 剩余：（1）选出其中<code>pc-&gt;max</code>的边框作为预测并输出；（2）去掉与该 <code>boxes</code> 相交的满足 <code>IoU ≥ 阈值</code> 的所有边框；</li>
+<li>重复 <code>2.</code> 直到没有 <code>boxes</code> 剩余，由此得出所有的预测输出 <code>boxes</code>。</li>
+</ol>
+</li>
 </ul>
-<hr>
-<p>另外1.4与1.5题未完成。</p>
+<p>如：经过滑窗CNN检测后，每个输出网格（cell）负责检测出中心点落在其中的多个边框（box），然后采用非最大抑制对这些边框中属于同一类的进行筛选，从而得出最终的输出结果。</p>
+<p>另外在YOLO中，还可以通过设置<strong>anchor boxes</strong>来实现对多个重叠不同类边框的有效检测。如下图所示，设置 <code>2 anchors</code> 实现两种对象重叠情况的检测。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/anchor.jpg" alt="anchor"></p>
+<h2 id="4-实验"><a href="#4-实验" class="headerlink" title="4.实验"></a>4.实验</h2><p>这里我们直接采用<a href="https://pjreddie.com/darknet/yolo/" target="_blank" rel="noopener">YOLO官网</a>所提供的预训练好的模型来进行检测实验尝试，下面展示了一些检测结果（测试图像取景自华小科校内）：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test1.jpg" alt="exp_1"><br><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test2.jpg" alt="exp_1"><br><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test3.jpg" alt="exp_1"><br><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/object_detect/test4.jpg" alt="exp_1"></p>
+<p>可以看出，直接采用网络所提供的<code>pre-trained YOLO</code>即可实现很不错的检测效果。在此基础上，可通过采集更加丰富的目标场景图像数据，在现有模型上构建迁移学习模型，以期实现更好的面向具体应用的检测模型。</p>
+<h2 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5.参考资料"></a>5.参考资料</h2><ul>
+<li><a href="https://arxiv.org/abs/1506.02640" target="_blank" rel="noopener">YOLO原文献 - YOLO: Unified, Real-Time Object Detection</a></li>
+<li><a href="https://pjreddie.com/darknet/yolo/" target="_blank" rel="noopener">YOLO官方主页</a></li>
+<li><a href="https://www.cnblogs.com/skyfsm/p/6806246.html" target="_blank" rel="noopener">博文 - 基于于深度学习的目标检测技术演进：R-CNN、Fast R-CNN、Faster R-CNN</a></li>
+<li><a href="https://www.pyimagesearch.com/2015/03/23/sliding-windows-for-object-detection-with-python-and-opencv/" target="_blank" rel="noopener">博文 - Sliding Windows for Object Detection with Python and OpenCV</a></li>
+</ul>
 
       
     </div>
@@ -483,7 +489,17 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/blog/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/blog/tags/CNN/" rel="tag"># CNN</a>
+          
+            <a href="/blog/tags/对象检测/" rel="tag"># 对象检测</a>
+          
+            <a href="/blog/tags/车辆识别/" rel="tag"># 车辆识别</a>
+          
+            <a href="/blog/tags/滑动窗口/" rel="tag"># 滑动窗口</a>
+          
+            <a href="/blog/tags/YOLO/" rel="tag"># YOLO</a>
           
         </div>
       
@@ -496,8 +512,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：目录/" rel="next" title="周志华《机器学习》习题解答：目录">
-                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：目录
+              <a href="/blog/ml_practice/深度学习基础 - MNIST实验（tensorflow+CNN）/" rel="next" title="深度学习基础 - MNIST实验（tensorflow+CNN）">
+                <i class="fa fa-chevron-left"></i> 深度学习基础 - MNIST实验（tensorflow+CNN）
               </a>
             
           </div>
@@ -505,10 +521,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch2 - 模型评估与选择/" rel="prev" title="周志华《机器学习》习题解答：Ch2 - 模型评估与选择">
-                周志华《机器学习》习题解答：Ch2 - 模型评估与选择 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -677,7 +689,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本章概要"><span class="nav-text">本章概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#习题解答"><span class="nav-text">习题解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-版本空间"><span class="nav-text">1.版本空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-折合范式提升假设空间表示能力"><span class="nav-text">2.折合范式提升假设空间表示能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-噪声下的归纳偏好设计"><span class="nav-text">3.噪声下的归纳偏好设计</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-对象检测"><span class="nav-text">1.对象检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-滑窗-CNN"><span class="nav-text">2.滑窗+CNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-YOLO"><span class="nav-text">3.YOLO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-实验"><span class="nav-text">4.实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-参考资料"><span class="nav-text">5.参考资料</span></a></li></ol></div>
             
 
           </div>
@@ -851,7 +863,7 @@
 		_hcwp.push({widget:"Bloggerstream", widget_id: 101899, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
 		
-		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/"});
+		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "ml_practice/深度学习基础 - 对象检测（CNN+滑窗+YOLO）/"});
 		
 
 		(function() {
