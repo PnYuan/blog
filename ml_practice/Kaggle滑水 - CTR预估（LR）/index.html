@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,周志华《机器学习》," />
+  <meta name="keywords" content="数据挖掘,Kaggle,CTR预估,逻辑回归," />
 
 
 
@@ -79,20 +79,22 @@
 
 
 
-<meta name="description" content="课后练习解答目录，希望和大家分享交流，共同学习进步。">
-<meta name="keywords" content="机器学习,周志华《机器学习》">
+<meta name="description" content="下面，我们结合Kaggle赛题：Avazu：Click-Through Rate Prediction，练习数据挖掘技术在CTR预估中的应用。 本文内容包括赛题任务简析，以及基于LR（逻辑斯蒂回归）的初步实现。">
+<meta name="keywords" content="数据挖掘,Kaggle,CTR预估,逻辑回归">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周志华《机器学习》习题解答：目录">
-<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：目录/index.html">
+<meta property="og:title" content="Kaggle滑水 - CTR预估（LR）">
+<meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/Kaggle滑水 - CTR预估（LR）/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="课后练习解答目录，希望和大家分享交流，共同学习进步。">
+<meta property="og:description" content="下面，我们结合Kaggle赛题：Avazu：Click-Through Rate Prediction，练习数据挖掘技术在CTR预估中的应用。 本文内容包括赛题任务简析，以及基于LR（逻辑斯蒂回归）的初步实现。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/cover-ml2016.jpg">
-<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/banner_ctr.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/lr/f_dis.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/lr/training_curve_1.png">
+<meta property="og:updated_time" content="2018-05-17T14:00:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周志华《机器学习》习题解答：目录">
-<meta name="twitter:description" content="课后练习解答目录，希望和大家分享交流，共同学习进步。">
-<meta name="twitter:image" content="https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/cover-ml2016.jpg">
+<meta name="twitter:title" content="Kaggle滑水 - CTR预估（LR）">
+<meta name="twitter:description" content="下面，我们结合Kaggle赛题：Avazu：Click-Through Rate Prediction，练习数据挖掘技术在CTR预估中的应用。 本文内容包括赛题任务简析，以及基于LR（逻辑斯蒂回归）的初步实现。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/banner_ctr.jpg">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：目录/"/>
+  <link rel="canonical" href="http://pnyuan.github.io/blog/ml_practice/Kaggle滑水 - CTR预估（LR）/"/>
 
 
 
 
 
-  <title>周志华《机器学习》习题解答：目录 | PnYuan's Blog</title>
+  <title>Kaggle滑水 - CTR预估（LR） | PnYuan's Blog</title>
   
 
 
@@ -303,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：目录/">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/ml_practice/Kaggle滑水 - CTR预估（LR）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pn.Yuan">
@@ -320,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：目录</h1>
+          <h1 class="post-title" itemprop="name headline">Kaggle滑水 - CTR预估（LR）</h1>
         
 
         <div class="post-meta">
@@ -332,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-14T16:41:09+08:00">
-                2017-03-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T22:00:00+08:00">
+                2018-05-17
               </time>
             
 
@@ -355,8 +357,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
-                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  <a href="/blog/categories/机器学习散记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习散记</span>
                   </a>
                 </span>
 
@@ -374,8 +376,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/blog/zzh-ml/周志华《机器学习》习题解答：目录/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="zzh-ml/周志华《机器学习》习题解答：目录/" itemprop="commentsCount"></span>
+                <a href="/blog/ml_practice/Kaggle滑水 - CTR预估（LR）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="ml_practice/Kaggle滑水 - CTR预估（LR）/" itemprop="commentsCount"></span>
                 </a>
               </span>
               <!--/noindex-->
@@ -384,7 +386,7 @@
 
           
           
-             <span id="/blog/zzh-ml/周志华《机器学习》习题解答：目录/" class="leancloud_visitors" data-flag-title="周志华《机器学习》习题解答：目录">
+             <span id="/blog/ml_practice/Kaggle滑水 - CTR预估（LR）/" class="leancloud_visitors" data-flag-title="Kaggle滑水 - CTR预估（LR）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -415,33 +417,152 @@
       
 
       
-        <div align="center"><img width="100" height="100" src="https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/cover-ml2016.jpg"></div>
-
-<p>课后练习解答目录，希望和大家分享交流，共同学习进步。</p>
+        <p>下面，我们结合Kaggle赛题：<strong>Avazu：Click-Through Rate Prediction</strong>，练习数据挖掘技术在CTR预估中的应用。</p>
+<p>本文内容包括赛题任务简析，以及基于<strong>LR</strong>（逻辑斯蒂回归）的初步实现。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/banner_ctr.jpg" alt=""></p>
 <a id="more"></a>
-<h4 id="小序："><a href="#小序：" class="headerlink" title="小序："></a>小序：</h4><p>对机器学习一直很感兴趣，也曾阅读过李航老师的《统计学习导论》和Springer的《统计学习导论-基于R应用》等相关书籍，但总感觉缺乏深入的理解和系统的实践。最近从实验室角落翻得南京大学周志华老师《机器学习》一书，随意翻看之间便被本书内容文笔深深吸引，如获至宝。遂决定要认真学习本书并将学习过程记录下来。</p>
-<p>又觉得若将知识笔记写成Posts未免枯燥（网上已有大量相关内容）。故而暂定将课后练习的思路和答案写成系列博客，希望得到朋友们的交流指导。</p>
-<h4 id="目录："><a href="#目录：" class="headerlink" title="目录："></a>目录：</h4><ul>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh1%20-%20%E7%BB%AA%E8%AE%BA/">周志华《机器学习》习题解答：Ch1 - 绪论</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh2%20-%20%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/">周志华《机器学习》习题解答：Ch2 - 模型评估与选择</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh3%20-%20%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/">周志华《机器学习》习题解答：Ch3 - 线性模型</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh3.3%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E5%AF%B9%E7%8E%87%E5%9B%9E%E5%BD%92/">周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh3.4%20-%20%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81%E6%B3%95%E7%BB%83%E4%B9%A0/">周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh3.5%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90/">周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh4.3%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0ID3%E7%AE%97%E6%B3%95/">周志华《机器学习》习题解答：Ch4 - 决策树</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh4.3%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0ID3%E7%AE%97%E6%B3%95/">周志华《机器学习》习题解答：Ch4.3 - 编程实现ID3算法</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh4.3%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0ID3%E7%AE%97%E6%B3%95/">周志华《机器学习》习题解答：Ch4.4 - 编程实现CART算法与剪枝操作</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.6%20-%20BP%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B/">周志华《机器学习》习题解答：Ch5 - 神经网络</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh4.3%20-%20%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0ID3%E7%AE%97%E6%B3%95/">周志华《机器学习》习题解答：Ch5.5 - BP算法实现</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.6%20-%20BP%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B/">周志华《机器学习》习题解答：Ch5.6 - BP算法改进</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.6%20-%20BP%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B/">周志华《机器学习》习题解答：Ch5.7 - RBF网络实验</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.6%20-%20BP%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B/">周志华《机器学习》习题解答：Ch5.8 - SOM网络实验</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh5.6%20-%20BP%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B/">周志华《机器学习》习题解答：Ch5.10 - 卷积神经网络实验</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh6%20-%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">周志华《机器学习》习题解答：Ch6 - 支持向量机</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh6.2%20-%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C/">周志华《机器学习》习题解答：Ch6.2 - 支持向量分析实验</a></li>
-<li><a href="https://pnyuan.github.io/blog/zzh-ml/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94%EF%BC%9ACh6.3%20-%20SVM%E5%AF%B9%E6%AF%94%E5%AE%9E%E9%AA%8C/">周志华《机器学习》习题解答：Ch6.3 - SDM对比实验</a></li>
+<p>本文的源码托管于我的Github：<a href="https://github.com/PnYuan/Practice-of-Machine-Learning/tree/master/code/Kaggle_CTR" target="_blank" rel="noopener">PnYuan - Kaggle_CTR</a>，欢迎查看交流。</p>
+<h2 id="1-任务概述"><a href="#1-任务概述" class="headerlink" title="1.任务概述"></a>1.任务概述</h2><p>CTR（Click Through Rate，点击率），是“推荐系统/计算广告”等领域的重要指标，对其进行预估是支持进一步地“商品推送/广告投放”等决策的基础。<a href="https://www.kaggle.com/c/avazu-ctr-prediction" target="_blank" rel="noopener">Avazu：Click-Through Rate Prediction</a>是Kaggle2015举行的一场CTR预估比赛。赛事主办方提供了规约化的历史数据（train.csv）与待预测数据（test.csv），下述条目给出了该赛事任务的一些基本信息：</p>
+<ul>
+<li><p>任务输入：数据集文件：train.csv 和 test.csv。</p>
+</li>
+<li><p>任务输出：给出预测集id所对应的CTR预估值，形如：</p>
+<pre><code>id, click
+xx01, 0.118..
+xx02, 0.159..
+xx03, 0.162..
+</code></pre></li>
+<li><p>评价方法：<a href="http://wiki.fast.ai/index.php/Log_Loss#Binary_Classification" target="_blank" rel="noopener">log-loss</a>，二分类任务的交叉熵损失函数；</p>
+</li>
+<li><p>原始数据规模（百万级样本数）： </p>
+<pre><code>训练集样本数：≈40.4M
+测试集样本数：≈4.58M
+</code></pre></li>
+<li><p>原始特征（20+），有关特征的官方解释见<a href="https://www.kaggle.com/c/avazu-ctr-prediction/data" target="_blank" rel="noopener">赛题主页-Data</a>，下面示意性列举了部分特征：</p>
+<pre><code>id: int或string型，用户ID号，可作为样本索引；
+click：bool或int型，只存在于训练集中，样本的标签（是否点击：0-否，1-是）；
+hour：int型，时间变量形如YYMMDDHH；
+C1：int型，匿名特征；
+banner_pos：int型，网页上的广告位置，离散特征0,1,2,3...
+app_id：string型，用户APP的ID；
+...
+</code></pre></li>
 </ul>
-<p><del>停更</del></p>
+<p>据上所述，可以为该任务贴上一些初识标签，如：<strong>有监督学习、二分类概率预测</strong>、较大规模数据等等。</p>
+<h2 id="2-特征工程"><a href="#2-特征工程" class="headerlink" title="2.特征工程"></a>2.特征工程</h2><p>本文拟给出一个基于<strong>LR</strong>的任务初步实现样例，主要目的是体验CTR预估的任务进行过程。在训练LR模型之前，首先要根据原始数据特点以及模型输入要求，对原始特征数据进行预处理以使更好的用于模型的训练与上线。</p>
+<p><a href="https://www.kaggle.com/c/avazu-ctr-prediction/data" target="_blank" rel="noopener">赛题主页-Data页</a>对原始数据及其特征进行了简要说明。这里为简化计算过程，只选用部分原始特征进行实验，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>特征名</th>
+<th>数值类型</th>
+<th>数值样例</th>
+<th>特征内涵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>int</td>
+<td>1001,1004</td>
+<td>未知</td>
+</tr>
+<tr>
+<td>banner_pos</td>
+<td>int</td>
+<td>0,1,2…</td>
+<td>广告条目位置</td>
+</tr>
+<tr>
+<td>site_domain</td>
+<td>str</td>
+<td>f3845767,1b32ed33…</td>
+<td>Site领域</td>
+</tr>
+<tr>
+<td>site_id</td>
+<td>str</td>
+<td>1fbe01fe,fe8cc448…</td>
+<td>Site ID</td>
+</tr>
+<tr>
+<td>site_category</td>
+<td>str</td>
+<td>28905ebd,0569f928…</td>
+<td>Site类型</td>
+</tr>
+<tr>
+<td>app_id</td>
+<td>str</td>
+<td>ecad2386,98fed791…</td>
+<td>App ID</td>
+</tr>
+<tr>
+<td>app_category</td>
+<td>str</td>
+<td>07d7df22,cef3e649…</td>
+<td>APP类型</td>
+</tr>
+<tr>
+<td>device_type</td>
+<td>int</td>
+<td>0,1,2…</td>
+<td>Device类型</td>
+</tr>
+<tr>
+<td>device_conn_type</td>
+<td>int</td>
+<td>0,1,2…</td>
+<td>Device接入类型</td>
+</tr>
+<tr>
+<td>C14</td>
+<td>int</td>
+<td>20366,19251…</td>
+<td>未知</td>
+</tr>
+<tr>
+<td>C15</td>
+<td>int</td>
+<td>320,120…</td>
+<td>未知</td>
+</tr>
+<tr>
+<td>C16</td>
+<td>int</td>
+<td>50,250…</td>
+<td>未知</td>
+</tr>
+</tbody>
+</table>
+<p>原始特征绝大多数为离散类别型（categorical）（包括上表所选特征在内）。当采用此类特征进行LR训练时，常进行<strong>独热编码</strong>（One-Hot Encoding）以使其数据更加利于模型学习。这里由于部分特征的类别取值数量巨大，全部采用One-Hot编码易产生高维度稀疏矩阵，影响学习效率，考虑到特征类别取值呈现长尾分布，如下图所示，故而先将稀有类别取值统一设置为“Other”，然后再进行One-Hot编码处理，从而在保留主体特征信息的同时，控制新特征维度，提高训练效率。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/lr/f_dis.png" alt=""></p>
+<p>考虑到数据规模较大，这里采用<strong>dummyPy</strong>工具包来分块实现数据的One-Hot转换。</p>
+<h2 id="3-LR实验"><a href="#3-LR实验" class="headerlink" title="3.LR实验"></a>3.LR实验</h2><p>LR（逻辑回归/对率回归）模型是一个非常简单实用的有监督学习模型，这里我们将其运用到对CTR预估的初步尝试中。考虑到数据量较大，这里我们采用<code>sklearn.linear_model.SGDClassifier</code>库函数来实现LR的增量式学习。通过设置默认的<strong>SGDClassifier</strong>超参数，采用分块式训练，得出训练过程损失（log-loss）曲线如下图所示。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/lr/training_curve_1.png" alt=""></p>
+<p>初步分析曲线收敛状况可知，训练过程损失指标始终处于<code>log-loss=0.4</code>左右微振荡。猜测LR模型已大致完成对当前数据的拟合，但效果欠佳。采用经此训练的模型进行预测，得出结果提交至Kaggle评分为：</p>
+<ul>
+<li>private：0.4172740 (rank 75%)</li>
+<li>public： 0.4155279 (rank 74%)</li>
+</ul>
+<p>之后，我们尝试引入更多的原始特征进行LR实验，获得了一定的结果提升，如：</p>
+<ul>
+<li>private：0.4097192 (rank 72%)    </li>
+<li>public： 0.4118247 (rank 72%)</li>
+</ul>
+<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4.小结"></a>4.小结</h2><p>本文围绕Avazu-CTR预估任务，以<strong>LR-based</strong>为基本方案，相继完成了：</p>
+<ol>
+<li>任务和数据的解析；</li>
+<li>原始特征抽取及其One-Hot编码预处理；</li>
+<li>LR训练及预测；</li>
+</ol>
+<p>三部分的内容，取得了初步的评分结果。之后还可以在模型的选择与改进、特征工程的细致深入、训练调优策略的积极尝试等方面入手，进一步研究提高CTR预估效果。</p>
+<h2 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5.参考资料"></a>5.参考资料</h2><ul>
+<li>赛题主页：<a href="https://www.kaggle.com/c/avazu-ctr-prediction" target="_blank" rel="noopener">Click-Through Rate Prediction</a></li>
+<li>数据处理技巧：<a href="https://stackoverflow.com/questions/31303946/pandas-filter-dataframe-for-values-that-are-too-frequent-or-too-rare" target="_blank" rel="noopener">Pandas: Filter dataframe for values that are too frequent or too rare</a></li>
+<li>数据处理技巧：<a href="https://yashuseth.blog/2017/12/14/how-to-one-hot-encode-categorical-variables-of-a-large-dataset-in-python/" target="_blank" rel="noopener">How to One Hot Encode Categorical Variables of a Large Dataset in Python?</a></li>
+<li>模型实现：<a href="https://datascience.stackexchange.com/questions/6676/scikit-learn-getting-sgdclassifier-to-predict-as-well-as-a-logistic-regression" target="_blank" rel="noopener">Scikit-learn: Getting SGDClassifier to predict as well as a Logistic Regression</a></li>
+</ul>
 
       
     </div>
@@ -459,9 +580,13 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/blog/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
           
-            <a href="/blog/tags/周志华《机器学习》/" rel="tag"># 周志华《机器学习》</a>
+            <a href="/blog/tags/Kaggle/" rel="tag"># Kaggle</a>
+          
+            <a href="/blog/tags/CTR预估/" rel="tag"># CTR预估</a>
+          
+            <a href="/blog/tags/逻辑回归/" rel="tag"># 逻辑回归</a>
           
         </div>
       
@@ -474,8 +599,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/写在前面/" rel="next" title="写在前面">
-                <i class="fa fa-chevron-left"></i> 写在前面
+              <a href="/blog/ml_practice/Kaggle滑水 - 泰坦尼克之灾（决策树）/" rel="next" title="Kaggle滑水 - 泰坦尼克之灾（决策树）">
+                <i class="fa fa-chevron-left"></i> Kaggle滑水 - 泰坦尼克之灾（决策树）
               </a>
             
           </div>
@@ -483,10 +608,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch1 - 绪论/" rel="prev" title="周志华《机器学习》习题解答：Ch1 - 绪论">
-                周志华《机器学习》习题解答：Ch1 - 绪论 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -655,7 +776,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#小序："><span class="nav-text">小序：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录："><span class="nav-text">目录：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-任务概述"><span class="nav-text">1.任务概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-特征工程"><span class="nav-text">2.特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-LR实验"><span class="nav-text">3.LR实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-小结"><span class="nav-text">4.小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-参考资料"><span class="nav-text">5.参考资料</span></a></li></ol></div>
             
 
           </div>
@@ -829,7 +950,7 @@
 		_hcwp.push({widget:"Bloggerstream", widget_id: 101899, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
 		
-		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "zzh-ml/周志华《机器学习》习题解答：目录/"});
+		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "ml_practice/Kaggle滑水 - CTR预估（LR）/"});
 		
 
 		(function() {
