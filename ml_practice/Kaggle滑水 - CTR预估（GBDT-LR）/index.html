@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,交叉验证法,python,sklearn,seaborn," />
+  <meta name="keywords" content="数据挖掘,Kaggle,CTR预估,GBDT,逻辑回归," />
 
 
 
@@ -79,22 +79,26 @@
 
 
 
-<meta name="description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
-<meta name="keywords" content="机器学习,交叉验证法,python,sklearn,seaborn">
+<meta name="description" content="本文继续以Avazu-CTR赛题为场景，采用GBDT（梯度提升树）与LR（逻辑回归）相结合的方法来完成CTR预估任务；">
+<meta name="keywords" content="数据挖掘,Kaggle,CTR预估,GBDT,逻辑回归">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
-<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/index.html">
+<meta property="og:title" content="Kaggle滑水 - CTR预估（GBDT-LR）">
+<meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
+<meta property="og:description" content="本文继续以Avazu-CTR赛题为场景，采用GBDT（梯度提升树）与LR（逻辑回归）相结合的方法来完成CTR预估任务；">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
-<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt-lr.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt-lr_2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt-lr_ad-id.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/data_1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/data_2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/data_3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt_tuning.png">
+<meta property="og:updated_time" content="2018-05-22T13:51:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
-<meta name="twitter:description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
+<meta name="twitter:title" content="Kaggle滑水 - CTR预估（GBDT-LR）">
+<meta name="twitter:description" content="本文继续以Avazu-CTR赛题为场景，采用GBDT（梯度提升树）与LR（逻辑回归）相结合的方法来完成CTR预估任务；">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt-lr.png">
 
 
 
@@ -124,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/"/>
+  <link rel="canonical" href="http://pnyuan.github.io/blog/ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/"/>
 
 
 
 
 
-  <title>周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习 | PnYuan's Blog</title>
+  <title>Kaggle滑水 - CTR预估（GBDT-LR） | PnYuan's Blog</title>
   
 
 
@@ -305,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pn.Yuan">
@@ -322,7 +326,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习</h1>
+          <h1 class="post-title" itemprop="name headline">Kaggle滑水 - CTR预估（GBDT-LR）</h1>
         
 
         <div class="post-meta">
@@ -334,8 +338,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-20T19:37:02+08:00">
-                2017-03-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T21:51:00+08:00">
+                2018-05-22
               </time>
             
 
@@ -357,8 +361,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
-                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  <a href="/blog/categories/机器学习散记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习散记</span>
                   </a>
                 </span>
 
@@ -376,8 +380,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/" itemprop="commentsCount"></span>
+                <a href="/blog/ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/" itemprop="commentsCount"></span>
                 </a>
               </span>
               <!--/noindex-->
@@ -386,7 +390,7 @@
 
           
           
-             <span id="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/" class="leancloud_visitors" data-flag-title="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
+             <span id="/blog/ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/" class="leancloud_visitors" data-flag-title="Kaggle滑水 - CTR预估（GBDT-LR）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -417,39 +421,83 @@
       
 
       
-        <div align="center"><img width="300" height="150" src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png"></div>
-
-<p>比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。</p>
+        <p>本文继续以Avazu-CTR赛题为场景，采用GBDT（梯度提升树）与LR（逻辑回归）相结合的方法来完成CTR预估任务；</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt-lr.png" alt=""></p>
 <a id="more"></a>
-<p>本文编程采用<strong>Python-sklearn</strong>实现，相关源码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png" alt=""></p>
-</blockquote>
-<p>本题采用UCI中的 <a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">Iris Data Set</a> 和 <a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set</a>，基于sklearn完成练习（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation" target="_blank" rel="noopener">查看完整代码和数据集</a>）。</p>
-<p>关于数据集的介绍：</p>
-<p><a href="http://baike.baidu.com/item/IRIS/4061453#viewPageContent" target="_blank" rel="noopener">IRIS数据集简介 - 百度百科</a>；通过花朵的性状数据（花萼大小、花瓣大小…）来推测花卉的类别。变量属性X=4种，类别标签y公有3种，这里我们选取其中两类数据来拟合对率回归(逻辑斯蒂回归)。</p>
-<p><a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set - UCI</a>;通过献血行为（上次献血时间、总献血cc量…）的历史数据，来推测某人是否会在某一时段献血。变量属性X=4种，类别y={0,1}。该数据集相对iris要大一些。</p>
-<p>具体过程如下：</p>
-<h3 id="数据预分析"><a href="#数据预分析" class="headerlink" title="数据预分析"></a>数据预分析</h3><p>iris数据集十分常用，sklearn的数据包已包含该数据集，我们可以直接载入。对于transfusion数据集，我们从UCI官网上下载导入即可。</p>
-<p>采用<strong>seaborn</strong>库可以实现基于matplotlib的非常漂亮的可视化呈现效果，下图是采用seaborn.pairplot()绘制的iris数据集各变量关系组合图，从图中可以看出，类别区分十分明显，分类器应该比较容易实现：</p>
-<blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png" alt=""></p>
-</blockquote>
-<p>相关样例代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">sns.set(style=<span class="string">"white"</span>, color_codes=<span class="keyword">True</span>)</span><br><span class="line">iris = sns.load_dataset(<span class="string">"iris"</span>)</span><br><span class="line"></span><br><span class="line">iris.plot(kind=<span class="string">"scatter"</span>, x=<span class="string">"sepal_length"</span>, y=<span class="string">"sepal_width"</span>)</span><br><span class="line">sns.pairplot(iris,hue=<span class="string">'species'</span>) </span><br><span class="line">sns.plt.show()</span><br></pre></td></tr></table></figure>
-<h3 id="基于sklearn进行拟合与交叉验证"><a href="#基于sklearn进行拟合与交叉验证" class="headerlink" title="基于sklearn进行拟合与交叉验证"></a>基于sklearn进行拟合与交叉验证</h3><p>这里我们选择iris中的两类数据对应的样本进行分析。k-折交叉验证（1&lt;k&lt;n-1)可直接根据sklearn.model_selection.cross_val_predict()得到精度、F1值等度量。留一法稍微复杂一点，这里采用loop实现。</p>
-<p>面向iris数据集的样例代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">2-nd logistic regression using sklearn</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_predict</span><br><span class="line"></span><br><span class="line"><span class="comment"># log-regression lib model</span></span><br><span class="line">log_model = LogisticRegression()</span><br><span class="line">m = np.shape(X)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 10-folds CV</span></span><br><span class="line">y_pred = cross_val_predict(log_model, X, y, cv=<span class="number">10</span>)</span><br><span class="line">print(metrics.accuracy_score(y, y_pred))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># LOOCV</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> LeaveOneOut</span><br><span class="line">loo = LeaveOneOut()</span><br><span class="line">accuracy = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> train, test <span class="keyword">in</span> loo.split(X):</span><br><span class="line">    log_model.fit(X[train], y[train])  <span class="comment"># fitting</span></span><br><span class="line">    y_p = log_model.predict(X[test])</span><br><span class="line">    <span class="keyword">if</span> y_p == y[test] : accuracy += <span class="number">1</span>  </span><br><span class="line">print(accuracy / np.shape(X)[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
-<p>得出了精度（预测准确度）结果如下：</p>
-<pre><code>0.97
-0.96
-</code></pre><p>可以看到，两种方法的模型精度都十分高，这也得益于iris数据集类间散度较大。</p>
-<p>同样的方法对blood-transfusion数据集得出的精度结果：</p>
-<pre><code>0.76
-0.77
-</code></pre><p>也可以看到，两种交叉验证的结果相近，但是由于此数据集的类分性不如iris明显，所得结果也要差一些。同时由程序运行可以看出，<strong>LOOCV的运行时间相对较长</strong>，这一点随着数据量的增大而愈发明显。</p>
-<p>所以，一般情况下选择K-折交叉验证即可满足精度要求，同时运算量相对小。</p>
-<hr>
+<p>本文的源码托管于我的Github：<a href="https://github.com/PnYuan/Practice-of-Machine-Learning/tree/master/code/Kaggle_CTR" target="_blank" rel="noopener">PnYuan - Kaggle_CTR</a>，欢迎查看交流。</p>
+<h2 id="1-GBDT-LR方案"><a href="#1-GBDT-LR方案" class="headerlink" title="1.GBDT-LR方案"></a>1.GBDT-LR方案</h2><p>集成模型如GBDT、XGBoost等，可被用于原始特征的转换与组合，从而自动构建出新的特征用于改进数据挖掘任务。这里，我们采用业界常用的GBDT-LR方案来完成CTR预估任务，其中GBDT的作用正如上所述。整个方案的模型示意图如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt-lr_2.png" alt=""></p>
+<p>这里，GBDT的所有输出叶子节点构成新特征向量（上图中<code>Transform new Features</code>），每条原始数据样本可由GBDT转化为新的数据条目（上图中<code>new Feature Vector</code>）。经过良好训练后的GBDT，可视为一系列优质特征处理规则（转换、组合、过滤…）的复合，最终实现的是新旧特征的映射，进而使得原始数据经其处理后，更加有利于LR等模型的学习训练。</p>
+<p>进一步解析GBDT-LR方案的好处如下：</p>
+<ul>
+<li><p>GBDT作为一种Boosting集成模型，其建模过程以残差拟合为目的，相应的数据信息学习也是从主体到细节（到噪声）。于是，对于GBDT序列化的子模型，其叶节点索引所对应的<strong>新特征的重要性</strong>是递减的，这事实上为我们提供了一套<strong>特征排序</strong></p>
+</li>
+<li><p>GBDT实现了显示的特征转换，通过设置合理的子模型数量，<strong>既保留数据主体信息，又控制特征空间维度</strong>，提高数据效用和训练效率；</p>
+</li>
+<li><p>在广告推荐中，广告ID是一个易被忽略的重要特征。采用GBDT-LR的方案可将其很好的利用起来。一般而言，ID取值多且呈现长尾分布，常用作法是对一些大广告（曝光充分，样本充足）建立专属GBDT，其它构建共用GBDT，其思路如下图示：</p>
+<p> <img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt-lr_ad-id.png" alt=""></p>
+</li>
+</ul>
+<p>本文，我们先训练一个GBDT来完成上层特征处理任务，然后采用LR模型完成CTR的预估。</p>
+<h2 id="2-特征工程"><a href="#2-特征工程" class="headerlink" title="2.特征工程"></a>2.特征工程</h2><p>这里，我们选取与上文<a href="https://pnyuan.github.io/blog/ml_practice/Kaggle%E6%BB%91%E6%B0%B4%20-%20CTR%E9%A2%84%E4%BC%B0%EF%BC%88LR%EF%BC%89/">CTR预估（LR）</a>相同的原始特征（共计12个），同样进行长尾简化（rare to ‘Other’），在模型的训练和预测过程中，还需对数据进行如下处理：</p>
+<ul>
+<li><p><strong>标签编码</strong></p>
+<p> 原始特征数据取值均为离散类别型（categorical），针对GBDT模型，考虑将原有数据进行数值标签转换，如采用<code>sklearn.preprocessing.LabelEncoder</code>。</p>
+</li>
+<li><p><strong>独热编码</strong></p>
+<p> 有些工具包的GBDT输出为叶节点索引（如<code>sklearn.ensemble.GradientBoostingClassifier</code>），为利于进一步的LR模型使用，还需考虑将其进行One-Hot编码，如采用<code>sklearn.preprocessing.OneHotEncoder</code>。</p>
+</li>
+</ul>
+<h2 id="3-CTR预估实验"><a href="#3-CTR预估实验" class="headerlink" title="3.CTR预估实验"></a>3.CTR预估实验</h2><h3 id="3-1-数据生命周期检查"><a href="#3-1-数据生命周期检查" class="headerlink" title="3.1.数据生命周期检查"></a>3.1.数据生命周期检查</h3><p>为进一步理解GBDT-LR的运行过程，同时排查编程实现的错误。这里对整个过程中的数据形态变化进行检视。数据的处理流程为：</p>
+<pre><code>原始特征数据 -&gt; 标签编码 -&gt; GBDT -&gt; 独热编码 -&gt; LR -&gt; 输出。
+</code></pre><p>其各环节的数据内容形态记录如下：</p>
+<ol>
+<li><p>基于<code>GradientBoostingClassifier</code>实现GBDT。这里我们进行下采样来简化训练集规模（从原始训练集中随机抽取2M条样本），得出训练数据如下所示（<code>shape as [n_samples=2M, n_features=12]</code>）：</p>
+<p> <img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/data_1.png" alt=""></p>
+</li>
+<li><p>基于<code>LabelEncoder</code>对原始数据进行标签编码，得出数值化数据如下所示（<code>shape as [n_samples, n_features = 12]</code>）：</p>
+<p> <img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/data_2.png" alt=""></p>
+</li>
+<li><p>上述数据经GBDT处理后，输出为每个叶子节点的索引，如下图所示（<code>shape as [n_samples, n_features = n_estimators, n_classes=1</code>]）：</p>
+<p> <img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/data_3.png" alt=""></p>
+</li>
+<li><p>对GBDT输出数据进行One-Hot编码，得出LR的输入数据，为稀疏矩阵（<code>shape as [n_samples, n_features = n_leaves（GBDT叶子节点总数）</code>]），数据描述如下：</p>
+<pre><code>&gt;&gt;&gt; X2_train_lr
+&lt;35000x1724 sparse matrix of type &apos;&lt;class &apos;numpy.float64&apos;&gt;&apos;
+    with 700000 stored elements in Compressed Sparse Row format&gt;
+&gt;&gt;&gt; X2_train_lr[0]
+&lt;1x1724 sparse matrix of type &apos;&lt;class &apos;numpy.float64&apos;&gt;&apos;
+    with 20 stored elements in Compressed Sparse Row format&gt;
+（这里GBDT子树个数为20，叶子节点总数为1724）
+</code></pre></li>
+<li><p>（略）</p>
+</li>
+</ol>
+<h3 id="3-2-模型训练调优"><a href="#3-2-模型训练调优" class="headerlink" title="3.2.模型训练调优"></a>3.2.模型训练调优</h3><p>此处模型包括GBDT与LR两部分，均可采用<code>sklearn</code>相应库函数来编程实现，下面给出建模、训练过程中的一些技巧：</p>
+<ul>
+<li><p>将原始训练集划分为训练集（<code>train</code>）和验证集（<code>valid</code>），其中训练集又继续一分为二分（<code>train_gbdt</code>，<code>train_lr</code>）别用于GBDT和LR的训练以防止过拟合。</p>
+</li>
+<li><p>GBDT的超参数如<code>n_estimators</code>、<code>max_depth</code>、<code>min_samples_split</code>等直接关乎模型效果，对其进行调节要综合计算能力限制、拟合效果平衡、输出维度考量等多方面，推荐采用采用启发式寻优。</p>
+</li>
+</ul>
+<p>下图展示了本次实验中GBDT参数调节对结果的影响，其中训练集（train）和测试集（dev即valid）间的分差反应了GBDT的过拟合程度。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/gbdt-lr/gbdt_tuning.png" alt=""></p>
+<h3 id="3-3-预测CTR"><a href="#3-3-预测CTR" class="headerlink" title="3.3.预测CTR"></a>3.3.预测CTR</h3><p>采用预训练后的GBDT-LR模型处理测试集，将得出的预测结果上传至Kaggle评分为：</p>
+<pre><code>- Private Score: 0.4036965(69%)
+- Public Score: 0.4056284(69%)
+</code></pre><h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4.小结"></a>4.小结</h2><p>本文给出了GBDT-LR_based CTR的方案，包括：</p>
+<ol>
+<li>GBDT用于自动特征映射的相关理论；</li>
+<li>GBDT-LR模型结构；</li>
+<li>基于GBDT-LR的CTR预估实验；</li>
+</ol>
+<p>几个部分。与前文对比可知，CTR预估场景采用堆叠模型（GBDT-LR）更易取得好的结果。</p>
+<h2 id="5-参考"><a href="#5-参考" class="headerlink" title="5.参考"></a>5.参考</h2><ul>
+<li>赛题主页：<a href="https://www.kaggle.com/c/avazu-ctr-prediction" target="_blank" rel="noopener">Click-Through Rate Prediction</a></li>
+<li>相关文献：<a href="http://www.quinonero.net/Publications/predicting-clicks-facebook.pdf" target="_blank" rel="noopener">Practical Lessons from Predicting Clicks on Ads at<br>Facebook</a></li>
+<li>实现参考 - sklearn：<a href="http://scikit-learn.org/stable/auto_examples/ensemble/plot_feature_transformation.html" target="_blank" rel="noopener">Feature transformations with ensembles of trees</a></li>
+<li>博客参考:<a href="https://blog.csdn.net/lilyth_lilyth/article/details/48032119" target="_blank" rel="noopener">CTR预估中GBDT与LR融合方案</a></li>
+</ul>
 
       
     </div>
@@ -467,15 +515,15 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/blog/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
           
-            <a href="/blog/tags/交叉验证法/" rel="tag"># 交叉验证法</a>
+            <a href="/blog/tags/Kaggle/" rel="tag"># Kaggle</a>
           
-            <a href="/blog/tags/python/" rel="tag"># python</a>
+            <a href="/blog/tags/CTR预估/" rel="tag"># CTR预估</a>
           
-            <a href="/blog/tags/sklearn/" rel="tag"># sklearn</a>
+            <a href="/blog/tags/GBDT/" rel="tag"># GBDT</a>
           
-            <a href="/blog/tags/seaborn/" rel="tag"># seaborn</a>
+            <a href="/blog/tags/逻辑回归/" rel="tag"># 逻辑回归</a>
           
         </div>
       
@@ -488,8 +536,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归/" rel="next" title="周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归">
-                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归
+              <a href="/blog/ml_practice/Kaggle滑水 - CTR预估（LR）/" rel="next" title="Kaggle滑水 - CTR预估（LR）">
+                <i class="fa fa-chevron-left"></i> Kaggle滑水 - CTR预估（LR）
               </a>
             
           </div>
@@ -498,8 +546,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析/" rel="prev" title="周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析">
-                周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/" rel="prev" title="Kaggle滑水 - CTR预估（FM_FFM）">
+                Kaggle滑水 - CTR预估（FM_FFM） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -669,7 +717,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预分析"><span class="nav-text">数据预分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于sklearn进行拟合与交叉验证"><span class="nav-text">基于sklearn进行拟合与交叉验证</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-GBDT-LR方案"><span class="nav-text">1.GBDT-LR方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-特征工程"><span class="nav-text">2.特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-CTR预估实验"><span class="nav-text">3.CTR预估实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-数据生命周期检查"><span class="nav-text">3.1.数据生命周期检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-模型训练调优"><span class="nav-text">3.2.模型训练调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-预测CTR"><span class="nav-text">3.3.预测CTR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-小结"><span class="nav-text">4.小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-参考"><span class="nav-text">5.参考</span></a></li></ol></div>
             
 
           </div>
@@ -843,7 +891,7 @@
 		_hcwp.push({widget:"Bloggerstream", widget_id: 101899, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
 		
-		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/"});
+		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/"});
 		
 
 		(function() {

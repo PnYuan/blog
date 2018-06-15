@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,交叉验证法,python,sklearn,seaborn," />
+  <meta name="keywords" content="数据挖掘,Kaggle,CTR预估,FM,FFM," />
 
 
 
@@ -79,22 +79,25 @@
 
 
 
-<meta name="description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
-<meta name="keywords" content="机器学习,交叉验证法,python,sklearn,seaborn">
+<meta name="description" content="本文继续以Avazu-CTR赛题为背景，尝试采用FM（Factorization Machine，因子分解机）及FFM（Field-aware Factorization Machine，场感知因子分解机）来进行CTR预估任务。">
+<meta name="keywords" content="数据挖掘,Kaggle,CTR预估,FM,FFM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
-<meta property="og:url" content="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/index.html">
+<meta property="og:title" content="Kaggle滑水 - CTR预估（FM_FFM）">
+<meta property="og:url" content="http://pnyuan.github.io/blog/ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/index.html">
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
-<meta property="og:description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
+<meta property="og:description" content="本文继续以Avazu-CTR赛题为背景，尝试采用FM（Factorization Machine，因子分解机）及FFM（Field-aware Factorization Machine，场感知因子分解机）来进行CTR预估任务。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
-<meta property="og:updated_time" content="2018-02-24T12:00:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/fm-ico.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-poly.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-fm.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-fm_2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/fm-ffm.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-ffm.png">
+<meta property="og:updated_time" content="2018-06-02T07:34:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
-<meta name="twitter:description" content="比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png">
+<meta name="twitter:title" content="Kaggle滑水 - CTR预估（FM_FFM）">
+<meta name="twitter:description" content="本文继续以Avazu-CTR赛题为背景，尝试采用FM（Factorization Machine，因子分解机）及FFM（Field-aware Factorization Machine，场感知因子分解机）来进行CTR预估任务。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/fm-ico.jpg">
 
 
 
@@ -124,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://pnyuan.github.io/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/"/>
+  <link rel="canonical" href="http://pnyuan.github.io/blog/ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/"/>
 
 
 
 
 
-  <title>周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习 | PnYuan's Blog</title>
+  <title>Kaggle滑水 - CTR预估（FM_FFM） | PnYuan's Blog</title>
   
 
 
@@ -305,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pn.Yuan">
@@ -322,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习</h1>
+          <h1 class="post-title" itemprop="name headline">Kaggle滑水 - CTR预估（FM_FFM）</h1>
         
 
         <div class="post-meta">
@@ -334,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-20T19:37:02+08:00">
-                2017-03-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-02T15:34:00+08:00">
+                2018-06-02
               </time>
             
 
@@ -357,8 +360,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/周志华《机器学习》习题解答/" itemprop="url" rel="index">
-                    <span itemprop="name">周志华《机器学习》习题解答</span>
+                  <a href="/blog/categories/机器学习散记/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习散记</span>
                   </a>
                 </span>
 
@@ -376,8 +379,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count hc-comment-count" data-xid="zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/" itemprop="commentsCount"></span>
+                <a href="/blog/ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/" itemprop="commentsCount"></span>
                 </a>
               </span>
               <!--/noindex-->
@@ -386,7 +389,7 @@
 
           
           
-             <span id="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/" class="leancloud_visitors" data-flag-title="周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习">
+             <span id="/blog/ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/" class="leancloud_visitors" data-flag-title="Kaggle滑水 - CTR预估（FM_FFM）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -417,39 +420,166 @@
       
 
       
-        <div align="center"><img width="300" height="150" src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png"></div>
-
-<p>比较k折交叉验证法与留一法。本题采用UCI中的 Iris Data Set 和 Blood Transfusion Service Center Data Set，基于sklearn完成。</p>
+        <p>本文继续以Avazu-CTR赛题为背景，尝试采用<strong>FM</strong>（Factorization Machine，因子分解机）及<strong>FFM</strong>（Field-aware Factorization Machine，场感知因子分解机）来进行CTR预估任务。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/fm-ico.jpg" alt=""></p>
 <a id="more"></a>
-<p>本文编程采用<strong>Python-sklearn</strong>实现，相关源码托管于Github：<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua" target="_blank" rel="noopener">PnYuan/Machine-Learning_ZhouZhihua</a>，欢迎访问。</p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.png" alt=""></p>
-</blockquote>
-<p>本题采用UCI中的 <a href="http://archive.ics.uci.edu/ml/datasets/Iris" target="_blank" rel="noopener">Iris Data Set</a> 和 <a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set</a>，基于sklearn完成练习（<a href="https://github.com/PnYuan/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation" target="_blank" rel="noopener">查看完整代码和数据集</a>）。</p>
-<p>关于数据集的介绍：</p>
-<p><a href="http://baike.baidu.com/item/IRIS/4061453#viewPageContent" target="_blank" rel="noopener">IRIS数据集简介 - 百度百科</a>；通过花朵的性状数据（花萼大小、花瓣大小…）来推测花卉的类别。变量属性X=4种，类别标签y公有3种，这里我们选取其中两类数据来拟合对率回归(逻辑斯蒂回归)。</p>
-<p><a href="http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center" target="_blank" rel="noopener">Blood Transfusion Service Center Data Set - UCI</a>;通过献血行为（上次献血时间、总献血cc量…）的历史数据，来推测某人是否会在某一时段献血。变量属性X=4种，类别y={0,1}。该数据集相对iris要大一些。</p>
-<p>具体过程如下：</p>
-<h3 id="数据预分析"><a href="#数据预分析" class="headerlink" title="数据预分析"></a>数据预分析</h3><p>iris数据集十分常用，sklearn的数据包已包含该数据集，我们可以直接载入。对于transfusion数据集，我们从UCI官网上下载导入即可。</p>
-<p>采用<strong>seaborn</strong>库可以实现基于matplotlib的非常漂亮的可视化呈现效果，下图是采用seaborn.pairplot()绘制的iris数据集各变量关系组合图，从图中可以看出，类别区分十分明显，分类器应该比较容易实现：</p>
-<blockquote>
-<p><img src="https://raw.githubusercontent.com/PnYuan/Machine-Learning_ZhouZhihua/master/ch3_linear_model/Ch3/3.4.1.png" alt=""></p>
-</blockquote>
-<p>相关样例代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">sns.set(style=<span class="string">"white"</span>, color_codes=<span class="keyword">True</span>)</span><br><span class="line">iris = sns.load_dataset(<span class="string">"iris"</span>)</span><br><span class="line"></span><br><span class="line">iris.plot(kind=<span class="string">"scatter"</span>, x=<span class="string">"sepal_length"</span>, y=<span class="string">"sepal_width"</span>)</span><br><span class="line">sns.pairplot(iris,hue=<span class="string">'species'</span>) </span><br><span class="line">sns.plt.show()</span><br></pre></td></tr></table></figure>
-<h3 id="基于sklearn进行拟合与交叉验证"><a href="#基于sklearn进行拟合与交叉验证" class="headerlink" title="基于sklearn进行拟合与交叉验证"></a>基于sklearn进行拟合与交叉验证</h3><p>这里我们选择iris中的两类数据对应的样本进行分析。k-折交叉验证（1&lt;k&lt;n-1)可直接根据sklearn.model_selection.cross_val_predict()得到精度、F1值等度量。留一法稍微复杂一点，这里采用loop实现。</p>
-<p>面向iris数据集的样例代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">2-nd logistic regression using sklearn</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_predict</span><br><span class="line"></span><br><span class="line"><span class="comment"># log-regression lib model</span></span><br><span class="line">log_model = LogisticRegression()</span><br><span class="line">m = np.shape(X)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 10-folds CV</span></span><br><span class="line">y_pred = cross_val_predict(log_model, X, y, cv=<span class="number">10</span>)</span><br><span class="line">print(metrics.accuracy_score(y, y_pred))</span><br><span class="line">    </span><br><span class="line"><span class="comment"># LOOCV</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> LeaveOneOut</span><br><span class="line">loo = LeaveOneOut()</span><br><span class="line">accuracy = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> train, test <span class="keyword">in</span> loo.split(X):</span><br><span class="line">    log_model.fit(X[train], y[train])  <span class="comment"># fitting</span></span><br><span class="line">    y_p = log_model.predict(X[test])</span><br><span class="line">    <span class="keyword">if</span> y_p == y[test] : accuracy += <span class="number">1</span>  </span><br><span class="line">print(accuracy / np.shape(X)[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
-<p>得出了精度（预测准确度）结果如下：</p>
-<pre><code>0.97
-0.96
-</code></pre><p>可以看到，两种方法的模型精度都十分高，这也得益于iris数据集类间散度较大。</p>
-<p>同样的方法对blood-transfusion数据集得出的精度结果：</p>
-<pre><code>0.76
-0.77
-</code></pre><p>也可以看到，两种交叉验证的结果相近，但是由于此数据集的类分性不如iris明显，所得结果也要差一些。同时由程序运行可以看出，<strong>LOOCV的运行时间相对较长</strong>，这一点随着数据量的增大而愈发明显。</p>
-<p>所以，一般情况下选择K-折交叉验证即可满足精度要求，同时运算量相对小。</p>
-<hr>
+<p>本文的源码托管于我的Github：<a href="https://github.com/PnYuan/Practice-of-Machine-Learning/tree/master/code/Kaggle_CTR" target="_blank" rel="noopener">PnYuan - Kaggle_CTR</a>，欢迎查看交流。</p>
+<h2 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h2><p>商用推荐场景中的CTR预估工作易面临大规模稀疏数据的挑战。<strong>因子分解机</strong>（ Factorization Machine, 简称<strong>FM</strong> ）模型的引入正对于此，其通过对参数矩阵的低秩分解，来解决高维训练的低效问题。这里，首先示例性地介绍<strong>数据稀疏</strong>和<strong>特征组合</strong>的相关内容，然后引出FM模型及其拓展形式FFM。</p>
+<h3 id="1-1-数据稀疏"><a href="#1-1-数据稀疏" class="headerlink" title="1.1.数据稀疏"></a>1.1.数据稀疏</h3><p>设用于CTR预估的原始数据如下表所示（表1）：</p>
+<table>
+<thead>
+<tr>
+<th>时间戳(time)</th>
+<th>用户性别(sex)</th>
+<th>网站类型(st)</th>
+<th>广告类型(at)</th>
+<th>是否点击（clicked？）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16102206</td>
+<td>male</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>16110218</td>
+<td>-</td>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>16110222</td>
+<td>female</td>
+<td>-</td>
+<td>6</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>类似数据中常包含大量离散型特征（categorical features），如上表中的特征“<code>用户性别</code>，<code>网站类型</code>”等，独热编码（One-hot）常被用于此类特征的预处理。设经过编码转换后的新数据如下表所示（表2）：</p>
+<table>
+<thead>
+<tr>
+<th>time</th>
+<th>sex_1</th>
+<th>sex_2</th>
+<th>st_1</th>
+<th>st_2</th>
+<th>st_3</th>
+<th>…</th>
+<th>at_1</th>
+<th>at_2</th>
+<th>at_3</th>
+<th>…</th>
+<th>clicked？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16102206</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>…</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>…</td>
+<td>1</td>
+</tr>
+<tr>
+<td>16110218</td>
+<td>-</td>
+<td>-</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>…</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>…</td>
+<td>0</td>
+</tr>
+<tr>
+<td>16110222</td>
+<td>0</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>…</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>…</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>上表2所示的数据往往规模庞大且<strong>稀疏</strong>，其高特征维度和低信息密度，严重制约着模型训练效率。</p>
+<h3 id="1-2-特征组合"><a href="#1-2-特征组合" class="headerlink" title="1.2.特征组合"></a>1.2.特征组合</h3><p>原始特征通过组合可以构成组合特征，进行合理的特征组合有助于提升特征的表达能力，增强模型效果。如上表2中特征的组合 <code>sex_1(男性) × at_3(球类广告)</code>，<code>sex_2(女性) × at_1(瑜伽广告)</code> 等等。以2-阶组合为例，套用<strong>多项式模型</strong>可写作：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-poly.png" alt=""></p>
+<p>式中，<code>n</code>为原始特征数，<code>w0,w1,w2</code>是各阶参数，其中对<code>w2</code>的训练即对应于2阶特征组合的学习。</p>
+<h3 id="1-3-FM"><a href="#1-3-FM" class="headerlink" title="1.3.FM"></a>1.3.FM</h3><p>在数据稀疏场景下，采用线性模型（如式1）对组合特征进行学习将面临严重困难，其原因之一是：组合参数<code>w2_ij</code>的学习当<code>x_i≠0 &amp;&amp; x_j≠0</code>才有效，而稀疏数据中满足要求的样本数极少甚至没有、</p>
+<p><strong>FM</strong>模型的引入较好的解决了上述问题，其运用因子分解的思想，将原始参数矩阵W2按照 W2 = V·V<sup>T</sup> 进行改写，如下式所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-fm.png" alt=""></p>
+<p>式中：V∈R<sup>n×k</sup>，<code>v_i</code>（k维向量）对应于特征<code>x_i</code>的embedding表示，<code>&lt;,&gt;</code>对应于向量内积。上式二阶项可进一步改写如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-fm_2.png" alt=""></p>
+<p>对式3分析可知：</p>
+<ol>
+<li><p>一方面，参数<code>v_i</code>只与<code>x_i</code>有关，使得FM在稀疏数据下的训练难度远低于多项式模型；</p>
+</li>
+<li><p>另一方面，FM模型的参数更新可采用梯度下降法进行闭式求解，其时间复杂度为<code>O(kn)</code>（线性时间复杂度），远低于多项式模型稠密参数矩阵W的O(n<sup>2</sup>)计算复杂度。</p>
+</li>
+</ol>
+<p>FM模型还可以拓展至n-阶组合项，这里不作赘述。</p>
+<p>FM的特点可简要总结如下：</p>
+<ul>
+<li><p>FM模型通过因子分解，实现了特征空间的解耦，完成了从高维特征空间到低维embedding空间的降维简化，大大降低了在<strong>稀疏数据</strong>场景下的组合特征学习难度，同时有助于提高模型泛化能力；</p>
+</li>
+<li><p>FM模型具有<strong>线性</strong>的训练<strong>时耗</strong>复杂度，算法易轻量高效地实现；</p>
+</li>
+<li><p>FM输入不敏感，模型的泛化迁移能力强；</p>
+</li>
+</ul>
+<h3 id="1-4-FFM"><a href="#1-4-FFM" class="headerlink" title="1.4.FFM"></a>1.4.FFM</h3><p><strong>FFM</strong>模型在FM模型的基础上引入了场（<strong>field</strong>）的概念，即：具有相同性质或类型的特征属于同一个场。一般地，由同一个categorical特征经过One-hot编码所生成的数值特征都可被视为属于同一个field，如前表2中<code>st_1、st_2...</code>均视为属于同一个field，即表1中的<code>st</code>。</p>
+<p>这里仍以二阶组合参数为例，给出FFM与FM的直观区别如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/fm-ffm.png" alt=""></p>
+<p>可见，在FM模型扩展至FFM模型时，原始特征的低维嵌入空间维度由<code>n×k</code>变为<code>n×k×f</code>。其中的<code>f</code>表示场特征维度。对于每个特征<code>x_i</code>，需学习的参数为其相对于每个field的隐特征向量<code>v_if</code>。写出FFM表达式如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/Kaggle_CTR/fm/d2-ffm.png" alt=""></p>
+<p>式中，<code>f_i</code>为<code>x_i</code>所属field。从此可见，FFM将特征所属field的信息加入到学习之中，实现<strong>场感知</strong>（field-aware），进一步提升了组合组合的表达能力。由于上式中内积项<code>&lt;，&gt;</code>同时与下标<code>i，j</code>有关，其计算复杂度为O（kn<sup>2</sup>），轻量性不如FM模型。</p>
+<h2 id="2-实验"><a href="#2-实验" class="headerlink" title="2.实验"></a>2.实验</h2><p><a href="https://github.com/PnYuan/Practice-of-Machine-Learning/blob/master/code/Kaggle_CTR/fm.py" target="_blank" rel="noopener">实验源代码</a></p>
+<p>此处采用与前上文<a href="https://pnyuan.github.io/blog/ml_practice/Kaggle%E6%BB%91%E6%B0%B4%20-%20CTR%E9%A2%84%E4%BC%B0%EF%BC%88LR%EF%BC%89/">CTR预估（LR）</a>相同的特征数据集（包括12个特征和2M条训练样本，经过长尾简化）。FM/FFM模型的开发实现基于<a href="http://xlearn-doc.readthedocs.io/en/latest/start.html" target="_blank" rel="noopener">xlearn</a>软件包。为运用数据，还需将原始数据转换为<code>xlearn</code>中的模型所支持的格式（如libffm格式）。</p>
+<p>经过建模、训练、参数调节等工作之后，采用训练好的模型处理测试集，得出Kaggle评分如下：</p>
+<ul>
+<li><p>FM</p>
+<pre><code>- Private Score: 0.4070471(71%)
+- Public Score: 0.4087310(71%)    
+</code></pre></li>
+<li><p>FFM</p>
+<pre><code>- Private Score: 0.4037954(69%)
+- Public Score: 0.4056881(70%)
+</code></pre></li>
+</ul>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3.小结"></a>3.小结</h2><p>本文继续围绕Avazu-CTR预估任务，研究了FM-based和FFM-based实现方案，相继完成了：</p>
+<ol>
+<li>FM/FFM模型概念；</li>
+<li>基于FM/FFM的CTR预估实验；</li>
+</ol>
+<p>等内容。从过程和结果可以看出，FM在大规模稀疏数据场景下具有不错的效果。</p>
+<h2 id="4-参考"><a href="#4-参考" class="headerlink" title="4.参考"></a>4.参考</h2><ul>
+<li>基础知识：<a href="https://tech.meituan.com/deep-understanding-of-ffm-principles-and-practices.html" target="_blank" rel="noopener">深入FFM原理与实践</a></li>
+<li>基础知识：<a href="https://blog.csdn.net/QFire/article/details/77630816" target="_blank" rel="noopener">分解机(Factorization Machines)推荐算法</a></li>
+<li>知识及实现：<a href="https://www.analyticsvidhya.com/blog/2018/01/factorization-machines/" target="_blank" rel="noopener">Introductory Guide – Factorization Machines &amp; their application on huge datasets (with codes in Python)</a></li>
+<li>知识及实现：<a href="https://getstream.io/blog/factorization-recommendation-systems/" target="_blank" rel="noopener">Factorization Machines for Recommendation Systems</a></li>
+</ul>
 
       
     </div>
@@ -467,15 +597,15 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/blog/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
           
-            <a href="/blog/tags/交叉验证法/" rel="tag"># 交叉验证法</a>
+            <a href="/blog/tags/Kaggle/" rel="tag"># Kaggle</a>
           
-            <a href="/blog/tags/python/" rel="tag"># python</a>
+            <a href="/blog/tags/CTR预估/" rel="tag"># CTR预估</a>
           
-            <a href="/blog/tags/sklearn/" rel="tag"># sklearn</a>
+            <a href="/blog/tags/FM/" rel="tag"># FM</a>
           
-            <a href="/blog/tags/seaborn/" rel="tag"># seaborn</a>
+            <a href="/blog/tags/FFM/" rel="tag"># FFM</a>
           
         </div>
       
@@ -488,8 +618,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归/" rel="next" title="周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归">
-                <i class="fa fa-chevron-left"></i> 周志华《机器学习》习题解答：Ch3.3 - 编程实现对率回归
+              <a href="/blog/ml_practice/Kaggle滑水 - CTR预估（GBDT-LR）/" rel="next" title="Kaggle滑水 - CTR预估（GBDT-LR）">
+                <i class="fa fa-chevron-left"></i> Kaggle滑水 - CTR预估（GBDT-LR）
               </a>
             
           </div>
@@ -497,10 +627,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/zzh-ml/周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析/" rel="prev" title="周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析">
-                周志华《机器学习》习题解答：Ch3.5 - 编程实现线性判别分析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -669,7 +795,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预分析"><span class="nav-text">数据预分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于sklearn进行拟合与交叉验证"><span class="nav-text">基于sklearn进行拟合与交叉验证</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概念"><span class="nav-text">1.概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-数据稀疏"><span class="nav-text">1.1.数据稀疏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-特征组合"><span class="nav-text">1.2.特征组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-FM"><span class="nav-text">1.3.FM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-FFM"><span class="nav-text">1.4.FFM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-实验"><span class="nav-text">2.实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-小结"><span class="nav-text">3.小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-参考"><span class="nav-text">4.参考</span></a></li></ol></div>
             
 
           </div>
@@ -843,7 +969,7 @@
 		_hcwp.push({widget:"Bloggerstream", widget_id: 101899, selector:".hc-comment-count", label: "{\%COUNT%\}" });
 
 		
-		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "zzh-ml/周志华《机器学习》习题解答：Ch3.4 - 交叉验证法练习/"});
+		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "ml_practice/Kaggle滑水 - CTR预估（FM_FFM）/"});
 		
 
 		(function() {
