@@ -87,12 +87,14 @@
 <meta property="og:site_name" content="PnYuan&#39;s Blog">
 <meta property="og:description" content="Deep Neural Networks for YouTube Recommendations是Google发表在Recsys2016上的一篇论文，是将深度学习技术应用于工业推荐场景的经典文章。这篇随笔记录了博主在阅读该文章时的一些理解…">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pnyuan.github.io/blog/recsys/学习笔记%20-%20DNN%20for%20YouTube%20Recommendations/src/dnn_for_youtube_rec/recsys_framework.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recsys_framework.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recall_frame.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/softmax_pred.jpg">
 <meta property="og:updated_time" content="2019-09-10T14:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记 - DNN for YouTube Recommendations">
 <meta name="twitter:description" content="Deep Neural Networks for YouTube Recommendations是Google发表在Recsys2016上的一篇论文，是将深度学习技术应用于工业推荐场景的经典文章。这篇随笔记录了博主在阅读该文章时的一些理解…">
-<meta name="twitter:image" content="http://pnyuan.github.io/blog/recsys/学习笔记%20-%20DNN%20for%20YouTube%20Recommendations/src/dnn_for_youtube_rec/recsys_framework.jpg">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recsys_framework.jpg">
 
 
 
@@ -416,9 +418,54 @@
 
       
         <p><a href="https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/45530.pdf" target="_blank" rel="noopener">Deep Neural Networks for YouTube Recommendations</a>是Google发表在Recsys2016上的一篇论文，是将深度学习技术应用于工业推荐场景的经典文章。这篇随笔记录了博主在阅读该文章时的一些理解…</p>
-<p><img src="./src/dnn_for_youtube_rec/recsys_framework.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recsys_framework.jpg" alt="recsys_framework"></p>
 <a id="more"></a>
-<h2 id="1-推荐系统框架"><a href="#1-推荐系统框架" class="headerlink" title="1.推荐系统框架"></a>1.推荐系统框架</h2><h2 id="2-召回"><a href="#2-召回" class="headerlink" title="2.召回"></a>2.召回</h2><h2 id="3-精排"><a href="#3-精排" class="headerlink" title="3.精排"></a>3.精排</h2><h2 id="4-小结-amp-参考"><a href="#4-小结-amp-参考" class="headerlink" title="4.小结&amp;参考"></a>4.小结&amp;参考</h2>
+<h2 id="1-推荐系统框架"><a href="#1-推荐系统框架" class="headerlink" title="1.推荐系统框架"></a>1.推荐系统框架</h2><p>如封面图所示，工业级个性化推荐架构往往通常包含<strong>召回</strong>（recalling.或称candidate generation）和<strong>排序</strong>（ranking）两层。召回层负责从海量的候选池中初步圈出用户比较感兴趣的候选集，排序层则对召回的候选进行精确打分，从中取topK后呈现给用户。这样的设计架构有如下一些思路：</p>
+<ol>
+<li><p><strong>个性化推荐</strong>的本质是个<strong>topK问题</strong>，即通过模型、规则等方法，基于用户信息（user info）和上下文（context info），选择最合适的K个候选推给用户。要获得topK，直观的思路就是对每一个候选按用户+上下文进行<strong>个性化打分</strong>，然后截选前K个。为使得打分准确，推荐系统中普遍采用多特征+大模型来计算，由此引入的<strong>计算开销会很大</strong>。</p>
+</li>
+<li><p>在候选规模大时（如youtube的视频、ins的图文、tiktok的短视频等场景的候选量级往往过亿），系统无法承受对每个候选过一遍个性化模型带来的开销，于是将系统拆分为两层：召回和排序。召回层负责从海量候选池中选出一个规模较小的候选集，排序层则负责对这部分候选进行精确的个性化打分，进而得出目标topK。</p>
+</li>
+<li><p>即任务拆解为：召回 –&gt; 快速高效生成小候选集，排序 –&gt; 精准打分排出topK。</p>
+</li>
+<li><p>进一步考虑，召回候选集的好坏（个性化匹配程度），直接决定着排序效果，在召回中引入相对较轻的个性化模型，是目前推荐的主流。如本文，就采用了DNN进行离线学习，并由此实现个性化召回。</p>
+</li>
+</ol>
+<h2 id="2-召回"><a href="#2-召回" class="headerlink" title="2.召回"></a>2.召回</h2><p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recall_frame.jpg" width="60%" height="60%" align="center"></p>
+<h3 id="2-1-问题建模"><a href="#2-1-问题建模" class="headerlink" title="2.1 问题建模"></a>2.1 问题建模</h3><p>本文将召回阶段的基本问题归纳为：给定某时刻<code>t</code>下用户侧信息<code>U</code>和上下文信息<code>C</code>，预测用户最有可能观看那个视频，由此选出可能性前N的候选集。即对候选i，预测其会被用户观看的概率P(w<sub>t</sub>=i|U,C)，据此选出topN。</p>
+<p>如前图所示，文中采用<code>MLP+Softmax</code>来对该预测问题进行建模；输出时每一个候选video被视作一类，整体被视作多分类模型。</p>
+<ul>
+<li><p>输入包含U(user)、C(context)、V(video)等不同维度特征，其中对稀疏特征（如观看历史、搜索历史等id类特征…）进行了embedding转换；多路特征向量拼接得到MLP的输入层。</p>
+</li>
+<li><p>经过多隐层（relu激活）之后输出一个向量，视作<code>user_vector</code>；经过softmax层，得到每个候选的预测概率，概率计算如下式：</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/softmax_pred.jpg" width="30%" height="30%" align="center/"></p>
+<ul>
+<li><p>softmax层的每一维输出，对应视频i被观看的概率P<sub>i</sub>，召回的目标即是P最大的前N个视频。观察上式可知，在user_vector=u不变的情况下，概率P<sub>i</sub>的大小仅取决于向量内积v<sub>i</sub>*u，其中v<sub>i</sub>是softmax第i维输出权重，视作<code>video_vector</code>。</p>
+</li>
+<li><p>内积v*u刻画了user_vector和video_vector两个向量间的相似程度，实质上将召回过程具象成在video_vector空间搜索与user_vector最相近的N个videos。在线服务时，可采用近邻搜索的方法加速这一过程，即文中的<code>nearest neighbor index</code>的思路。</p>
+</li>
+</ul>
+<h3 id="2-2-softmax"><a href="#2-2-softmax" class="headerlink" title="2.2 softmax"></a>2.2 softmax</h3><p>softmax层的设置将核心问题转化为了多分类问题，考虑到候选的规模很大，该分类被称作<strong>超大规模多分类</strong>（<code>extreme multiclass</code>）。显然，超大规模多分类面临着工程实现上的挑战。</p>
+<p>先分析下softmax层的训练机制：</p>
+<ul>
+<li><p>假设训练时有一条正例样本[f1,f2,…|wt=i]（用户在t时刻对视频i有点击行为），则整个softmax的输出labels=(0,…,0,1,0,…,0)，即第i类为1，其他全为0；</p>
+</li>
+<li><p>输入特征经过MLP得出user_vector，然后通过softmax计算得出每一类的预测概率，即softmax的输出preds=(p1,…,pi,…,pn)；</p>
+</li>
+<li><p>基于labels和preds可计算此次预测的损失（如交叉熵loss），然后通过反向传播算法更新softmax层权重（video_vectors）以及底层的MLP参数。</p>
+</li>
+</ul>
+<p>在上述过程中，为计算出每一类的输出P，需要先算出softmax的<strong>归一化分母</strong>，包括user_vector和所有video_vector间的内积，随之而来的就是巨大的计算开销。</p>
+<p>为缓解计算压力以加快训练，<code>减少负样本的数量--&gt;降低输出维度--&gt;降低softmax计算量--&gt;加快BP参数更新</code>是一种可行的思路。本文即采用了<strong>重要性采样</strong>（importance samping）的方法来生成负样本，从而在较小的输出维度上进行计算，加快训练效率。</p>
+<p>对于其中的具体实现，举个简单栗子：训练时对于每一条正样本v<sub>i</sub>，以videos的播放次数为重要性权值，从海量候选池中采样出指定数量个v<sub>j</sub>(j≠i)作为同批的负样本，构成样本块[f1,f2,…|Pos<sub>t</sub>={i},Neg<sub>t</sub>={j1,j2,…,jm}]，在该块上进行softmax计算，并通过反向传播更新对应的softmax输出维权重和MLP参数。整个过程相较于全量的计算来说可以实现成百上千倍的训练加速。</p>
+<h3 id="2-3-近邻搜索"><a href="#2-3-近邻搜索" class="headerlink" title="2.3 近邻搜索"></a>2.3 近邻搜索</h3><p>在线召回时（serving），理论上可直接采用训练得到的模型进行前向计算，选出预测概率（无须归一化）最大的那N个候选。但我们说，这并不是最优的，本文即提到了一种主流的优化思路：<strong>近邻搜索</strong>。</p>
+<h2 id="3-精排"><a href="#3-精排" class="headerlink" title="3.精排"></a>3.精排</h2><h2 id="4-小结-amp-参考"><a href="#4-小结-amp-参考" class="headerlink" title="4.小结&amp;参考"></a>4.小结&amp;参考</h2><p>更多参考：</p>
+<ul>
+<li>关于softmax问题的多种处理方法：<a href="http://ruder.io/word-embeddings-softmax/" target="_blank" rel="noopener">On word embeddings - Part 2: Approximating the Softmax</a></li>
+</ul>
+
       
     </div>
     
@@ -629,7 +676,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-推荐系统框架"><span class="nav-text">1.推荐系统框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-召回"><span class="nav-text">2.召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-精排"><span class="nav-text">3.精排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-小结-amp-参考"><span class="nav-text">4.小结&amp;参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-推荐系统框架"><span class="nav-text">1.推荐系统框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-召回"><span class="nav-text">2.召回</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-问题建模"><span class="nav-text">2.1 问题建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-softmax"><span class="nav-text">2.2 softmax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-近邻搜索"><span class="nav-text">2.3 近邻搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-精排"><span class="nav-text">3.精排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-小结-amp-参考"><span class="nav-text">4.小结&amp;参考</span></a></li></ol></div>
             
 
           </div>
