@@ -90,6 +90,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recsys_framework.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recall_frame.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/softmax_pred.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recall_model_output_module.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/rank_frame.jpg">
 <meta property="og:updated_time" content="2019-09-10T14:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记 - DNN for YouTube Recommendations">
@@ -457,13 +459,31 @@
 <li><p>基于labels和preds可计算此次预测的损失（如交叉熵loss），然后通过反向传播算法更新softmax层权重（video_vectors）以及底层的MLP参数。</p>
 </li>
 </ul>
-<p>在上述过程中，为计算出每一类的输出P，需要先算出softmax的<strong>归一化分母</strong>，包括user_vector和所有video_vector间的内积，随之而来的就是巨大的计算开销。</p>
+<p>在上述过程中，为计算出每一类的输出P，需要先算出softmax的<strong>归一化分母</strong>，包括user_vector和所有video_vector间的内积，随之而来的就是巨大的<strong>计算开销</strong>。</p>
 <p>为缓解计算压力以加快训练，<code>减少负样本的数量--&gt;降低输出维度--&gt;降低softmax计算量--&gt;加快BP参数更新</code>是一种可行的思路。本文即采用了<strong>重要性采样</strong>（importance samping）的方法来生成负样本，从而在较小的输出维度上进行计算，加快训练效率。</p>
 <p>对于其中的具体实现，举个简单栗子：训练时对于每一条正样本v<sub>i</sub>，以videos的播放次数为重要性权值，从海量候选池中采样出指定数量个v<sub>j</sub>(j≠i)作为同批的负样本，构成样本块[f1,f2,…|Pos<sub>t</sub>={i},Neg<sub>t</sub>={j1,j2,…,jm}]，在该块上进行softmax计算，并通过反向传播更新对应的softmax输出维权重和MLP参数。整个过程相较于全量的计算来说可以实现成百上千倍的训练加速。</p>
 <h3 id="2-3-近邻搜索"><a href="#2-3-近邻搜索" class="headerlink" title="2.3 近邻搜索"></a>2.3 近邻搜索</h3><p>在线召回时（serving），理论上可直接采用训练得到的模型进行前向计算，选出预测概率（无须归一化）最大的那N个候选。但我们说，这并不是最优的，本文即提到了一种主流的优化思路：<strong>近邻搜索</strong>。</p>
-<h2 id="3-精排"><a href="#3-精排" class="headerlink" title="3.精排"></a>3.精排</h2><h2 id="4-小结-amp-参考"><a href="#4-小结-amp-参考" class="headerlink" title="4.小结&amp;参考"></a>4.小结&amp;参考</h2><p>更多参考：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/recall_model_output_module.jpg" width="50%" height="50%" align="center/"></p>
+<p>如前面叙述的那样，基于softmax获取召回结果的最后一步是计算user_vector与video_vector的内积，然后取topN。此内积用于刻画两个向量的相似度，与user_vector越相似的video_vector所对应的video越应该被召回。问题由此转化为搜索user_vector最相近的N个video_vector。该类近邻搜索的方法有很多，如kd-tree、LSH、HNSW等等。</p>
+<p>举个栗子：（<code>near-line</code>）用候选的video_vectors离线构建kd-tree，（<code>on-line</code>）在线召回时，由模型前向计算得到user_vector并传入kd-tree，返回最相近的N个video_vectors对应的videos。</p>
+<h3 id="2-4-模型消偏技巧"><a href="#2-4-模型消偏技巧" class="headerlink" title="2.4 模型消偏技巧"></a>2.4 模型消偏技巧</h3><p>推荐模型常倾向于出高热度的内容而非个性化的内容，倾向于出旧的经过充分学习的内容而非新内容等等，这种偏差（<strong>bias</strong>）需要尽量克服，以保证推荐的个性化、时效性…这部分的探索被称为模型消偏。</p>
+<p>本文召回部分提到了一些小的技巧，对模型消偏有较大的帮助：</p>
 <ul>
-<li>关于softmax问题的多种处理方法：<a href="http://ruder.io/word-embeddings-softmax/" target="_blank" rel="noopener">On word embeddings - Part 2: Approximating the Softmax</a></li>
+<li><p><strong>每个用户样本数固定</strong>；e.g. 用户A每天产生10条训练正例、用户B每天产生1000条，则在天级训练时都只取至多20条样本。这样做的主要目的是<strong>消偏</strong>，缓解对高频用户过度学习带来的bias。</p>
+</li>
+<li><p><strong>加入example_age特征</strong>，文中将其描述为样本的生成时间；youtube很多类型的视频有着较强的时效性，example_age的引入使得模型能够较好的刻画这类特点。</p>
+</li>
+<li><p>采用<strong>future watch</strong>作为模型训练对象；文中提到，用户的兴趣往往由大至小，比如说用户A先爱看一些全局热点，慢慢地会倾向于看一些细分垂直的兴趣内容，采用held-out训练方式会比较粗糙，替之以future watch的label更切合实际用户习惯。</p>
+</li>
+</ul>
+<h2 id="3-精排"><a href="#3-精排" class="headerlink" title="3.精排"></a>3.精排</h2><p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/dnn_for_youtube_rec/rank_frame.jpg" width="60%" height="60%" align="center"></p>
+<p>文中以<strong>期望观看时长</strong>（expected watch_time）为预测目标，采用<strong>weighted-LR</strong>分类器进行训练。训练样本从客户端展现给用户的视频中产生，正例是其中有点击观看的行为的视频，负例是未点击的视频。训练时，对于正例，以观看时长作为权重，可得出LR的<code>odds=sum(Ti)/(N-k)</code>，由此计算loss做BP。</p>
+<h2 id="4-小结-amp-参考"><a href="#4-小结-amp-参考" class="headerlink" title="4.小结&amp;参考"></a>4.小结&amp;参考</h2><p>本文所阐述的推荐架构和相关方法，已广泛应用于工业场景中，甚至于作为许多大厂搭建推荐系统的基本参考。文中所体现的将具体问题抽象建模的过程思路富有逻辑，值得深入理解。</p>
+<p>更多参考：</p>
+<ul>
+<li>原文链接：<a href="https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/45530.pdf" target="_blank" rel="noopener">Deep Neural Networks for YouTube Rec…</a></li>
+<li>作者在会议上的presentation：<a href="https://www.youtube.com/watch?v=WK_Nr4tUtl8" target="_blank" rel="noopener">RecSys 2016: Paper Session 6 - Deep N…</a></li>
+<li>softmax问题的多种处理方法：<a href="http://ruder.io/word-embeddings-softmax/" target="_blank" rel="noopener">On word embeddings - Part 2: Approximating the Softmax</a></li>
 </ul>
 
       
@@ -676,7 +696,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-推荐系统框架"><span class="nav-text">1.推荐系统框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-召回"><span class="nav-text">2.召回</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-问题建模"><span class="nav-text">2.1 问题建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-softmax"><span class="nav-text">2.2 softmax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-近邻搜索"><span class="nav-text">2.3 近邻搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-精排"><span class="nav-text">3.精排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-小结-amp-参考"><span class="nav-text">4.小结&amp;参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-推荐系统框架"><span class="nav-text">1.推荐系统框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-召回"><span class="nav-text">2.召回</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-问题建模"><span class="nav-text">2.1 问题建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-softmax"><span class="nav-text">2.2 softmax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-近邻搜索"><span class="nav-text">2.3 近邻搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-模型消偏技巧"><span class="nav-text">2.4 模型消偏技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-精排"><span class="nav-text">3.精排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-小结-amp-参考"><span class="nav-text">4.小结&amp;参考</span></a></li></ol></div>
             
 
           </div>
