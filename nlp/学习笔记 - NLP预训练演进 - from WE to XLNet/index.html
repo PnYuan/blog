@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next-yuan.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next-yuan.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo-yuan.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="自然语言处理,词向量,Word2Vec,BERT,XLNet,Transformer,CBOW,Skip-Gram," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="从词向量到XLNet模型，预训练技术的演进不断地推动着自然语言处理（NLP）领域的发展，本文从朴素的神经网络语言模型（NNLM）开始，逐步探讨Word2Vec、BERT等模型原理及其作预训练在NLP中的应用…">
+<meta name="keywords" content="自然语言处理,词向量,Word2Vec,BERT,XLNet,Transformer,CBOW,Skip-Gram">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记 - NLP预训练演进 - from Word2Vec to XLNet">
+<meta property="og:url" content="http://pnyuan.github.io/blog/nlp/学习笔记 - NLP预训练演进 - from WE to XLNet/index.html">
+<meta property="og:site_name" content="PnYuan&#39;s Blog">
+<meta property="og:description" content="从词向量到XLNet模型，预训练技术的演进不断地推动着自然语言处理（NLP）领域的发展，本文从朴素的神经网络语言模型（NNLM）开始，逐步探讨Word2Vec、BERT等模型原理及其作预训练在NLP中的应用…">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/nnlm_bengio_2003.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/nnlm_softmax.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/nnlm_log_likelihood_loss.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/word_embedding_example.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/word2vec.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/word2vec_out_prop.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/cbow_sg.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/elmos.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/transformer.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_gpt_elmo.png">
+<meta property="og:updated_time" content="2019-11-10T04:16:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记 - NLP预训练演进 - from Word2Vec to XLNet">
+<meta name="twitter:description" content="从词向量到XLNet模型，预训练技术的演进不断地推动着自然语言处理（NLP）领域的发展，本文从朴素的神经网络语言模型（NNLM）开始，逐步探讨Word2Vec、BERT等模型原理及其作预训练在NLP中的应用…">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/nnlm_bengio_2003.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'Q3TXVRGIPE',
+      apiKey: '3caec9a755e01d18eb5e952fbba501eb',
+      indexName: 'for-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://pnyuan.github.io/blog/nlp/学习笔记 - NLP预训练演进 - from WE to XLNet/"/>
+
+
+
+
+
+  <title>学习笔记 - NLP预训练演进 - from Word2Vec to XLNet | PnYuan's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f5a11b34d0ea26498185957b7517c6cb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">PnYuan's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我的学习部落格</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pnyuan.github.io/blog/blog/nlp/学习笔记 - NLP预训练演进 - from WE to XLNet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pn.Yuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/cygnus.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="PnYuan's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学习笔记 - NLP预训练演进 - from Word2Vec to XLNet</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-10T12:16:00+08:00">
+                2019-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/自然语言处理/" itemprop="url" rel="index">
+                    <span itemprop="name">自然语言处理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            <!--noindex-->
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/blog/nlp/学习笔记 - NLP预训练演进 - from WE to XLNet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count hc-comment-count" data-xid="nlp/学习笔记 - NLP预训练演进 - from WE to XLNet/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+              <!--/noindex-->
+            
+          
+
+          
+          
+             <span id="/blog/nlp/学习笔记 - NLP预训练演进 - from WE to XLNet/" class="leancloud_visitors" data-flag-title="学习笔记 - NLP预训练演进 - from Word2Vec to XLNet">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>从词向量到XLNet模型，预训练技术的演进不断地推动着自然语言处理（NLP）领域的发展，本文从朴素的神经网络语言模型（NNLM）开始，逐步探讨Word2Vec、BERT等模型原理及其作预训练在NLP中的应用…</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/nnlm_bengio_2003.png" width="66%" height="66%" align="center/"></p>
+<a id="more"></a>
+<h2 id="1-神经网络语言模型"><a href="#1-神经网络语言模型" class="headerlink" title="1. 神经网络语言模型"></a>1. 神经网络语言模型</h2><h3 id="NNLM"><a href="#NNLM" class="headerlink" title="NNLM"></a>NNLM</h3><p>封面图所示的神经网络模型，始见于Bengio团队2003年一篇名为<a href="https://dl.acm.org/citation.cfm?id=944966" target="_blank" rel="noopener">“A neural probabilistic language model”</a>的论文。</p>
+<p>作为将神经网络用于<strong>语言模型</strong>（Language Model，简称LM）问题的开山之作，论文用一个单隐层NN来对“下一词预测”问题进行建模。设待预测词为<code>Wt</code>，输入为前n个词<code>W&lt;t = [Wt-n+1, ..., Wt-2, Wt-1]</code>，one-hot编码形式的输入序组<code>W&lt;t</code>经过变换后得到每个词的向量表示<code>C&lt;t = [C(Wt-n+1), ..., C(Wt-2), C(Wt-1)]</code>，对<code>C&lt;t</code>序组进行cancat后依次经过隐层激活与softmax输出，得出<code>Wt</code>是词典序第<code>i</code>个词的概率：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/nnlm_softmax.png" width="40%" height="40%/"></p>
+<p>训练时可采用最大化似然来衡量损失，由损失函数可得梯度进行BP运算，实现神经网络的参数更新。以语料中的某条训练样本<code>W=[W1, W2, ..., Wt，..., WT]</code>，其训练的损失为：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/nnlm_log_likelihood_loss.png" width="40%" height="40%/"></p>
+<h3 id="Word-Embedding"><a href="#Word-Embedding" class="headerlink" title="Word Embedding"></a>Word Embedding</h3><p>这儿，我们需要重点关注网络训练得出的两大参数矩阵：<code>C</code>和<code>V</code>。<code>C</code>是将one-hot编码形式的输入词变换为定长形式的向量表示，<code>V</code>是将隐层输出H映射到softmax层上每一维输入的连接权值矩阵。以<code>C</code>为例，其矩阵的每一行对应了一个词在高维空间中的向量化表达，即<strong>word embedding</strong>，为了简便，我们直接称之为”词向量”。<code>V</code>的数值含义可与<code>C</code>类比，进一步地，我们将<code>C</code>给出的词向量称为输入词向量，<code>V</code>给出的词向量称为输出词向量。</p>
+<p>说起词向量，想起一个老生常谈的例子：<code>C(king) - C(queen) ≈ C(man) - C(woman)</code>，即当我们把词从one-hot编码映射为向量编码时，向量本身的数值大小、方向，向量之间的运算，隐式地体现了词的<strong>语义信息</strong>。理解并使用好词向量（如同体会embedding这个名词真切含义那样），对于我们理解自然语言处理的内在机理，提升工程应用水平有很大的帮助。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/word_embedding_example.png" width="40%" height="40%" align="center/"></p>
+<h3 id="Lookup-Table"><a href="#Lookup-Table" class="headerlink" title="Lookup Table"></a>Lookup Table</h3><p>这儿，我们考察输入词向量。如前所述，输入词向量是神经网络语言模型（NNLM）训练后得到的副产物，其数值存储于<code>one-hot输入层</code>到<code>embedding输入层</code>之间的连接权值矩阵<code>C</code>中，假设输入one-hot编码维度为<code>1*m</code>，embedding维度为<code>1*n</code>，则<code>C</code>的大小为<code>m*n</code>。</p>
+<p>不妨想想这样一种思路：one-hot编码对于我们而言，只不过是某个词的一种指代方式，实际上我们直接用词向量来指代某个词又何尝不可呢？假设有这样一个映射表，key是词的索引，value是词的词向量，那么获取某个词的词向量只需查询该表即可。在神经网络前向计算（Feed Forward）时，直接从输入词查表后得到的词向量出发进行前向计算；而在反向传播（Back Propagation）时，参数也直接更新到词向量为止。自此，我们忽略掉了所谓的one-hot、C矩阵等概念体，以词向量（word embedding）作为一个词的基本指代特征。</p>
+<p>这儿所说的索引到词向量的映射表，业界称之为<strong>lookup table</strong>。随着词向量被广泛用作基础特征，lookup表也随之成为一个重要的训练目的，预训练好的lookup表往往可直接迁移应用于其他诸如NLP、推荐的任务中。</p>
+<h2 id="2-Word2Vec"><a href="#2-Word2Vec" class="headerlink" title="2. Word2Vec"></a>2. Word2Vec</h2><h3 id="CBOW-amp-Skip-Gram"><a href="#CBOW-amp-Skip-Gram" class="headerlink" title="CBOW &amp; Skip-Gram"></a>CBOW &amp; Skip-Gram</h3><p>前文说到，词向量的生成（lookup表的建立）是一项重要的预训练任务，但若只是依托于NNLM的训练来收集副产物的方式，对于词向量获取这个任务本身而言貌似并不高效。有没有什么模型或方法是以高效地生产词向量为直接目的呢？当然有，其中的典型即是Mikolov等人在2013年前后提出了CBOW和Skip-Gram。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/word2vec.png" width="40%" height="40%" align="center/"></p>
+<p>如上图所示的一个极简NNLM，<code>W</code>和<code>W&#39;</code>分别对应输入词向量矩阵和输出词向量矩阵。设该LM任务为<code>from word i pred word j</code>，无隐层激活时，输出概率为：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/word2vec_out_prop.png" width="40%" height="40%" align="center/"></p>
+<p>式中<code>v</code>和<code>v&#39;</code>即上述输入输出两个矩阵所包含的词向量，也是word2vec的学习目标。在BP梯度更新的过程中，有关联的输入vi和输出vj向量空间上会靠近，无关的会排斥，（关联的简明含义如：wi、wj出现在同一句话中，某条样本<code>P(wj|wi)=&gt;1</code>…）。训练过程反复迭代，词向量因而产生了隐含语义。</p>
+<p>对上图所示简化的NNLM进行拓展，如模型变成由上下文多个词预测某目标词时，该多输入单输出模型即是<strong>CBOW</strong>（Continuous Bag-of-Word Model）；又如果将模型任务改成由某个目标词预测其上下文多个词时，这种单输入多输出的模型即是<strong>Skip-Gram</strong>;</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/cbow_sg.png" width="60%" height="60%" align="center/"></p>
+<p>从CBOW、Skip-Gram的模型结构可知，输入词one-hot编码维度为词典大小<code>V</code>，某词<code>Xk</code>经过输入矩阵变换后得到隐层向量<code>Hk</code>，<code>Hk=W(k:)=vk</code>，即隐层向量为输入词的词向量。经过input-&gt;hidden，<code>Xk</code>从one-hot-&gt;word vector，原本高维表示的词特征（one-hot），被一个低维特征表达（word vector），该过程实现的是输入空间的压缩，且被压缩后词特征具备一定的语义信息，这就是word2vec的内涵所在。</p>
+<p>不管是前节提到的经典NNLM模型，还是这儿的CBOW和Skip-Gram，其输出都是softmax概率向量，向量的维度等同于词典大小<code>V</code>。<code>V</code>往往是很大的，这使得我们对每条样本在输出层直接作softmax（的分母累加和项）时将面临很大的计算开销。这往往是一项任务所不能承受的。实际上，输出维度较大的softmax模型都面临类似问题，相关的优化方法挺多，诸如：层次化softmax、负采样等等。</p>
+<h3 id="Input-vs-Output"><a href="#Input-vs-Output" class="headerlink" title="Input vs Output"></a>Input vs Output</h3><p>具有一定词向量工具使用经验的同学会发现，我们在工程上用作输入特征级word embedding的词向量，多是上文所说到的输入词向量<code>v</code>，与此同时我们还知道有输出词向量<code>v&#39;</code>，这两种embedding的区别是？输入词向量为何被更多的采用呢？可能的原因有：（内容有个人揣测的成分）</p>
+<ol>
+<li>起初NNLM为解决输出层Softmax的计算优化问题，采用了诸如分层softmax等trick，便无法产生输出词向量，于是只能获取输入词向量来使用。</li>
+<li><code>v</code>与<code>v&#39;</code>看似对称，实际上分属于不同的空间，输入空间更多的是获取词本身的语义信息（word），输出空间更多的是学习词与词间的上下文关联性（context），emm…怎么理解这个想法呢，举个不成熟的例子，大家或许听说过推荐中所谓的<code>啤酒-尿布</code>案例，假设现在有三个词：白酒、啤酒、尿布，对于输入层而言，更倾向于去捕获<code>白酒-啤酒</code>作为酒的词义本身特征，而输出层更倾向于捕获<code>啤酒-尿布</code>作为上下文的关联特征。不同于词义本身特征，上下文关联特征往往会与具体的业务场景相关联，所以大家在迁移应用的时候，选用输入词向量似乎更合适了。</li>
+<li>结合2.进一步考虑，假设现在有从英文书籍语料预训练好的词向量，如下游任务搜索推荐，可能我们更多倾向于采用输入词向量，但倘若下游任务是英译中的机器翻译，或可采用输出词向量。事实上，已有许多相关研究和应用是以输出词向量为出发的。</li>
+</ol>
+<h2 id="3-ELMo和GPT"><a href="#3-ELMo和GPT" class="headerlink" title="3. ELMo和GPT"></a>3. ELMo和GPT</h2><h3 id="模型级预训练"><a href="#模型级预训练" class="headerlink" title="模型级预训练"></a>模型级预训练</h3><p>随着word2vec的推广，基于各种语料库预训练好的词向量广泛地应用于各种下游任务。但是，随着技术需求的提高，人们逐渐感到单靠词向量这种级别的<code>pretrain embedding feature</code>是不够的，<strong>模型级别的预训练</strong>由此衍生，其中的先驱便是ELMo、GPT。</p>
+<p>这儿我们先举个关于<strong>词歧义</strong>的例子来直观感受下词向量的局限性。设两个句子：（a）this apple is delicious.（b）apple is a great company. 可以看到，两句中都出现了apple这个词，从词向量的角度出发两个句子的apple词输入并无不同，但是结合上下文语义我们却可以明显地感觉到这两个apple的歧义（毕竟前面是吃的苹果，后面时苹果公司^-^）。对于词歧义这个广泛存在的问题，词级别的特征很难表示得当，这时候就需要语法、语义层次的特征来做更强的表征了。</p>
+<p>如所熟知的那样，在CV领域大放异彩等多层卷积神经网络，正是在完一个<code>图像局部特征捕获-&gt;全图信息认知</code>的过程；而NLP任务普遍的多层循环神经网络，也常在完成一个<code>词汇局部特征捕获-&gt;语段信息认知</code>的过程，网络中更高层的RNN单元，更多的结合了上下文的语法语义信息。那么从预训练的角度出发，如何即生产某词的词向量embedding，也能生产词在更高层次的语义语法embedding呢？考虑到语法语义级别的embedding是要结合具体上下文的，无法直接预先给出（类似lookup表那样），但我们已经知道这种embedding的提取方法就存在于模型之中，为何不能直接预训练模型呢？当然可以。之前模型级预训练的一大障碍可能是数据集的缺位，但当时间来到201x年，海量语料库的出现（如SQuAD），进行<code>model-level pretrain</code>变得切实可行起来。</p>
+<h3 id="ELMo"><a href="#ELMo" class="headerlink" title="ELMo"></a>ELMo</h3><p>ELMo全称embedding from language models，出自名为<a href="https://arxiv.org/abs/1802.05365" target="_blank" rel="noopener">Deep contextualized word representations</a>的论文，正如论文标题字面意思那样，ELMo是结合了上下文的（contextualized）基于模型（model-based）的word embedding预训练方法。模型采用<strong>双向多层lstm</strong>，不同层的隐向量代表了不同层次的词表征（word representation），其应用示意如下：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/elmos.png" width="60%" height="60%" align="center/"></p>
+<p>当预训练好的ELMo模型整体迁移用于下游任务的时，对于下游任务输入序列中的某个词<code>xk=hk0</code>，可得其ELMo各层隐向量<code>hk1、hk2...</code>，越往上层的隐向量整合的上下文语义信息更多。然后将各层向量输出到下游任务用于输入，当然输入形式可自定（加权pooling、concat均可）。</p>
+<h3 id="GPT和Transformer"><a href="#GPT和Transformer" class="headerlink" title="GPT和Transformer"></a>GPT和Transformer</h3><p>GPT全称generative pre-training，同样作为模型级预训练，模型沿用了单向结构，并创新地引入<strong>Transformer</strong>替代以往的RNN单元来作为LM的基本特征提取器。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/transformer.png" width="60%" height="60%" align="center/"></p>
+<p>如上图Transformer的核心</p>
+<h2 id="4-BERT"><a href="#4-BERT" class="headerlink" title="4. BERT"></a>4. BERT</h2><p>下图直接给出了BERT、GPT、ELMo三种模型结构对比：</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_gpt_elmo.png" width="80%" height="80%" align="center/"></p>
+<h2 id="5-XLNet"><a href="#5-XLNet" class="headerlink" title="5. XLNet"></a>5. XLNet</h2><h2 id="6-小结"><a href="#6-小结" class="headerlink" title="6. 小结"></a>6. 小结</h2><h2 id="7-参考"><a href="#7-参考" class="headerlink" title="7. 参考"></a>7. 参考</h2><ul>
+<li><a href="https://dl.acm.org/citation.cfm?id=944966" target="_blank" rel="noopener">A neural probabilistic language model - Bengio.2003</a></li>
+<li><a href="http://proceedings.mlr.press/v32/le14.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents - Mikolov.2014</a></li>
+<li><a href="https://arxiv.org/abs/1301.3781" target="_blank" rel="noopener">Efficient estimation of word representations in vector space - Mikolov.2013</a></li>
+<li><a href="https://arxiv.org/abs/1411.2738" target="_blank" rel="noopener">word2vec Parameter Learning Explained - Rong.2014</a></li>
+<li><a href="https://arxiv.org/abs/1802.05365" target="_blank" rel="noopener">Deep contextualized word representations - ME Peters.2018</a></li>
+<li><a href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank" rel="noopener">Improving Language Understanding by Generative Pre-Training - Radford.2018</a></li>
+<li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need - A Vaswani.2017</a></li>
+<li><a href="https://arxiv.org/abs/1906.08237" target="_blank" rel="noopener">XLNet: Generalized Autoregressive Pretraining for Language Understanding - Z Yang.2019</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/自然语言处理/" rel="tag"># 自然语言处理</a>
+          
+            <a href="/blog/tags/词向量/" rel="tag"># 词向量</a>
+          
+            <a href="/blog/tags/Word2Vec/" rel="tag"># Word2Vec</a>
+          
+            <a href="/blog/tags/BERT/" rel="tag"># BERT</a>
+          
+            <a href="/blog/tags/XLNet/" rel="tag"># XLNet</a>
+          
+            <a href="/blog/tags/Transformer/" rel="tag"># Transformer</a>
+          
+            <a href="/blog/tags/CBOW/" rel="tag"># CBOW</a>
+          
+            <a href="/blog/tags/Skip-Gram/" rel="tag"># Skip-Gram</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/recsys/学习笔记 - DNN for YouTube Recommendations/" rel="next" title="学习笔记 - DNN for YouTube Recommendations">
+                <i class="fa fa-chevron-left"></i> 学习笔记 - DNN for YouTube Recommendations
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="hypercomments_widget"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/images/cygnus.jpg"
+                alt="Pn.Yuan" />
+            
+              <p class="site-author-name" itemprop="name">Pn.Yuan</p>
+              <p class="site-description motion-element" itemprop="description">to the final frontier</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://pnyuan.github.io" target="_blank" title="主页">
+                      
+                        <i class="fa fa-fw fa-globe"></i>主页</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/pnyuan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/pn_yuan" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:pnyuan@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-神经网络语言模型"><span class="nav-text">1. 神经网络语言模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NNLM"><span class="nav-text">NNLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-Embedding"><span class="nav-text">Word Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lookup-Table"><span class="nav-text">Lookup Table</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Word2Vec"><span class="nav-text">2. Word2Vec</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CBOW-amp-Skip-Gram"><span class="nav-text">CBOW &amp; Skip-Gram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Input-vs-Output"><span class="nav-text">Input vs Output</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ELMo和GPT"><span class="nav-text">3. ELMo和GPT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型级预训练"><span class="nav-text">模型级预训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ELMo"><span class="nav-text">ELMo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPT和Transformer"><span class="nav-text">GPT和Transformer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-BERT"><span class="nav-text">4. BERT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-XLNet"><span class="nav-text">5. XLNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-小结"><span class="nav-text">6. 小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-参考"><span class="nav-text">7. 参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pn.Yuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+		<script type="text/javascript">
+		_hcwp = window._hcwp || [];
+
+		_hcwp.push({widget:"Bloggerstream", widget_id: 101899, selector:".hc-comment-count", label: "{\%COUNT%\}" });
+
+		
+		_hcwp.push({widget:"Stream", widget_id: 101899, xid: "nlp/学习笔记 - NLP预训练演进 - from WE to XLNet/"});
+		
+
+		(function() {
+		if("HC_LOAD_INIT" in window)return;
+		HC_LOAD_INIT = true;
+		var lang = (navigator.language || navigator.systemLanguage || navigator.userLanguage || "en").substr(0, 2).toLowerCase();
+		var hcc = document.createElement("script"); hcc.type = "text/javascript"; hcc.async = true;
+		hcc.src = ("https:" == document.location.protocol ? "https" : "http")+"://w.hypercomments.com/widget/hc/101899/"+lang+"/widget.js";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hcc, s.nextSibling);
+		})();
+		</script>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/blog/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/blog/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/blog/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Y4X73J6x55bq6ze8RXFmT9Hc-gzGzoHsz", "mbo4tldbCoNWLb7oL4yKyCIk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
