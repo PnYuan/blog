@@ -97,6 +97,11 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/elmos.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/transformer.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_gpt_elmo.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_input.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_output.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/permutation_language_modeling.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/xlnet_softmax.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/xlnet_two_stream.png">
 <meta property="og:updated_time" content="2019-11-10T04:16:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记 - NLP预训练演进 - from Word2Vec to XLNet">
@@ -465,7 +470,7 @@
 <h2 id="4-BERT"><a href="#4-BERT" class="headerlink" title="4. BERT"></a>4. BERT</h2><p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_gpt_elmo.png" width="80%" height="80%" align="center/"></p>
 <p>上图直接给出了BERT、GPT、ELMo三种模型结构对比，可以看出，BERT很像是整合了GPT和ELMo的集成改进版。</p>
 <p>BERT，全称Bidirectional Encoder Representations from Transformers，从其字面含义中可提取出两个关键点：<code>Bidirectional</code>和<code>Transformer</code>，这两个点道出了BERT的核心，即实现上下文融合输入的Mask机制，以及Transformer。</p>
-<h3 id="输入Mask"><a href="#输入Mask" class="headerlink" title="输入Mask"></a>输入Mask</h3><p>用一个例子来说明输入Mask机制干了啥事：假设有完形填空任务：<code>冬天来了__还会远吗</code>。</p>
+<h3 id="Mask机制"><a href="#Mask机制" class="headerlink" title="Mask机制"></a>Mask机制</h3><p><strong>Masked Language Model(MLM)</strong>，BERT预训练阶段对输入进行了Mask改造，用一个例子来说明输入Mask机制干了啥事：假设有完形填空任务：<code>冬天来了__还会远吗</code>。</p>
 <ul>
 <li>原有的单向语言模型（如GPT）的预测机制是：<code>冬天来了 -&gt; 春天</code>；</li>
 <li>原有的双向语言模型（如EMLo）的预测机制是：<code>冬天来了 -&gt; 春天</code>+<code>还会远吗 -&gt; 春天</code>；</li>
@@ -473,8 +478,30 @@
 </ul>
 <p>如上稍加对照，便可看出采用Mask机制的BERT与之前的不同所在。传统的单向语言模型，具有无法使用下文的“缺陷”，这尤其对一些偏自然语言理解（NLU）类的任务不友好。而原有的双向语言模型，虽说用了下文，如ELMo，实际上却是正反向分离的，如上图右所示的那样，其隐层参数不共享，致使其只是机械地将基于上文的预测和基于下文的预测合起来。</p>
 <p>Mask机制作用后的输入，在很大程度上还原了如例子中所给出的完形填空式的预测场景，这种机制对机器翻译、阅读理解等众多的语言模型应用场景有着明显的理论亲和度，</p>
-<p>Mask机制作用于训练阶段，可简单描述为，对于某条输入样本序列，mask掉部分输入（如替换为<code>[MASK]</code>），然后来预测被mask掉的输入。具体在实现时，还有一些小的trick，如为防止mask的词被模型记忆式学到<code>[MASK]</code>符上，将80%被mask的词记为<code>[MASK]</code>符，剩余20%一半维持原词，10%为取随机词代替…。</p>
-<h3 id="BERT结构"><a href="#BERT结构" class="headerlink" title="BERT结构"></a>BERT结构</h3><h3 id="BERT的使用"><a href="#BERT的使用" class="headerlink" title="BERT的使用"></a>BERT的使用</h3><h2 id="5-XLNet"><a href="#5-XLNet" class="headerlink" title="5. XLNet"></a>5. XLNet</h2><h2 id="6-小结"><a href="#6-小结" class="headerlink" title="6. 小结"></a>6. 小结</h2><h2 id="7-参考"><a href="#7-参考" class="headerlink" title="7. 参考"></a>7. 参考</h2><ul>
+<p>Mask机制作用于训练阶段，可简单描述为，对于某条输入样本序列，先mask掉部分输入（如替换为<code>[MASK]</code>），然后（基于其他context）来预测被mask掉的输入。具体在实现时，还有一些小的trick，如为防止mask的词被模型记忆式学到<code>[MASK]</code>符上，将80%被mask的词记为<code>[MASK]</code>符，剩余20%中一半维持原词，一半取随机词代替…。</p>
+<h3 id="预测下一句"><a href="#预测下一句" class="headerlink" title="预测下一句"></a>预测下一句</h3><p><strong>Next Sentence Prediction(NSP)</strong>，BERT的预训练任务之一是预测下一个句子，以期模型能捕获句子间的关系。其做法是，从语料库中抽取句子对<code>&lt;A,B&gt;</code>，其中<code>B</code>以概率P为<code>A</code>的下一句，概率1-P为随机的句子。</p>
+<h3 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h3><p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_input.png" width="80%" height="80%" align="center/"></p>
+<p>如上图所示，BERT的每个输入词有三个不同含义的embedding：Token Embedding、Segment Embedding、Position Embedding，分别对应词本身、句段、词在句段中的位置，三种embedding求和得到词的混合embedding输入到transformer中。</p>
+<p>下图给出了BERT用于一些语言处理任务的示意。对于句子层面的任务如句子间的关系、句子分类等，可采用<code>[CLS]</code>位置输出作为下游输入，结合前面NSP子任务，我们认为[CLS]位置的输出隐含了句子类别及上下句关系。对于序列标注等词级别的任务，可采用各个词位置上的输出作为下游输入，这时各个token输出带有丰富的词本身的信息和上下文信息。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/bert_output.png" width="80%" height="80%" align="center/"></p>
+<h2 id="5-XLNet"><a href="#5-XLNet" class="headerlink" title="5. XLNet"></a>5. XLNet</h2><p>自BERT大放溢彩起，NLP任务全面进入<code>model-pretrain-&gt;task-finetune</code><strong>两阶段模式</strong>。然而，单就BERT模型本身而言，它也面临着一些问题：</p>
+<ul>
+<li><p><code>pretrain-finetune discrepancy</code>，BERT的一大创新是通过MASK机制在训练时成功地将上下文融合，但在某些任务的预测时无法先获取下文，这就导致了训练和预测两阶段的不一致，这也是MASK机制对于一些自然语言生成（NLG）类任务不太友好的主要因素。</p>
+</li>
+<li><p>条件独立假设存疑，BERT将某词MASK后由其他词预测该词的机制，建立在条件独立的假设之上，然后当一条样本中被MASK词本身存在关联时，这个假设失效，由此可能导致效果受损。举例，如<code>我爱北京</code>，<code>北</code>和<code>京</code>两个强关联的词同时被MASK，预测任务<code>P(北京|我爱)=P(北|我爱)*P(京|我爱)</code>便难以成立，即BERT忽略了被MASK词之间的关联。</p>
+</li>
+</ul>
+<p>XLNet，针对性的解决了BERT面临的问题，使模型结构看上去仍然是单向的预测形式（依据前面的词预测后面的词），训练时却融合了上下文信息（间接用上了后面的词）。如此克服pretain-finetune不一致的问题，提升了预训练模型对更多NLP任务的迁移适用性。</p>
+<h3 id="Permutation"><a href="#Permutation" class="headerlink" title="Permutation"></a>Permutation</h3><p>XLNet在训练时是如何用上了后面的词，又保持了从前往后预测的队形的呢？这里，它提出了对输入进行排列组合变换的思路，如下图所示。假设有一个变换，使得输入序列<code>&lt;w1, w2, w3, w4...&gt;</code>经变换后为<code>&lt;x1(w3), x2(w1), x3(w4), x4(w2)...&gt;</code>，某步预测任务为<code>x1,x2,x3 -&gt; x4</code>，即<code>w3, w1, w4 -&gt; w2</code>，便实现了在预测<code>w2</code>时使用了后文<code>w3, w4</code>。</p>
+<p>在具体的实现时，并不是对输入真正的进行重排列，而是采用加一层Attention掩码的方法，在Transformer内部进行。这样从输入侧看来没有任何异常。比如，输入<code>&lt;w1, w2, w3, w4&gt;</code>，对于<code>3</code>位置的预测，依赖前<code>1, 2</code>两个位置的词，假设我们有attention掩码<code>&lt;0, 1, 0, 1&gt;</code>，则实现了<code>w2, w4 -&gt; w3</code>预测，如下图右上所示。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/permutation_language_modeling.png" width="50%" height="50%" align="center/"></p>
+<h3 id="双流注意力"><a href="#双流注意力" class="headerlink" title="双流注意力"></a>双流注意力</h3><p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/xlnet_softmax.png" width="50%" height="50%" align="center/"></p>
+<p>普通的attention弱化了位置信息，BERT通过添加position embedding来修正。XLNet也希望通过类似的方法，如上式所示<code>g</code>。<code>g</code>完成了对两种信息的编码：content embedding和position embedding，二者最终合成word embedding。其先获取position embedding再得出word embedding的迭代往前的思路，无法在一个transformer上实现。由此XLNet设计了<strong>双流注意力</strong>机制来实现原理上的完备（<code>content+position-&gt;word=&gt;next_content+next_position-&gt;next_word...</code>）。</p>
+<p><img src="https://raw.githubusercontent.com/PnYuan/Practice-of-Machine-Learning/master/imgs/paper_read/from_we_to_xlnet/xlnet_two_stream.png" width="80%" height="80%" align="center/"></p>
+<p>所谓双流分为：<code>content-stream</code>和<code>query-stream</code>，<code>content-stream</code>完成对content embedding的编码，其核心任务是训练hidden_state，<code>query-stream</code>完成对position embedding的编码。如上图所示，<code>content-stream</code>进行包括词自身embedding在内的attention，而<code>query_stream</code>则没有包含词自身的embedding做attention获取权重。</p>
+<p>XLNet的双流共享hidden参数，但是输入和隐层embedding却是独立开的，在使用时，直接采用query流即可，其实质上包含了position+content，即我们想要的word_embedding。</p>
+<h2 id="6-小结"><a href="#6-小结" class="headerlink" title="6. 小结"></a>6. 小结</h2><p>本文大致介绍了NLP预训练领域近年的发展，从最初将朴素MLP用户语言模型开始，到word2vec工具的广泛应用，再到后来以BERT为代表的模型级预训练的大放异彩，整个发展史丰富地体现了技术迭代的延续和创新。很多意味还需在以后的工作学习中慢慢体会和发掘。</p>
+<h2 id="7-参考"><a href="#7-参考" class="headerlink" title="7. 参考"></a>7. 参考</h2><ul>
 <li><a href="https://dl.acm.org/citation.cfm?id=944966" target="_blank" rel="noopener">A neural probabilistic language model - Bengio.2003</a></li>
 <li><a href="http://proceedings.mlr.press/v32/le14.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents - Mikolov.2014</a></li>
 <li><a href="https://arxiv.org/abs/1301.3781" target="_blank" rel="noopener">Efficient estimation of word representations in vector space - Mikolov.2013</a></li>
@@ -482,7 +509,11 @@
 <li><a href="https://arxiv.org/abs/1802.05365" target="_blank" rel="noopener">Deep contextualized word representations - ME Peters.2018</a></li>
 <li><a href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf" target="_blank" rel="noopener">Improving Language Understanding by Generative Pre-Training - Radford.2018</a></li>
 <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need - A Vaswani.2017</a></li>
+<li><a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding - J Devlin.2018</a></li>
 <li><a href="https://arxiv.org/abs/1906.08237" target="_blank" rel="noopener">XLNet: Generalized Autoregressive Pretraining for Language Understanding - Z Yang.2019</a></li>
+<li><a href="https://tech.meituan.com/2019/11/14/nlp-bert-practice.html" target="_blank" rel="noopener">美团BERT的探索和实践</a></li>
+<li><a href="https://ruder.io/word-embeddings-1/" target="_blank" rel="noopener">On word embeddings - Sebastian Ruder.2016</a></li>
+<li>…</li>
 </ul>
 
       
@@ -705,7 +736,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-神经网络语言模型"><span class="nav-text">1. 神经网络语言模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NNLM"><span class="nav-text">NNLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-Embedding"><span class="nav-text">Word Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lookup-Table"><span class="nav-text">Lookup Table</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Word2Vec"><span class="nav-text">2. Word2Vec</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CBOW-amp-Skip-Gram"><span class="nav-text">CBOW &amp; Skip-Gram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Input-vs-Output"><span class="nav-text">Input vs Output</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ELMo和GPT"><span class="nav-text">3. ELMo和GPT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型级预训练"><span class="nav-text">模型级预训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ELMo"><span class="nav-text">ELMo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPT和Transformer"><span class="nav-text">GPT和Transformer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-BERT"><span class="nav-text">4. BERT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入Mask"><span class="nav-text">输入Mask</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BERT结构"><span class="nav-text">BERT结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BERT的使用"><span class="nav-text">BERT的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-XLNet"><span class="nav-text">5. XLNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-小结"><span class="nav-text">6. 小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-参考"><span class="nav-text">7. 参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-神经网络语言模型"><span class="nav-text">1. 神经网络语言模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NNLM"><span class="nav-text">NNLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-Embedding"><span class="nav-text">Word Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lookup-Table"><span class="nav-text">Lookup Table</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Word2Vec"><span class="nav-text">2. Word2Vec</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CBOW-amp-Skip-Gram"><span class="nav-text">CBOW &amp; Skip-Gram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Input-vs-Output"><span class="nav-text">Input vs Output</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ELMo和GPT"><span class="nav-text">3. ELMo和GPT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型级预训练"><span class="nav-text">模型级预训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ELMo"><span class="nav-text">ELMo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPT和Transformer"><span class="nav-text">GPT和Transformer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-BERT"><span class="nav-text">4. BERT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mask机制"><span class="nav-text">Mask机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预测下一句"><span class="nav-text">预测下一句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入输出"><span class="nav-text">输入输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-XLNet"><span class="nav-text">5. XLNet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Permutation"><span class="nav-text">Permutation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双流注意力"><span class="nav-text">双流注意力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-小结"><span class="nav-text">6. 小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-参考"><span class="nav-text">7. 参考</span></a></li></ol></div>
             
 
           </div>
